@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { CredentialResponse, GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight, faArrowLeft /* add more icons as needed */ } from '@fortawesome/free-solid-svg-icons';
+import {  faArrowLeft /* add more icons as needed */ } from '@fortawesome/free-solid-svg-icons';
 
 const timeOutMessage: number = 2000;
 
