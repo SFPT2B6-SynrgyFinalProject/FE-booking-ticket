@@ -123,20 +123,24 @@ export default function Login() {
             {successMessage && <h3 className="text-center bg-green-500 text-white mb-3">{successMessage}</h3>}
             {failMessage && <h3 className="text-center mb-3 bg-red-500 text-white">{failMessage}</h3>}
             <div className="flex ml-5 mb-3">
-              <Link to="/"> <FontAwesomeIcon icon={faArrowLeft} /> </Link> &nbsp;&nbsp;&nbsp; <h1 className="font-semibold text-xl">Log In into your account</h1>
+              <Link to="/"> <FontAwesomeIcon icon={faArrowLeft} /> </Link> &nbsp;&nbsp;&nbsp; <h1 className="font-bold text-xl">Log In into your account</h1>
             </div>
             <form onSubmit={handleSubmit} className="mt-10 md:pt-0 px-8 md:px-16 lg:px-12">
               <>
                 <div className="flex justify-between mb-3">
-                  <input type="text" id="email" name="email" value={email} className="appearance-none border rounded-lg w-full py-2 px-3 mt-1  focus:outline-none focus:shadow-outline" onChange={handleChange} placeholder="Nomor Ponsel / Email" />
+                  <input type="text" id="email" name="email" value={email} className="appearance-none border rounded-lg w-full py-2 px-3 mt-1  focus:outline-none focus:shadow-outline" onChange={handleChange} placeholder="Email Address" />
                 </div>
                 <div className="flex justify-between mb-5">
                   <input type="password" id="password" name="password" value={password} className="appearance-none border rounded-lg w-full py-2 px-3 mt-1 focus:outline-none focus:shadow-outline" onChange={handleChange} placeholder="Password" />
                 </div>
-                <div className="text-right text-red-400 hover:underline hover:text-red-900 mb-8">
-                  <a href="#">Forgot Password?</a>
-                </div>
-                <button type="submit" className={`flex w-full justify-center rounded-full bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${!email || !password || isLoading ? "cursor-not-allowed" : ""}`} disabled={!email || !password || isLoading}>{isLoading ? "Loading ..." : "Log in"}</button>
+                <p>
+                  <span></span>
+                  <span className="text-right" style={{ display: 'flex' }}>
+                    <a className="pl-0 text-red-400 hover:underline hover:text-red-900" style={{ marginLeft: 'auto' }} href="#">Forgot Password?</a>
+                  </span>
+                </p>
+
+                <button type="submit" className={`flex w-full justify-center rounded-full bg-indigo-600 mt-5 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${!email || !password || isLoading ? "cursor-not-allowed" : ""}`} disabled={!email || !password || isLoading}>{isLoading ? "Loading ..." : "Log in"}</button>
               </>
               <div className="mt-5"
                 style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
@@ -161,6 +165,6 @@ export default function Login() {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   )
 }
