@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { CredentialResponse, GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft /* add more icons as needed */ } from '@fortawesome/free-solid-svg-icons';
 const timeOutMessage: number = 2000;
 
 interface UserProps {
@@ -120,7 +122,9 @@ export default function Login() {
           <div className="mt-10 md:pt-0 px-8 md:px-16 lg:px-2">
             {successMessage && <h3 className="text-center bg-green-500 text-white mb-3">{successMessage}</h3>}
             {failMessage && <h3 className="text-center mb-3 bg-red-500 text-white">{failMessage}</h3>}
-
+            <div className="flex ml-5 mb-3">
+              <Link to="/"> <FontAwesomeIcon icon={faArrowLeft} /> </Link> &nbsp;&nbsp;&nbsp; <h1 className="font-semibold text-xl">Log In into your account</h1>
+            </div>
             <form onSubmit={handleSubmit} className="mt-10 md:pt-0 px-8 md:px-16 lg:px-12">
               <>
                 <div className="flex justify-between mb-3">
@@ -130,19 +134,30 @@ export default function Login() {
                   <input type="password" id="password" name="password" value={password} className="appearance-none border rounded-lg w-full py-2 px-3 mt-1 focus:outline-none focus:shadow-outline" onChange={handleChange} placeholder="Password" />
                 </div>
                 <div className="text-right text-red-400 hover:underline hover:text-red-900 mb-8">
-                  <a href="#">Lupa Password?</a>
+                  <a href="#">Forgot Password?</a>
                 </div>
                 <button type="submit" className={`flex w-full justify-center rounded-full bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${!email || !password || isLoading ? "cursor-not-allowed" : ""}`} disabled={!email || !password || isLoading}>{isLoading ? "Loading ..." : "Log in"}</button>
               </>
+              <div className="mt-5"
+                style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+              >
+                <div style={{ flex: 1, height: '1px', backgroundColor: 'black' }} />
+
+                <div>
+                  <p style={{ width: '20px', textAlign: 'center' }}>Or</p>
+                </div>
+
+                <div style={{ flex: 1, height: '1px', backgroundColor: 'black' }} />
+              </div>
             </form>
-            <p className="mt-5 text-center">Atau Log in dengan</p>
+
             <div className="mt-5 flex justify-center items-center">
-            <GoogleOAuthProvider clientId="2182170302-4qed8hhs52i94pq1bob86itln3vj01f3.apps.googleusercontent.com">
-              <GoogleLogin onSuccess={handleCredentialResponse} onError={handleCredentialResponseError} shape="circle" type="standard" text="signin_with"/>
-            </GoogleOAuthProvider>
+              <GoogleOAuthProvider clientId="2182170302-4qed8hhs52i94pq1bob86itln3vj01f3.apps.googleusercontent.com">
+                <GoogleLogin onSuccess={handleCredentialResponse} onError={handleCredentialResponseError} shape="circle" type="standard" text="signin_with" />
+              </GoogleOAuthProvider>
             </div>
-            <p className="mt-5 text-center">Belum Punya Akun?</p>
-            <p className="mt-5 text-center"><Link to={'/register'} className="text-indigo-600 hover:text-indigo-500">Daftar</Link> sekarang untuk pengalaman pemesanan yang lebih baik!</p>
+
+            <p className="mt-5 text-center">Need an account? <Link to={'/register'} className="text-indigo-600 hover:text-indigo-500">Create an account</Link></p>
           </div>
         </div>
       </div>
