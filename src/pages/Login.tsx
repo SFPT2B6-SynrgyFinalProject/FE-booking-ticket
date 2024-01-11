@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft /* add more icons as needed */ } from '@fortawesome/free-solid-svg-icons';
 const timeOutMessage: number = 2000;
 const CLIENT_ID: string = import.meta.env.VITE_CLIENT_ID;
-const API_URL: string = import.meta.env.VITE_API_URL
+const API_URL: string = import.meta.env.VITE_API_URL;
 
 interface UserRequest {
   email: string
