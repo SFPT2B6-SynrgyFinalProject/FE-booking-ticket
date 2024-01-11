@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import PrivateProvider from "./providers/PrivateProvider";
 import PublicProvider from "./providers/PublicProvider";
 import NotFound from "./pages/NotFound";
+import MyComponent from "./components/Doc";
 
 const router = createBrowserRouter([
 	{
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
 			{
 				path: "/register",
 				element: <Register/>
+			},
+			{
+				path: "/components",
+				element: <MyComponent/>
 			}
 		]
 	},
