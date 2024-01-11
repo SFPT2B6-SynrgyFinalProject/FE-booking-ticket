@@ -1,18 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { CredentialResponse, GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft /* add more icons as needed */ } from '@fortawesome/free-solid-svg-icons';
 const timeOutMessage: number = 2000;
-
-interface UserProps {
-  email: string
-  password: string
-}
+const CLIENT_ID: string = import.meta.env.VITE_CLIENT_ID;
+const API_URL: string = import.meta.env.VITE_API_URL
 
 interface UserRequest {
   email: string
   password: string
+}
+
+interface UserGoogle {
+  token: string
+}
+
+interface Response {
+  data: {
+    email: string
+    password: string
+    authentication: string
+    token: string
+  }
 }
 
 export default function Login() {
@@ -21,19 +31,48 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [failMessage, setFailMessage] = useState<string>("");
-  const [user, setUser] = useState<UserProps>(
-    {
-      email: "", // atuny0@sohu.com
-      password: "" // 9uQFF1Lh
-    }
-  );
   const navigate: NavigateFunction = useNavigate()
 
-  useEffect(() => {
-    fetch("https://dummyjson.com/users/1")
-      .then((res) => res.json())
-      .then((data) => setUser({ email: data.email, password: data.password }))
-  }, []);
+  const doLoginWithEmail = async (payload: UserRequest) => {
+    const { email, password } = payload;
+    const response = await fetch(
+      `${API_URL}/api/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email, // proimmupraguteu-5328@yopmail.com
+          password // inipassword
+        })
+      }
+    );
+    if (response.status === 401) {
+      const data = await response.json();
+      return data
+    }
+    const data = await response.json();
+    return data;
+  }
+
+  const doLoginWithGoogle = async (payload: UserGoogle) => {
+    const { token } = payload;
+    const response = await fetch(
+      `${API_URL}/api/login/google`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          googleToken: token
+        })
+      }
+    );
+    const data = await response.json();
+    return data;
+  }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -55,22 +94,16 @@ export default function Login() {
         email,
         password
       }
-      if (!payload.email || !payload.password) {
-        throw new Error(`${!payload.email ? "Email" : "Password"} tidak boleh kosong!`);
-      }
-      if (!payload.email.includes("@")) {
-        throw new Error("Format email salah!");
-      }
-      if (payload.password.length < 8) {
-        throw new Error("Password minimal 8 huruf!")
-      }
-      if (payload.email !== user.email) {
-        throw new Error("Email tidak sesuai!");
-      }
-      if (payload.password !== user.password) {
-        throw new Error("Password tidak sesuai!");
+      const response: Response = await doLoginWithEmail(payload);
+      if (response.data.email?.includes("email") || 
+          response.data.password?.includes("size") ||
+          response.data.authentication?.includes("Wrong")) {
+        throw new Error(response.data.email || 
+                        response.data.password ||
+                        response.data.authentication)
       }
       setSuccessMessage("Login berhasil");
+      localStorage.setItem("user_access_token", response.data.token)
       setTimeout(() => {
         setSuccessMessage("");
         navigate("/");
@@ -91,12 +124,10 @@ export default function Login() {
 
   const handleCredentialResponse = async (credentialResponse: CredentialResponse) => {
     try {
-      const bearerToken: string = 'Bearer'
-      const credentialToken = `${bearerToken} ${credentialResponse.credential}` as string
-      if (!credentialToken.startsWith(bearerToken)) {
-        throw new Error("Format token salah!")
-      }
+      const tokenGoogle = credentialResponse.credential as string
+      const response: Response = await doLoginWithGoogle({ token: tokenGoogle })
       setSuccessMessage("Login berhasil");
+      localStorage.setItem("user_access_token", response.data.token)
       setTimeout(() => {
         setSuccessMessage("");
         navigate("/");
@@ -156,8 +187,8 @@ export default function Login() {
             </form>
 
             <div className="mt-5 flex justify-center items-center">
-              <GoogleOAuthProvider clientId="2182170302-4qed8hhs52i94pq1bob86itln3vj01f3.apps.googleusercontent.com">
-                <GoogleLogin onSuccess={handleCredentialResponse} onError={handleCredentialResponseError} shape="circle" type="standard" text="signin_with" />
+              <GoogleOAuthProvider clientId={`${CLIENT_ID}`}>
+                <GoogleLogin onSuccess={handleCredentialResponse} onError={handleCredentialResponseError} shape="circle" type="standard" text="signin_with" locale="en_US" />
               </GoogleOAuthProvider>
             </div>
 
