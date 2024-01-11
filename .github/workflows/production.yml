@@ -15,8 +15,8 @@ jobs:
       - name: Build
         run: npm run build
         env:
-        #   VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL }}
-          CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
+          # VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL }}
+          VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v2.0
