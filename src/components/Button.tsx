@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { Icon } from '@iconify/react';
 import { IconifyIcon } from '@iconify/react/dist/offline';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonPropss extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: ReactNode;
     type?: 'primary' | 'secondary' | 'tertiary' | 'text';
     color?: 'primary-normal' | 'primary-dark' | 'primary-bright' | 'primary-light' | 'primary-v' | 'primary-v-dark' | 'primary-v-bright' | 'primary-v-light' | 'secondary-normal' | 'secondary-dark' | 'secondary-bright' | 'secondary-light' | 'secondary-v' | 'secondary-v-dark' | 'secondary-v-bright' | 'secondary-v-light' | 'tertiary-normal' | 'tertiary-dark' | 'tertiary-bright' | 'tertiary-light' | 'tertiary-v' | 'tertiary-v-dark' | 'tertiary-v-bright' | 'tertiary-v-light' | 'text';
