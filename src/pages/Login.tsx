@@ -144,14 +144,14 @@ export default function Login() {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen" style={{ backgroundColor: "#B1C5FF" }}>
-      <div className="flex justify-center items-center bg-white rounded-md p-4 w-9/12">
-        <div className="w-1/2">
+    <div className="flex justify-center items-center lg:h-screen lg:bg-blue-300">
+      <div className="flex justify-center items-center bg-white rounded-md p-4 lg:w-9/12">
+        <div className="w-full lg:w-1/2 lg:block hidden">
           <div className="w-full h-full">
             <img src="https://i.ibb.co/sHQtMW7/airplane-and-packages-1.png" alt="bg-login" className="object-cover rounded-2xl shadow-xl" style={{ backgroundColor: '#F3F4F6', height: '500px', margin: '30px' }} />
           </div>
         </div>
-        <div className="w-1/2">
+        <div className="w-full lg:w-1/2">
           <div className="mt-10 md:pt-0 px-8 md:px-16 lg:px-2">
             {successMessage && <h3 className="text-center bg-green-500 text-white mb-3">{successMessage}</h3>}
             {failMessage && <h3 className="text-center mb-3 bg-red-500 text-white">{failMessage}</h3>}
