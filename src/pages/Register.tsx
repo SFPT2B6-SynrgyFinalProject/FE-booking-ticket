@@ -33,8 +33,12 @@ export default function Register() {
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
 
-    console.log(showPassword)
+     console.log(showPassword)
   };
+ const check=(value:string)=>{
+  setCheckEmail(true)
+  console.log(value);
+ }//tolong ubah
   const togglePasswordVisibility1 = () => {
     setShowConfirmPassword((prev) => !prev);
 
@@ -58,6 +62,7 @@ export default function Register() {
     switch (name) {
       case "email":
         setEmail(value);
+        check(value);
         break;
       case "password":
         setPassword(value);
