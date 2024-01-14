@@ -229,8 +229,8 @@ export default function Login() {
                     onChange={handleChange}
                     icon={
                       showPassword
-                        ? "mingcute:eye-close-line"
-                        : "mingcute:eye-line"
+                        ? "mingcute:eye-line"
+                        : "mingcute:eye-close-line"
                     }
                     onIconClick={togglePasswordVisibility}
                     iconPosition="right"

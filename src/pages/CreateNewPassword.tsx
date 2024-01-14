@@ -104,6 +104,7 @@ export default function ResetPassword() {
 
                 <div className="flex flex-col mb-5">
                   <InputComponent
+                    
                     type={showConfirmPassword ? "text" : "password"}
                     id="confirmpassword"
                     name="confirmpassword"
