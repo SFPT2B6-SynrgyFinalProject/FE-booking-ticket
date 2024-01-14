@@ -6,23 +6,53 @@ import {
   GoogleOAuthProvider,
 } from "@react-oauth/google";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowLeft /* add more icons as needed */,
-} from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import Button from "../components/Button";
+import InputComponent from "../components/Input";
+import Logo from "./../assets/images/logo.png";
+import Airplane from "./../assets/images/airplane-and-packages-1.png";
 import { registerUser, RegisterRequestBody } from "../lib/services/auth";
-
+const CLIENT_ID: string = import.meta.env.VITE_CLIENT_ID;
 const timeOutMessage: number = 2000;
 
 export default function Register() {
   const [email, setEmail] = useState<string>("");
+  const [checkEmail, setCheckEmail] = useState<boolean>(true);
   const [fullName, setFullName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [confirm_password, setConfirmPassword] = useState<string>("");
+  const [showPassword,setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword,setShowConfirmPassword] = useState<boolean>(false);
   const [tanggalLahir, setTanggalLahir] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [failMessage, setFailMessage] = useState<string>("");
+  const [fail, setFail] = useState<boolean>(true);
+  const [border, setBorder] = useState<boolean>(true);
   const navigate: NavigateFunction = useNavigate();
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
 
+    console.log(showPassword)
+  };
+  const togglePasswordVisibility1 = () => {
+    setShowConfirmPassword((prev) => !prev);
+
+    console.log(showPassword)
+  };
+  const validate =  (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+   
+    if(value===password){
+      setFail(true)
+      setBorder(true)
+    }
+    else{
+      setFail(false)
+      setBorder(false);
+    }
+    setConfirmPassword(value);
+  }
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     switch (name) {
@@ -113,113 +143,77 @@ export default function Register() {
   };
 
   return (
-    <div
-      className="flex justify-center items-center h-screen"
-      style={{ backgroundColor: "#B1C5FF" }}
-    >
-      <div className="flex justify-center items-center bg-white rounded-md p-4 w-9/12">
-        <div className="w-1/2">
-          <img
-            src="https://i.ibb.co/Lg7hnNk/bg-Register.png"
-            alt="bg-Register"
-            className="w-full h-full object-cover"
-          />
+    <div className="flex justify-center items-center lg:h-screen lg:bg-blue-300">
+    <div className="flex justify-center items-center bg-white rounded-md p-10 lg:w-9/12 relative">
+      <div className="w-full lg:w-1/2 lg:block hidden">
+        <div className="w-full h-full">
+          <img src={Airplane} alt="bg-login" className="object-cover rounded-2xl shadow-xl" style={{ backgroundColor: '#F3F4F6', height: '500px', margin: '30px' }} />
         </div>
-        <div className="w-1/2">
-          <div className="mt-10 md:pt-0 px-8 md:px-16 lg:px-2">
-            {successMessage && (
-              <h3 className="text-center bg-green-500 text-white mb-3">
-                {successMessage}
-              </h3>
-            )}
-            {failMessage && (
-              <h3 className="text-center mb-3 bg-red-500 text-white">
-                {failMessage}
-              </h3>
-            )}
-            <div className="flex ml-5 mb-3">
-              <Link to="/login">
-                {" "}
-                <FontAwesomeIcon icon={faArrowLeft} />{" "}
-              </Link>{" "}
-              &nbsp;&nbsp;&nbsp;{" "}
-              <h1 className="font-semibold text-xl">Register Akun</h1>
-            </div>
-            <form
-              onSubmit={handleSubmit}
-              className="mt-10 md:pt-0 px-8 md:px-16 lg:px-12"
-            >
-              <>
-                <div className="flex justify-between mb-3">
-                  <input
-                    type="text"
-                    id="email"
-                    name="email"
-                    value={email}
-                    className="appearance-none border rounded-lg w-full py-2 px-3 mt-1  focus:outline-none focus:shadow-outline"
-                    onChange={handleChange}
-                    placeholder="Nomor Ponsel / Email"
-                  />
-                </div>
-                <div className="flex justify-between mb-3">
-                  <input
-                    type="text"
-                    id="fullName"
-                    name="fullName"
-                    value={fullName}
-                    className="appearance-none border rounded-lg w-full py-2 px-3 mt-1  focus:outline-none focus:shadow-outline"
-                    onChange={handleChange}
-                    placeholder="Full Name"
-                  />
-                </div>
-                <div className="flex justify-between mb-3">
-                  <input
-                    type="date"
-                    id="tanggalLahir"
-                    name="tanggalLahir"
-                    value={tanggalLahir}
-                    className="appearance-none border rounded-lg w-full py-2 px-3 mt-1  focus:outline-none focus:shadow-outline"
-                    onChange={handleChange}
-                    placeholder="Full Name"
-                  />
-                </div>
-                <div className="flex justify-between mb-5">
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={password}
-                    className="appearance-none border rounded-lg w-full py-2 px-3 mt-1 focus:outline-none focus:shadow-outline"
-                    onChange={handleChange}
-                    placeholder="Password"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className={`flex w-full justify-center rounded-full bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${
-                    !email || !password || isLoading ? "cursor-not-allowed" : ""
-                  }`}
-                  disabled={!email || !password || isLoading}
-                >
-                  {isLoading ? "Loading ..." : "Log in"}
-                </button>
-              </>
-            </form>
-            <p className="mt-5 text-center">Atau Daftar dengan</p>
-            <div className="mt-5 flex justify-center items-center">
-              <GoogleOAuthProvider clientId="2182170302-4qed8hhs52i94pq1bob86itln3vj01f3.apps.googleusercontent.com">
-                <GoogleLogin
-                  onSuccess={handleCredentialResponse}
-                  onError={handleCredentialResponseError}
-                  shape="circle"
-                  type="standard"
-                  text="signin_with"
-                />
-              </GoogleOAuthProvider>
+      </div>
+      <div className="w-full lg:w-1/2">
+        <div className="mt-10 md:pt-0 px-8 md:px-16 lg:px-2">
+          {successMessage && <h3 className="text-center bg-green-500 text-white px-5 py-2 absolute top-5 right-5">{successMessage}</h3>}
+          {failMessage && <h3 className="text-center rounded-md bg-red-500 text-white px-5 py-2 absolute top-5 right-5">{failMessage}</h3>}
+          <div className="flex flex-col items-center mb-3">
+            <img src={Logo} alt="logo" className="object-cover w-50" />
+            <div className="flex items-center mt-5">
+              <Link to="/"> <FontAwesomeIcon icon={faChevronLeft} /> </Link> &nbsp;&nbsp;&nbsp; <h1 className="font-bold text-xl">Log In into your account</h1>
             </div>
           </div>
+          <form onSubmit={handleSubmit} className="mt-10 md:pt-0 md:px-16 lg:px-12">
+            <>
+              <div className="flex flex-col mb-7">
+                <InputComponent type="email" id="email" name="email" value={email} onChange={handleChange} customStyle={checkEmail ? '' : 'border-2 border-rose-600'} placeholder="Email Address"/>
+                <span>{checkEmail ? "" :"email sudah ada" }</span>
+              </div>
+              <div className="flex flex-col mb-7">
+                <InputComponent type="text" id="fullName" name="fullName" value={fullName} onChange={handleChange} placeholder="Full Name"/>
+               
+              </div>
+              <div className="flex flex-col mb-5">
+                <InputComponent type={showPassword ? "text" : "password"} id="password" name="password" value={password} placeholder="Password" onChange={handleChange} icon={showPassword ? "mingcute:eye-close-line" : "mingcute:eye-line"} onIconClick={togglePasswordVisibility} iconPosition='right' />
+              </div>
+              <div className="flex flex-col mb-5">
+                <InputComponent type={showConfirmPassword ? "text" : "password"} id="confirm_password" name="confirm_password" value={confirm_password}  onChange={validate} placeholder="Confirm Password" customStyle={border ? '' : 'border-2 border-rose-600'} icon={showConfirmPassword ? "mingcute:eye-close-line" : "mingcute:eye-line"} onIconClick={togglePasswordVisibility1} iconPosition='right' />
+                <span>{fail? "":"password tidak sama"}</span>
+              </div>
+              <div className="flex flex-col mb-5">
+                <InputComponent type="date" id="confirm_password" name="confirm_password" value={tanggalLahir}  onChange={handleChange}  onIconClick={togglePasswordVisibility1} placeholder="" />
+              </div>
+              <p>
+                <span></span>
+                <span className="text-right" style={{ display: 'flex' }}>
+                  <a className="pl-0 text-red-400 hover:underline hover:text-red-900" style={{ marginLeft: 'auto' }} href="#">Forgot Password?</a>
+                </span>
+              </p>
+
+              <Button type="primary-dark" width='full' color="primary-dark" className={`mt-5`} disabled={!email || !password || isLoading || !confirm_password || !fail} >
+                  {isLoading ? "Loading ..." : "Register"}
+              </Button>
+            </>
+            <div className="mt-5"
+              style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+            >
+              <div style={{ flex: 1, height: '1px', backgroundColor: 'black' }} />
+
+              <div>
+                <p style={{ width: '20px', textAlign: 'center' }}>Or</p>
+              </div>
+
+              <div style={{ flex: 1, height: '1px', backgroundColor: 'black' }} />
+            </div>
+          </form>
+
+          <div className="mt-5 flex justify-center items-center">
+            <GoogleOAuthProvider clientId={`${CLIENT_ID}`}>
+              <GoogleLogin onSuccess={handleCredentialResponse} onError={handleCredentialResponseError} shape="circle" type="standard" text="signin_with" locale="en_US" />
+            </GoogleOAuthProvider>
+          </div>
+
+          <p className="mt-5 text-center">Need an account? <Link to={'/register'} className="text-indigo-600 hover:text-indigo-500">Create an account</Link></p>
         </div>
       </div>
     </div>
+  </div >
   );
 }
