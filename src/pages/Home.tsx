@@ -1,4 +1,5 @@
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import MyComponent from "../components/Doc";
 
 export default function Home() {
   const navigate: NavigateFunction = useNavigate()
@@ -10,6 +11,7 @@ export default function Home() {
     <div>
         <h1 className="text-3xl text-center font-semibold">Hello world!</h1>
         <button onClick={handleLogout}>Logout</button>
+        <MyComponent/>
     </div>
   )
 }
