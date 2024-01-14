@@ -46,7 +46,6 @@ export default function Register() {
   };
   const validate =  (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-   
     if(value===password){
       setFail(true)
       setBorder(true)
