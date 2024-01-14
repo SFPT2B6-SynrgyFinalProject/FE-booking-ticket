@@ -3,6 +3,11 @@ import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { CredentialResponse, GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import Button from "../components/Button";
+import InputComponent from "../components/Input";
+import Logo from "./../assets/images/logo.png";
+import Airplane from "./../assets/images/airplane-and-packages-1.png";
+// import InputComponent from "../components/Input";
 const timeOutMessage: number = 2000;
 const CLIENT_ID: string = import.meta.env.VITE_CLIENT_ID;
 const API_URL: string = import.meta.env.VITE_API_URL;
@@ -29,9 +34,16 @@ export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [failMessage, setFailMessage] = useState<string>("");
   const navigate: NavigateFunction = useNavigate()
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+
+    console.log(showPassword)
+  };
 
   const doLoginWithEmail = async (payload: UserRequest) => {
     const { email, password } = payload;
@@ -145,29 +157,29 @@ export default function Login() {
 
   return (
     <div className="flex justify-center items-center lg:h-screen lg:bg-blue-300">
-      <div className="flex justify-center items-center bg-white rounded-md p-4 lg:w-9/12">
+      <div className="flex justify-center items-center bg-white rounded-md p-10 lg:w-9/12 relative">
         <div className="w-full lg:w-1/2 lg:block hidden">
           <div className="w-full h-full">
-            <img src="https://i.ibb.co/sHQtMW7/airplane-and-packages-1.png" alt="bg-login" className="object-cover rounded-2xl shadow-xl" style={{ backgroundColor: '#F3F4F6', height: '500px', margin: '30px' }} />
+            <img src={Airplane} alt="bg-login" className="object-cover rounded-2xl shadow-xl" style={{ backgroundColor: '#F3F4F6', height: '500px', margin: '30px' }} />
           </div>
         </div>
         <div className="w-full lg:w-1/2">
           <div className="mt-10 md:pt-0 px-8 md:px-16 lg:px-2">
-            {successMessage && <h3 className="text-center bg-green-500 text-white mb-3">{successMessage}</h3>}
-            {failMessage && <h3 className="text-center mb-3 bg-red-500 text-white">{failMessage}</h3>}
+            {successMessage && <h3 className="text-center bg-green-500 text-white px-5 py-2 absolute top-5 right-5">{successMessage}</h3>}
+            {failMessage && <h3 className="text-center rounded-md bg-red-500 text-white px-5 py-2 absolute top-5 right-5">{failMessage}</h3>}
             <div className="flex flex-col items-center mb-3">
-              <img src="https://i.ibb.co/xG1WvMZ/logo.png" alt="logo" className="object-cover w-50" />
+              <img src={Logo} alt="logo" className="object-cover w-50" />
               <div className="flex items-center mt-5">
                 <Link to="/"> <FontAwesomeIcon icon={faChevronLeft} /> </Link> &nbsp;&nbsp;&nbsp; <h1 className="font-bold text-xl">Log In into your account</h1>
               </div>
             </div>
-            <form onSubmit={handleSubmit} className="mt-10 md:pt-0 px-8 md:px-16 lg:px-12">
+            <form onSubmit={handleSubmit} className="mt-10 md:pt-0 md:px-16 lg:px-12">
               <>
-                <div className="flex justify-between mb-3">
-                  <input type="text" id="email" name="email" value={email} className="appearance-none border rounded-lg w-full py-2 px-3 mt-1  focus:outline-none focus:shadow-outline" onChange={handleChange} placeholder="Email Address" />
+                <div className="flex flex-col mb-7">
+                  <InputComponent type="email" id="email" name="email" value={email} onChange={handleChange} placeholder="Email Address"/>
                 </div>
-                <div className="flex justify-between mb-5">
-                  <input type="password" id="password" name="password" value={password} className="appearance-none border rounded-lg w-full py-2 px-3 mt-1 focus:outline-none focus:shadow-outline" onChange={handleChange} placeholder="Password" />
+                <div className="flex flex-col mb-5">
+                  <InputComponent type={showPassword ? "text" : "password"} id="password" name="password" value={password} placeholder="Password" onChange={handleChange} icon={showPassword ? "mingcute:eye-close-line" : "mingcute:eye-line"} onIconClick={togglePasswordVisibility} iconPosition='right' />
                 </div>
                 <p>
                   <span></span>
@@ -176,7 +188,9 @@ export default function Login() {
                   </span>
                 </p>
 
-                <button type="submit" className={`flex w-full justify-center rounded-full bg-indigo-600 mt-5 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${!email || !password || isLoading ? "cursor-not-allowed" : ""}`} disabled={!email || !password || isLoading}>{isLoading ? "Loading ..." : "Log in"}</button>
+                <Button type="primary-dark" width='full' color="primary-dark" className={`mt-5`} disabled={!email || !password || isLoading}>
+                    {isLoading ? "Loading ..." : "Log in"}
+                </Button>
               </>
               <div className="mt-5"
                 style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}

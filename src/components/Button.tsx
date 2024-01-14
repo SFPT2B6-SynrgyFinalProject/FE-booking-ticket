@@ -5,7 +5,7 @@ import { IconifyIcon } from '@iconify/react/dist/offline';
 
 interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
     children: ReactNode;
-    type?: 'primary' | 'secondary' | 'tertiary' | 'text';
+    type?: 'primary' | 'secondary' | 'tertiary' | 'text' | 'primary-dark';
     color?: 'primary-normal' | 'primary-dark' | 'primary-bright' | 'primary-light' | 'primary-v' | 'primary-v-dark' | 'primary-v-bright' | 'primary-v-light' | 'secondary-normal' | 'secondary-dark' | 'secondary-bright' | 'secondary-light' | 'secondary-v' | 'secondary-v-dark' | 'secondary-v-bright' | 'secondary-v-light' | 'tertiary-normal' | 'tertiary-dark' | 'tertiary-bright' | 'tertiary-light' | 'tertiary-v' | 'tertiary-v-dark' | 'tertiary-v-bright' | 'tertiary-v-light' | 'text';
     size?: 'sm' | 'base' | 'md' | 'lg';
     width?: 'default' | 'full';
@@ -56,6 +56,7 @@ const Button: React.FC<ButtonProps> = ({ children, type = 'primary', color = 'pr
 
     const typeClasses = {
         'primary': 'bg-primary-normal text-white',
+        'primary-dark': 'bg-primary-dark text-white',
         'secondary': 'bg-white text-primary-normal',
         'tertiary': 'bg-transparent border border-white text-white',
         'text': 'bg-transparent text-white',
