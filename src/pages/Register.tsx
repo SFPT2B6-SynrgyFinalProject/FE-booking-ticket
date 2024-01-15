@@ -187,7 +187,7 @@ export default function Register() {
               </div>
               <div className="flex flex-col mb-5">
                 <InputComponent type={showConfirmPassword ? "text" : "password"} id="confirm_password" name="confirm_password" value={confirm_password}  onChange={validate} placeholder="Confirm Password" customStyle={border ? '' : 'border-2 border-rose-600'} icon={showConfirmPassword ? "mingcute:eye-close-line" : "mingcute:eye-line"} onIconClick={togglePasswordVisibility1} iconPosition='right' />
-                <span>{fail? "":"password tidak sama"}</span>
+                <span className="text-rose-600">{fail? "":"password tidak sama"}</span>
               </div>
               <div className="flex flex-col mb-5">
                 <InputComponent type="date" id="confirm_password" name="confirm_password" value={tanggalLahir}  onChange={handleChange}  onIconClick={togglePasswordVisibility1} placeholder="" />
