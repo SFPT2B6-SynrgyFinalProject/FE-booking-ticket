@@ -189,7 +189,7 @@ export default function Login() {
                     <a
                       className="pl-0 text-red-400 hover:underline hover:text-red-900"
                       style={{ marginLeft: "auto" }}
-                      href="#"
+                      href="/forget-password"
                     >
                       Forgot Password?
                     </a>

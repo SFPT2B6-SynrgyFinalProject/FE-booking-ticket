@@ -35,11 +35,11 @@ const router = createBrowserRouter([
 				element: <MyComponent/>
 			},
 			{
-				path: "/sendforgotpassword",
+				path: "/forget-password",
 				element: <SendEmailForgotPassword/>
 			},
 			{
-				path: "/resetpassword",
+				path: "/reset-password",
 				element: <ResetPassword/>
 			}
 		]
