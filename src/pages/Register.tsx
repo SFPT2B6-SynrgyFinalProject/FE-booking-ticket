@@ -20,6 +20,7 @@ export default function Register() {
   const [checkEmail, setCheckEmail] = useState<boolean>(true);
   const [fullName, setFullName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [gender, setGender] = useState<string>("");
   const [confirm_password, setConfirmPassword] = useState<string>("");
   const [showPassword,setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword,setShowConfirmPassword] = useState<boolean>(false);
@@ -59,6 +60,12 @@ export default function Register() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     switch (name) {
+      case "genderMale":
+        setGender(value);
+      break;
+      case "genderFemale":
+        setGender(value);
+      break;
       case "email":
         setEmail(value);
         check(value);
@@ -83,7 +90,7 @@ export default function Register() {
         email,
         password,
         fullName,
-        gender: "Laki-laki",
+        gender:gender,
         birthDate: new Date(tanggalLahir).toISOString(),
       };
       if (!payload.email || !payload.password) {
@@ -147,8 +154,8 @@ export default function Register() {
   };
 
   return (
-    <div className="flex justify-center items-center lg:h-screen lg:bg-blue-300">
-    <div className="flex justify-center items-center bg-white rounded-md p-10 lg:w-9/12 relative">
+    <div className="flex justify-center items-center lg:h-screen lg:bg-blue-300 ">
+    <div className="flex justify-center items-center bg-white rounded-md p-8 lg:w-9/12 relative max-h-[660px]">
       <div className="w-full lg:w-1/2 lg:block hidden">
         <div className="w-full h-full">
           <img src={Airplane} alt="bg-login" className="object-cover rounded-2xl shadow-xl" style={{ backgroundColor: '#F3F4F6', height: '500px', margin: '30px' }} />
@@ -158,14 +165,15 @@ export default function Register() {
         <div className="mt-10 md:pt-0 px-8 md:px-16 lg:px-2">
           {successMessage && <h3 className="text-center bg-green-500 text-white px-5 py-2 absolute top-5 right-5">{successMessage}</h3>}
           {failMessage && <h3 className="text-center rounded-md bg-red-500 text-white px-5 py-2 absolute top-5 right-5">{failMessage}</h3>}
-          <div className="flex flex-col items-center mb-3">
+          <div className="flex flex-col items-center mb-3 ">
             <img src={Logo} alt="logo" className="object-cover w-50" />
-            <div className="flex items-center mt-5">
-              <Link to="/"> <FontAwesomeIcon icon={faChevronLeft} /> </Link> &nbsp;&nbsp;&nbsp; <h1 className="font-bold text-xl">Log In into your account</h1>
+            <div className="flex items-center mt-5 ">
+              <Link to="/"> <FontAwesomeIcon icon={faChevronLeft} /> </Link> &nbsp;&nbsp;&nbsp; <h1 className="font-bold text-xl">Register Account</h1>
             </div>
           </div>
-          <form onSubmit={handleSubmit} className="mt-10 md:pt-0 md:px-16 lg:px-12">
+          <form onSubmit={handleSubmit} className="mt-10 md:pt-0 md:px-16 lg:px-12  ">
             <>
+            <div className="h-[250px] overflow-y-auto">
               <div className="flex flex-col mb-7">
                 <InputComponent type="email" id="email" name="email" value={email} onChange={handleChange} customStyle={checkEmail ? '' : 'border-2 border-rose-600'} placeholder="Email Address"/>
                 <span>{checkEmail ? "" :"email sudah ada" }</span>
@@ -183,15 +191,13 @@ export default function Register() {
               </div>
               <div className="flex flex-col mb-5">
                 <InputComponent type="date" id="confirm_password" name="confirm_password" value={tanggalLahir}  onChange={handleChange}  onIconClick={togglePasswordVisibility1} placeholder="" />
+                <label htmlFor="gender" className="mt-2 mb-1">Gender</label>
+                <div className="flex items-center mb-5">        
+                   <input type="radio" id="genderMale" className="inline-block" name="gender" value="Laki-Laki" onChange={handleChange}/>Laki-Laki
+                   <input type="radio"id="genderFemale" className="inline-block ml-3"name="gender"value="Perempuan"onChange={handleChange}/>Perempuan</div>
               </div>
-              <p>
-                <span></span>
-                <span className="text-right" style={{ display: 'flex' }}>
-                  <a className="pl-0 text-red-400 hover:underline hover:text-red-900" style={{ marginLeft: 'auto' }} href="#">Forgot Password?</a>
-                </span>
-              </p>
-
-              <Button type="primary-dark" width='full' color="primary-dark" className={`mt-5`} disabled={!email || !password || isLoading || !confirm_password || !fail} >
+              </div>
+              <Button type="primary-dark" width='full' color="primary-dark" className={`mt-5`} disabled={!email || !password || isLoading || !confirm_password || !fail || !gender} >
                   {isLoading ? "Loading ..." : "Register"}
               </Button>
             </>
@@ -214,7 +220,7 @@ export default function Register() {
             </GoogleOAuthProvider>
           </div>
 
-          <p className="mt-5 text-center">Need an account? <Link to={'/register'} className="text-indigo-600 hover:text-indigo-500">Create an account</Link></p>
+          <p className="mt-5 text-center mb-2 ">Already Have an acoount? <Link to={'/login'} className="text-indigo-600 hover:text-indigo-500">Login</Link></p>
         </div>
       </div>
     </div>
