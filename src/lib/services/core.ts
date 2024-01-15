@@ -1,7 +1,6 @@
 export type FetchOption = {
   method: "GET" | "POST" | "PUT" | "DELETE";
   endpoint: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data?: any;
 };
 const API_URL: string = import.meta.env.VITE_API_URL;

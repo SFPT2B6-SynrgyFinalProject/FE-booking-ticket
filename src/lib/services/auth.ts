@@ -24,6 +24,24 @@ export type RegisterResponseBody = {
   status: string;
 };
 
+export type LoginRequestBody = {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponseBody {
+  data: {
+    email: string;
+    password: string;
+    authentication: string;
+    token: string;
+  };
+}
+
+export interface UserRequestGoogle {
+  token: string;
+}
+
 export async function registerUser(
   form: RegisterRequestBody
 ): Promise<RegisterResponseBody> {
@@ -33,3 +51,23 @@ export async function registerUser(
     data: form,
   });
 }
+
+export async function loginUser(
+  form: LoginRequestBody
+): Promise<LoginResponseBody> {
+  return await fetchInstance({
+    endpoint: "/api/login",
+    method: "POST",
+    data: form
+  })
+}
+
+export async function loginGoogleUser(
+  form: UserRequestGoogle
+  ): Promise<LoginResponseBody> {
+    return await fetchInstance({
+      endpoint: "/api/login/google",
+      method: "POST",
+      data: form
+    })
+  }

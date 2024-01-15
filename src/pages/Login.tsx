@@ -10,28 +10,10 @@ import InputComponent from "../components/Input";
 import Logo from "./../assets/images/logo.png";
 import Airplane from "./../assets/images/airplane-and-packages-1.png";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { LoginRequestBody, LoginResponseBody, loginGoogleUser, loginUser } from "../lib/services/auth";
 // import InputComponent from "../components/Input";
 const timeOutMessage: number = 2000;
 const CLIENT_ID: string = import.meta.env.VITE_CLIENT_ID;
-const API_URL: string = import.meta.env.VITE_API_URL;
-
-interface UserRequest {
-  email: string;
-  password: string;
-}
-
-interface UserGoogle {
-  token: string;
-}
-
-interface Response {
-  data: {
-    email: string;
-    password: string;
-    authentication: string;
-    token: string;
-  };
-}
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
@@ -46,41 +28,6 @@ export default function Login() {
     setShowPassword((prev) => !prev);
 
     console.log(showPassword);
-  };
-
-  const doLoginWithEmail = async (payload: UserRequest) => {
-    const { email, password } = payload;
-    const response = await fetch(`${API_URL}/api/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email, // proimmupraguteu-5328@yopmail.com
-        password, // inipassword
-      }),
-    });
-    if (response.status === 401) {
-      const data = await response.json();
-      return data;
-    }
-    const data = await response.json();
-    return data;
-  };
-
-  const doLoginWithGoogle = async (payload: UserGoogle) => {
-    const { token } = payload;
-    const response = await fetch(`${API_URL}/api/login/google`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        googleToken: token,
-      }),
-    });
-    const data = await response.json();
-    return data;
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,11 +46,11 @@ export default function Login() {
     setIsLoading(true);
     event.preventDefault();
     try {
-      const payload: UserRequest = {
+      const payload: LoginRequestBody = {
         email,
         password,
       };
-      const response: Response = await doLoginWithEmail(payload);
+      const response: LoginResponseBody = await loginUser(payload);
       if (
         response.data.email?.includes("email") ||
         response.data.password?.includes("size") ||
@@ -140,9 +87,9 @@ export default function Login() {
   ) => {
     try {
       const tokenGoogle = credentialResponse.credential as string;
-      const response: Response = await doLoginWithGoogle({
-        token: tokenGoogle,
-      });
+      const response: LoginResponseBody = await loginGoogleUser( {
+        token: tokenGoogle
+      })
       setSuccessMessage("Login berhasil");
       localStorage.setItem("user_access_token", response.data.token);
       setTimeout(() => {
