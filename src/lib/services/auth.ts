@@ -8,7 +8,7 @@ enum Gender {
 export type RegisterRequestBody = {
   email: string;
   fullName: string;
-  gender: "Perempuan" | "Laki-laki";
+  gender: string;
   birthDate: string;
   password: string;
 };
