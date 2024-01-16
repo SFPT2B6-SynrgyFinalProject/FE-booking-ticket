@@ -105,7 +105,11 @@ export default function Register() {
         throw new Error("Password minimal 8 huruf!");
       }
 
-      await registerUser(payload);
+      const result = await registerUser(payload);
+
+      if (result.status === "fail" && result.data?.email) {
+        throw new Error(result.data?.email);
+      }
 
       setSuccessMessage("Register berhasil");
       setTimeout(() => {
@@ -115,10 +119,15 @@ export default function Register() {
     } catch (error) {
       console.error(error);
       if (error instanceof Error) {
-        setFailMessage(error.message);
-        setTimeout(() => {
-          setFailMessage("");
-        }, timeOutMessage);
+        if (error.message.includes("Email sudah terdaftar")) {
+          setCheckEmail(false);
+        } else {
+          setCheckEmail(true);
+          setFailMessage(error.message);
+          setTimeout(() => {
+            setFailMessage("");
+          }, timeOutMessage);
+        }
       }
     } finally {
       setTimeout(() => {
@@ -131,12 +140,17 @@ export default function Register() {
     credentialResponse: CredentialResponse
   ) => {
     try {
+      console.log(credentialResponse);
       const bearerToken: string = "Bearer";
       const credentialToken =
         `${bearerToken} ${credentialResponse.credential}` as string;
       if (!credentialToken.startsWith(bearerToken)) {
         throw new Error("Format token salah!");
       }
+      localStorage.setItem(
+        "user_access_token",
+        credentialResponse.credential as string
+      );
       setSuccessMessage("Register berhasil");
       setTimeout(() => {
         setSuccessMessage("");
@@ -262,8 +276,8 @@ export default function Register() {
                   <div className="flex flex-col mb-5">
                     <InputComponent
                       type="date"
-                      id="confirm_password"
-                      name="confirm_password"
+                      id="tanggalLahir"
+                      name="tanggalLahir"
                       value={tanggalLahir}
                       onChange={handleChange}
                       onIconClick={togglePasswordVisibility1}
@@ -275,20 +289,20 @@ export default function Register() {
                     <div className="flex items-center mb-5">
                       <input
                         type="radio"
-                        id="genderMale"
+                        id="gender"
                         className="inline-block"
                         name="gender"
-                        value="Laki-Laki"
-                        onChange={handleChange}
+                        value="Laki-laki"
+                        onClick={() => setGender("Laki-laki")}
                       />
                       Laki-Laki
                       <input
                         type="radio"
-                        id="genderFemale"
+                        id="gender"
                         className="inline-block ml-3"
                         name="gender"
                         value="Perempuan"
-                        onChange={handleChange}
+                        onClick={() => setGender("Perempuan")}
                       />
                       Perempuan
                     </div>
@@ -299,14 +313,6 @@ export default function Register() {
                   width="full"
                   color="primary-dark"
                   className={`mt-5`}
-                  disabled={
-                    !email ||
-                    !password ||
-                    isLoading ||
-                    !confirm_password ||
-                    !fail ||
-                    !gender
-                  }
                 >
                   {isLoading ? "Loading ..." : "Register"}
                 </Button>
