@@ -8,48 +8,53 @@ import NotFound from "./pages/NotFound";
 import MyComponent from "./components/Doc";
 import SendEmailForgotPassword from "./pages/sendEmailResetPassword";
 import ResetPassword from "./pages/CreateNewPassword";
+import RegisterEmailVerification from "./pages/RegisterEmailVerification";
 
 const router = createBrowserRouter([
-	{
-		element: <PrivateProvider/>,
-		children: [
-			{
-				path: "/",
-				element: <Home/>
-			}
-		]
-	},
-	{
-		element: <PublicProvider/>,
-		children: [
-			{
-				path: "/login",
-				element: <Login/>
-			},
-			{
-				path: "/register",
-				element: <Register/>
-			},
-			{
-				path: "/components",
-				element: <MyComponent/>
-			},
-			{
-				path: "/forget-password",
-				element: <SendEmailForgotPassword/>
-			},
-			{
-				path: "/reset-password",
-				element: <ResetPassword/>
-			}
-		]
-	},
-	{
-		path: "*",
-		element: <NotFound/>
-	}
+  {
+    element: <PrivateProvider />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+    ],
+  },
+  {
+    element: <PublicProvider />,
+    children: [
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+      {
+        path: "/components",
+        element: <MyComponent />,
+      },
+      {
+        path: "/forget-password",
+        element: <SendEmailForgotPassword />,
+      },
+      {
+        path: "/reset-password",
+        element: <ResetPassword />,
+      },
+      {
+        path: "/email-verification",
+        element: <RegisterEmailVerification />,
+      },
+    ],
+  },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
 ]);
 
-export default function App () {
-    return <RouterProvider router={router}/>
+export default function App() {
+  return <RouterProvider router={router} />;
 }
