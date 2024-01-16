@@ -10,7 +10,12 @@ import InputComponent from "../components/Input";
 import Logo from "./../assets/images/logo.png";
 import Airplane from "./../assets/images/airplane-and-packages-1.png";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { LoginRequestBody, LoginResponseBody, loginGoogleUser, loginUser } from "../lib/services/auth";
+import {
+  LoginRequestBody,
+  LoginResponseBody,
+  loginGoogleUser,
+  loginUser,
+} from "../lib/services/auth";
 // import InputComponent from "../components/Input";
 const timeOutMessage: number = 2000;
 const CLIENT_ID: string = import.meta.env.VITE_CLIENT_ID;
@@ -87,9 +92,9 @@ export default function Login() {
   ) => {
     try {
       const tokenGoogle = credentialResponse.credential as string;
-      const response: LoginResponseBody = await loginGoogleUser( {
-        token: tokenGoogle
-      })
+      const response: LoginResponseBody = await loginGoogleUser({
+        token: tokenGoogle,
+      });
       setSuccessMessage("Login berhasil");
       localStorage.setItem("user_access_token", response.data.token);
       setTimeout(() => {
@@ -109,7 +114,7 @@ export default function Login() {
 
   return (
     <div className="flex justify-center items-center lg:h-screen lg:bg-blue-300">
-      <div className="flex justify-center items-center bg-white rounded-lg p-10 lg:w-9/12 relative">
+      <div className="flex justify-center items-center bg-white rounded-lg p-10 sm:w-10/12 lg:w-9/12 relative">
         <div className="w-full lg:w-1/2 lg:block hidden">
           <div className="w-full h-full">
             <img
@@ -125,7 +130,7 @@ export default function Login() {
           </div>
         </div>
         <div className="w-full lg:w-1/2">
-          <div className="mt-10 md:pt-0 px-8 md:px-16 lg:px-2">
+          <div className="mt-10 px-0 md:pt-0 md:px-16 lg:px-2">
             {successMessage && (
               <h3 className="text-center bg-green-500 text-white px-5 py-2 absolute top-5 right-5">
                 {successMessage}
