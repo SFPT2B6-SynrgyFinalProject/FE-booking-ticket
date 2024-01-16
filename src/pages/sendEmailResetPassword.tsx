@@ -1,13 +1,19 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import InputComponent from "../components/Input";
 import Logo from "./../assets/images/logo.png";
 import Airplane from "./../assets/images/airplane-and-packages-1.png";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { ForgotEmailRequestBody, SendPasswordResetLink } from "../lib/services/password";
+const timeOutMessage: number = 2000;
 // import InputComponent from "../components/Input";
 export default function SendEmailForgotPassword() {
   const [email, setEmail] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [failMessage, setFailMessage] = useState<string>("");
+  const navigate: NavigateFunction = useNavigate();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -17,6 +23,42 @@ export default function SendEmailForgotPassword() {
         break;
     }
   };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    setIsLoading(true);
+    event.preventDefault();
+    try {
+      const payload :ForgotEmailRequestBody = {
+        email,
+      }
+      const response = await SendPasswordResetLink(payload);
+      if (
+        response.status?.includes("fail")
+      ) {
+        throw new Error(response.data?.email);
+        
+      }
+      setSuccessMessage(response.message);
+      setTimeout(() => {
+        setSuccessMessage("");
+        navigate("/login");
+      }, timeOutMessage);
+    }
+    catch (error) {
+      if (error instanceof Error) {
+        setFailMessage(error.message);
+        setTimeout(() => {
+          setFailMessage("");
+        }, timeOutMessage);
+      }
+    }
+    finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, timeOutMessage);
+    }
+  };
+
   return (
     <div className="flex justify-center items-center lg:h-screen lg:bg-blue-300">
       <div className="flex justify-center items-center bg-white rounded-lg p-10 lg:w-9/12 relative">
@@ -36,6 +78,16 @@ export default function SendEmailForgotPassword() {
         </div>
         <div className="w-full lg:w-1/2">
           <div className="mt-10 md:pt-0 px-8 md:px-16 lg:px-2">
+            {successMessage && (
+              <h3 className="text-center bg-green-500 text-white px-5 py-2 absolute top-5 right-5">
+                {successMessage}
+              </h3>
+            )}
+            {failMessage && (
+              <h3 className="text-center rounded-md bg-red-500 text-white px-5 py-2 absolute top-5 right-5">
+                {failMessage}
+              </h3>
+            )}
             <div className="flex flex-col items-center mb-3">
               <img src={Logo} alt="logo" className="object-cover w-50" />
               <div className="flex items-center mt-5">
@@ -54,7 +106,7 @@ export default function SendEmailForgotPassword() {
                 <p className="mt-5 text-sm text-center">Lupa Password? Jangan Khawatir! masukan email anda dibawah dan kami akan mengirmkan link untuk memperbarui kata sandi</p>
             </div>
             <form
-              
+              onSubmit={handleSubmit}
               className="mt-10 md:pt-0 md:px-0 lg:px-12"
             >
               <>
@@ -77,9 +129,9 @@ export default function SendEmailForgotPassword() {
                   width="full"
                   color="primary-dark"
                   className={`mt-5`}
-                  disabled={!email}
+                  disabled={!email || isLoading}
                 >
-                  Send Reset Link
+                  {isLoading ? "Loading..." : "Reset Password"}
                 </Button>
               </>
             </form>
