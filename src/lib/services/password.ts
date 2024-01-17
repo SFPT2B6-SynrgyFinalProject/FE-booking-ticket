@@ -4,6 +4,8 @@ export type ForgotEmailRequestBody = {
     email: string;
 };
 
+
+
 export type ForgotPasswordResponseBody = {
     data?: {
         email: string;
@@ -11,6 +13,7 @@ export type ForgotPasswordResponseBody = {
     message: string;
     status: string;
 };
+
 
 export async function SendPasswordResetLink(
     form: ForgotEmailRequestBody
@@ -21,3 +24,5 @@ export async function SendPasswordResetLink(
         data: form,
     });
 }
+
+
