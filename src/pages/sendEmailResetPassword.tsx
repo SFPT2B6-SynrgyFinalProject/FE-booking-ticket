@@ -61,7 +61,7 @@ export default function SendEmailForgotPassword() {
 
   return (
     <div className="flex justify-center items-center lg:h-screen lg:bg-blue-300">
-      <div className="flex justify-center items-center bg-white rounded-lg p-10 lg:w-9/12 relative">
+      <div className="flex justify-center items-center bg-white rounded-lg p-10 sm:w-10/12 lg:w-9/12 relative">
         <div className="w-full lg:w-1/2 lg:block hidden">
           <div className="w-full h-full">
             <img
@@ -77,7 +77,7 @@ export default function SendEmailForgotPassword() {
           </div>
         </div>
         <div className="w-full lg:w-1/2">
-          <div className="mt-10 md:pt-0 px-8 md:px-16 lg:px-2">
+          <div className="mt-10 md:pt-0 px-0 md:px-16 lg:px-2">
             {successMessage && (
               <h3 className="text-center bg-green-500 text-white px-5 py-2 absolute top-5 right-5">
                 {successMessage}
@@ -88,7 +88,7 @@ export default function SendEmailForgotPassword() {
                 {failMessage}
               </h3>
             )}
-            <div className="flex flex-col items-center mb-3">
+            <div className="flex flex-col items-center mb-3 min-w-72">
               <img src={Logo} alt="logo" className="object-cover w-50" />
               <div className="flex items-center mt-5">
                 <Link to="/">
