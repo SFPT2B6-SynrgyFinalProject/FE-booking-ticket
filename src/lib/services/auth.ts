@@ -5,6 +5,12 @@ enum Gender {
   "Laki-laki",
 }
 
+export interface IAlert {
+  type?: string;
+  data: Record<string, string>;
+  message?: string;
+}
+
 export type RegisterRequestBody = {
   email: string;
   fullName: string;
@@ -14,7 +20,7 @@ export type RegisterRequestBody = {
 };
 
 export type RegisterResponseBody = {
-  data?: {
+  data: {
     email: string;
     fullName: string;
     gender: Gender;
@@ -30,16 +36,17 @@ export type LoginRequestBody = {
 }
 
 export interface LoginResponseBody {
-  data: {
+    data:{
     email: string;
     password: string;
     authentication: string;
     token: string;
   };
+  status: string;
 }
 
 export interface UserRequestGoogle {
-  token: string;
+  googleToken: string;
 }
 
 export async function registerUser(
