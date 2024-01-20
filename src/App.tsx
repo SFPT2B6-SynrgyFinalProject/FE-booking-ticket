@@ -6,10 +6,16 @@ import PrivateProvider from "./providers/PrivateProvider";
 import PublicProvider from "./providers/PublicProvider";
 import NotFound from "./pages/NotFound";
 import MyComponent from "./components/Doc";
-import SendEmailForgotPassword from "./pages/sendEmailResetPassword";
-import ResetPassword from "./pages/CreateNewPassword";
-import RegisterEmailVerification from "./pages/RegisterEmailVerification";
-import Profile from './pages/Profile'
+import ForgetPassword from "./pages/ForgetPassword";
+import ResetPassword from "./pages/ResetPassword";
+import EmailVerification from "./pages/EmailVerification";
+import Notification from "./pages/buyers/Notification";
+import Flight from "./pages/buyers/Flight";
+import Promo from "./pages/buyers/Promo";
+import Order from "./pages/buyers/Order";
+import Support from "./pages/buyers/Support";
+import DownloadApp from "./pages/buyers/DownloadApp";
+
 const router = createBrowserRouter([
   {
     element: <PrivateProvider />,
@@ -17,6 +23,30 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/penerbangan",
+        element: <Flight/>
+      },
+      {
+        path: "/promo",
+        element: <Promo/>
+      },
+      {
+        path: "/pesanan",
+        element: <Order/>
+      },
+      {
+        path: "/notifikasi",
+        element: <Notification/>
+      },
+      {
+        path: "/bantuan",
+        element: <Support/>
+      },
+      {
+        path: "/unduh-app",
+        element: <DownloadApp/>
       },
     ],
   },
@@ -28,10 +58,6 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: "/profile",
-        element: <Profile />,
-      },
-      {
         path: "/register",
         element: <Register />,
       },
@@ -41,7 +67,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/forget-password",
-        element: <SendEmailForgotPassword />,
+        element: <ForgetPassword />,
       },
       {
         path: "/reset-password",
@@ -49,7 +75,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/email-verification",
-        element: <RegisterEmailVerification />,
+        element: <EmailVerification />,
       },
     ],
   },
