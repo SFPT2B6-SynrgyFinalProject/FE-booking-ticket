@@ -1,4 +1,6 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Footer from "../components/footer";
 
 export default function PrivateProvider() {
   const userToken = localStorage.getItem("user_access_token") as string;
@@ -7,7 +9,13 @@ export default function PrivateProvider() {
   }
   return (
     <>
-      <Outlet/>
+      <div className="flex flex-col h-[100dvh]">
+        <Navbar/>
+          <main className="flex-grow">
+            <Outlet/>
+          </main>
+        <Footer/>
+      </div>
     </>
   )
 }
