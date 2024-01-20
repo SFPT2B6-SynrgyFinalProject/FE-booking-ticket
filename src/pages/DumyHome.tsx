@@ -4,7 +4,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import gambar1 from "../assets/images/famous-borobudur-temple-mungkid-indonesia.png"
 import gambar2 from "../assets/images/kelingking-beach-sunset-nusa-penida-island-bali-indonesia.png"
 import gambar3 from "../assets/images/temple-gates-lempuyang-luhur-temple-bali-indonesia.png"
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import Select from 'react-select';
 import HeaderSearchItem from "../components/addPerson";
 
