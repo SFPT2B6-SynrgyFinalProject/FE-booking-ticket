@@ -6,19 +6,9 @@ import PrivateProvider from "./providers/PrivateProvider";
 import PublicProvider from "./providers/PublicProvider";
 import NotFound from "./pages/NotFound";
 import MyComponent from "./components/Doc";
-import ForgetPassword from "./pages/ForgetPassword";
-import ResetPassword from "./pages/ResetPassword";
-import EmailVerification from "./pages/EmailVerification";
-import Notification from "./pages/buyers/Notification";
-import Flight from "./pages/buyers/Flight";
-import Promo from "./pages/buyers/Promo";
-import Order from "./pages/buyers/Order";
-import Support from "./pages/buyers/Support";
-import DownloadApp from "./pages/buyers/DownloadApp";
-import History from "./pages/buyers/History";
-// import Pesanan from "./pages/history/Pesanan";
-// import Riwayat from "./pages/history/Riwayat";
-// import Detail from "./pages/history/Detail";
+import SendEmailForgotPassword from "./pages/sendEmailResetPassword";
+import ResetPassword from "./pages/CreateNewPassword";
+import RegisterEmailVerification from "./pages/RegisterEmailVerification";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
       {
         path: "/register",
