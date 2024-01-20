@@ -6,9 +6,9 @@ import PrivateProvider from "./providers/PrivateProvider";
 import PublicProvider from "./providers/PublicProvider";
 import NotFound from "./pages/NotFound";
 import MyComponent from "./components/Doc";
-import SendEmailForgotPassword from "./pages/sendEmailResetPassword";
-import ResetPassword from "./pages/CreateNewPassword";
-import RegisterEmailVerification from "./pages/RegisterEmailVerification";
+import ForgetPassword from "./pages/ForgetPassword";
+import ResetPassword from "./pages/ResetPassword";
+import EmailVerification from "./pages/EmailVerification";
 
 const router = createBrowserRouter([
   {
@@ -37,7 +37,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/forget-password",
-        element: <SendEmailForgotPassword />,
+        element: <ForgetPassword />,
       },
       {
         path: "/reset-password",
@@ -45,7 +45,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/email-verification",
-        element: <RegisterEmailVerification />,
+        element: <EmailVerification />,
       },
     ],
   },

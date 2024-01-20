@@ -21,7 +21,7 @@ const Alert: React.FC<AlertProps> = ({ message, type }) => {
 
   return (
     <div
-      className={`absolute px-5 py-3 text-center text-white rounded-md ${bgColorClass} top-5 right-5`}
+      className={`absolute whitespace-pre-line px-5 py-3 text-center text-white rounded-md ${bgColorClass} top-5 right-5`}
     >
       {message}
     </div>

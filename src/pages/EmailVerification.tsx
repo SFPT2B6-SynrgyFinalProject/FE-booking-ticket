@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import { useSearchParams } from "react-router-dom";
 
-export default function RegisterEmailVerification() {
+export default function EmailVerification() {
   const [searchParams] = useSearchParams("");
   const status = searchParams.get("status");
 
