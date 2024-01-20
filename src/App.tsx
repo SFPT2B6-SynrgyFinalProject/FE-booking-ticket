@@ -9,7 +9,7 @@ import MyComponent from "./components/Doc";
 import SendEmailForgotPassword from "./pages/sendEmailResetPassword";
 import ResetPassword from "./pages/CreateNewPassword";
 import RegisterEmailVerification from "./pages/RegisterEmailVerification";
-
+import Profile from './pages/Profile'
 const router = createBrowserRouter([
   {
     element: <PrivateProvider />,
@@ -26,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
       {
         path: "/register",
