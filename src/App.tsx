@@ -15,6 +15,7 @@ import Promo from "./pages/buyers/Promo";
 import Order from "./pages/buyers/Order";
 import Support from "./pages/buyers/Support";
 import DownloadApp from "./pages/buyers/DownloadApp";
+import DumyHome from "./pages/DumyHome";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/dumyHome",
+        element: <DumyHome/>,
       },
       {
         path: "/penerbangan",
