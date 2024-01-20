@@ -5,8 +5,11 @@ import Footer from "../components/footer";
 export default function Home() {
   const navigate: NavigateFunction = useNavigate()
   const handleLogout = function () {
-    localStorage.clear();
-    navigate("/login");
+    const isLogout = confirm("Apakah anda yakin ingin logout?");
+    if(isLogout) {
+      localStorage.clear();
+      navigate("/login");
+    }
   }  
   return (
     <div>

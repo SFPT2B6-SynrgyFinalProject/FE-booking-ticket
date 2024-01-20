@@ -9,7 +9,7 @@ import { IAlert } from "../lib/services/auth";
 import Alert from "../components/Alert";
 import { ForgotEmailRequestBody, SendPasswordResetLink } from "../lib/services/password";
 
-export default function SendEmailForgotPassword() {
+export default function ForgetPassword() {
   const [email, setEmail] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate: NavigateFunction = useNavigate();
