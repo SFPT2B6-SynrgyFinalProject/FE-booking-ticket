@@ -11,19 +11,22 @@ interface Options {
 const CounterOption: React.FC<{ label: string; value: number; onIncrement: () => void; onDecrement: () => void }> = ({ label, value, onIncrement, onDecrement }) => (
     <div className="optionItem flex items-center mt-2 bottom-line">
         <span className="optionText">{label}</span>
-        <div className="optionCounter ml-auto justify-space-between">
-            <button
-                disabled={value <= 0}
-                className="optionCounterButton"
-                onClick={onDecrement}
+        <div className="optionCounter  justify-space-between tex-end ml-auto ">
+            
+
+                <button
+                    disabled={value <= 0}
+                    className="optionCounterButton"
+                    onClick={onDecrement}
         
-            >
-                -
-            </button>
-            <span className="optionCounterNumber">{value}</span>
-            <button className="optionCounterButton" onClick={onIncrement}>
-                +
-            </button>
+                >
+                    -
+                </button>
+                <span className="optionCounterNumber">{value}</span>
+                <button className="optionCounterButton" onClick={onIncrement}>
+                    +
+                </button>
+          
         </div>
       
         
@@ -52,7 +55,6 @@ const HeaderSearchItem: React.FC = () => {
             {openOptions && (
                 <div className="mt-2">
                     <CounterOption label="bayi" value={options.bayi} onIncrement={() => handleOption('bayi', 'i')} onDecrement={() => handleOption('bayi', 'd')} />
-                    
                     <CounterOption label="anak" value={options.anak} onIncrement={() => handleOption('anak', 'i')} onDecrement={() => handleOption('anak', 'd')} />
                     <CounterOption label="dewasa" value={options.dewasa} onIncrement={() => handleOption('dewasa', 'i')} onDecrement={() => handleOption('dewasa', 'd')} />
                 </div>
