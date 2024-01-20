@@ -9,12 +9,12 @@ import MyComponent from "./components/Doc";
 import ForgetPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
 import EmailVerification from "./pages/EmailVerification";
-import Notification from "./pages/Notification";
-import Flight from "./pages/Flight";
-import Promo from "./pages/Promo";
-import Order from "./pages/Order";
-import Support from "./pages/Support";
-import DownloadApp from "./pages/DownloadApp";
+import Notification from "./pages/buyers/Notification";
+import Flight from "./pages/buyers/Flight";
+import Promo from "./pages/buyers/Promo";
+import Order from "./pages/buyers/Order";
+import Support from "./pages/buyers/Support";
+import DownloadApp from "./pages/buyers/DownloadApp";
 
 const router = createBrowserRouter([
   {
