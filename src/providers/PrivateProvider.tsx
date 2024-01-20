@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Footer from "../components/footer";
 
 export default function PrivateProvider() {
   const userToken = localStorage.getItem("user_access_token") as string;
