@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import InputComponent from '../../components/Input';
 import Button from '../../components/Button';
 const Reset = () => {
@@ -7,8 +7,6 @@ const Reset = () => {
     const [confirmpassword, setConfirmPassword] = useState<string>("");
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
- 
     const togglePasswordVisibility = () => {
       setShowPassword((prev) => !prev);
     };
@@ -26,6 +24,9 @@ const Reset = () => {
         case "newPassword":
           setNewPassword(value);
           break;
+          case "lastPassword":
+            setLastPassword(value);
+            break;
       }
     };
   
