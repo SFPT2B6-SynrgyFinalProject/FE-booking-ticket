@@ -3,10 +3,10 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/footer";
 
 export default function PrivateProvider() {
-  //const userToken = localStorage.getItem("user_access_token") as string;
-  // if (!userToken || userToken === undefined) {
-  //   return <Navigate to="/login"/>;
-  // }
+  const userToken = localStorage.getItem("user_access_token") as string;
+  if (!userToken || userToken === undefined) {
+    return <Navigate to="/login"/>;
+  }
   return (
     <>
       <div className="flex flex-col h-[100dvh]">
