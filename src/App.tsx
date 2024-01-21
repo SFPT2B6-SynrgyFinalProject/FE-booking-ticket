@@ -6,9 +6,15 @@ import PrivateProvider from "./providers/PrivateProvider";
 import PublicProvider from "./providers/PublicProvider";
 import NotFound from "./pages/NotFound";
 import MyComponent from "./components/Doc";
-import SendEmailForgotPassword from "./pages/sendEmailResetPassword";
-import ResetPassword from "./pages/CreateNewPassword";
-import RegisterEmailVerification from "./pages/RegisterEmailVerification";
+import ForgetPassword from "./pages/ForgetPassword";
+import ResetPassword from "./pages/ResetPassword";
+import EmailVerification from "./pages/EmailVerification";
+import Notification from "./pages/buyers/Notification";
+import Flight from "./pages/buyers/Flight";
+import Promo from "./pages/buyers/Promo";
+import Order from "./pages/buyers/Order";
+import Support from "./pages/buyers/Support";
+import DownloadApp from "./pages/buyers/DownloadApp";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +65,20 @@ const router = createBrowserRouter([
         //     element: <Detail />,
         //   },
         // ],
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+        children: [
+          {
+            path: "/profile",
+            element: <Data />,
+          },
+          {
+            path: "/profile/reset",
+            element: <Reset />,
+          },
+        ],
       },
     ],
   },
