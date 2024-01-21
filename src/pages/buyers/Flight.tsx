@@ -3,5 +3,5 @@ export default function Flight() {
     <>
       <h1>Flight</h1>
     </>
-  )
+  );
 }
