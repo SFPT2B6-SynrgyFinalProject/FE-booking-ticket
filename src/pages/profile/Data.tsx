@@ -6,45 +6,45 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { useSelector } from "react-redux";
 import { RootState } from "../../config/redux/store";
 export default function Data() {
-const [fullName, setFullName] = useState<string>("");
-  const [gender, setGender]=useState<string>("")
-  const [email, setEmail]=useState<string>("")
-  const [tanggalLahir, setTanggalLahir]=useState<string>("")
-  const [phone, setPhone]=useState<string>("")
+// const [fullName, setFullName] = useState<string>("");
+//   const [gender, setGender]=useState<string>("")
+//   const [email, setEmail]=useState<string>("")
+//   const [tanggalLahir, setTanggalLahir]=useState<string>("")
+//   const [phone, setPhone]=useState<string>("")
   const [disabled, setDisabled]=useState<boolean>(true)
   const userData = useSelector((state: RootState) => state.userReducer);
   const birthDateUser = new Date(userData.birthDate);
-  const handleOnSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value } = event.target;
-    setGender(value);
-  };
+  // const handleOnSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   const { value } = event.target;
+  //   setGender(value);
+  // };
   const off=()=>{
     setDisabled(false)
   }
    const on=()=>{
     setDisabled(true)
   }
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    switch (name) {
-      case "fullName":
-        setFullName(value);
-        break;
-      case "tanggalLahir":
-        setTanggalLahir(value);
-        break;
-      case "gender":
-        setGender(value);
-        break;
-      case "email":
-        setEmail(value);
-        break;
-      case "phone":
-        setPhone(value);
-        break;
+//   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+//     const { name, value } = event.target;
+//     switch (name) {
+//       case "fullName":
+//         setFullName(value);
+//         break;
+//       case "tanggalLahir":
+//         setTanggalLahir(value);
+//         break;
+//       case "gender":
+//         setGender(value);
+//         break;
+//       case "email":
+//         setEmail(value);
+//         break;
+//       case "phone":
+//         setPhone(value);
+//         break;
       
-  };
-}
+//   };
+// }
     return (
        <div> 
         <div className='head inline-flex flex  '>
@@ -61,7 +61,7 @@ const [fullName, setFullName] = useState<string>("");
             id="fullName"
             name="fullName"
             value={userData.fullName}
-            onChange={handleChange}
+            // onChange={handleChange}
             customStyle="py-3 pl-4 pr-4 mb-5"
             placeholder="Full Name"
             disabled={disabled ? true : false}
@@ -77,7 +77,7 @@ const [fullName, setFullName] = useState<string>("");
             name="tanggalLahir"
             value={userData.birthDate === null ? "-" : birthDateUser.toLocaleDateString("id-ID")}
             customStyle="py-3 pl-4 pr-4"
-            onChange={handleChange}
+            // onChange={handleChange}
             placeholder=""
             disabled={disabled ? true : false}
           />
@@ -87,7 +87,7 @@ const [fullName, setFullName] = useState<string>("");
           <select
             name="gender"
             id="gender"
-            onChange={handleOnSelect}
+            // onChange={handleOnSelect}
             className="appearance-none shadow-sm transition duration-200 focus:ring focus:ring-blue-500/60 border rounded-[10px] w-full py-[20px] pr-[27px] text-gray-700 border-[#757575] leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline pl-[27px]"
             disabled={disabled ? true : false}
             >
@@ -104,7 +104,7 @@ const [fullName, setFullName] = useState<string>("");
             name="email"
             value={userData.email}
             customStyle="py-3 pl-4 pr-4"
-            onChange={handleChange}
+            // onChange={handleChange}
             placeholder=""
             disabled={disabled ? true : false}
           />
@@ -117,7 +117,7 @@ const [fullName, setFullName] = useState<string>("");
             name="phone"
             value={userData.noHp ? userData.noHp : "-"}
             customStyle="py-3 pl-4 pr-4"
-            onChange={handleChange}
+            // onChange={handleChange}
             placeholder=""
             disabled={disabled ? true : false}
           />
