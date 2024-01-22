@@ -122,7 +122,7 @@ export default function DumyHome() {
                         
                        
                     </div>
-                    <div className="flex grid md:grid-cols-3 sm:grid-cols-1 md:gap-10 sm:gap-5 mt-5 ">
+                    <div className="flex grid md:grid-cols-3 sm:grid-cols-1 md:gap-10 sm:gap-5 mt-5 pt-5 ">
                         <div className="relative">
                             {!isFocused && <Icon icon="fluent:calendar-20-filled" style={{ position: 'absolute', top: '50%', left: '10px', transform: 'translateY(-50%)', color: '#495057' }} />}
                             <input
