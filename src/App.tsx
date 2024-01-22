@@ -19,6 +19,7 @@ import Profile from "./pages/buyers/Profile";
 import Data from "./pages/profile/Data";
 import Reset from "./pages/profile/Reset";
 import DumyHome from "./pages/DumyHome";
+import Search from "./pages/buyers/Search";
 
 const router = createBrowserRouter([
   {
@@ -99,6 +100,10 @@ const router = createBrowserRouter([
         path: "/email-verification",
         element: <EmailVerification />,
       },
+      {
+        path: "/search",
+        element: <Search />,
+      }
     ],
   },
   {
