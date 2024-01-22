@@ -2,14 +2,15 @@ import { Link, type Location, useLocation, NavigateFunction, useNavigate } from 
 import Logo from "../assets/images/logo.png";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
-import { jwtDecode } from "jwt-decode";
+import { RootState } from "../config/redux/store";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
   const location: Location = useLocation();
   const [showUser, setShowUser] = useState<boolean>(false);
   const navigate: NavigateFunction = useNavigate();
-  const userToken = localStorage.getItem("user_access_token") as string;
-  const userDecoded = jwtDecode(userToken);
+  const userData = useSelector((state: RootState) => state.userReducer);
+  const { fullName } = userData;
   const handleLogout = function () {
     const isLogout = confirm("Apakah anda yakin ingin logout?");
     if (isLogout) {
@@ -33,8 +34,8 @@ export default function Navbar() {
         return location.pathname === "/bantuan" ? "text-blue-600" : "";
       case "/unduh-app":
         return location.pathname === "/unduh-app" ? "text-blue-600" : "";
-      case "/user":
-        return location.pathname === "/user" ? "text-blue-600" : "";
+      case "/profile":
+        return location.pathname === "/profile" ? "text-blue-600" : "";
       default:
         return "";
     }
@@ -64,34 +65,20 @@ export default function Navbar() {
             className={`flex items-center gap-2 ${handleActivePage("/notifikasi")}`}
           >
             <h6>Notifikasi</h6>
-            <Icon icon="mdi:bell-outline" width={19} />
-          </Link>
-          <Link to={"/bantuan"} className={handleActivePage("/bantuan")}>
-            Bantuan
-          </Link>
-          <Link to={"/unduh-app"} className={handleActivePage("/unduh-app")}>
-            Unduh App
-          </Link>
-          {/* <Link to={"/user"} className={`flex items-center gap-2 ${handleActivePage("/user")}`}>
+            <Icon icon="mdi:bell-outline" width={19}/></Link>
+          <Link to={"/bantuan"} className={handleActivePage("/bantuan")}>Bantuan</Link>
+          <Link to={"/unduh-app"} className={handleActivePage("/unduh-app")}>Unduh App</Link>
+          <div onClick={handleShowUser} className={`flex items-center gap-2 cursor-pointer relative ${handleActivePage("/profile")}`}>
             <h6>User</h6>
             <Icon icon="tabler:user-circle" width={19}/>
-          </Link> */}
-          <div
-            onClick={handleShowUser}
-            className={`flex items-center gap-2 cursor-pointer relative`}
-          >
-            <h6>User</h6>
-            <Icon icon="tabler:user-circle" width={19} />
-            <div
-              className={`absolute border rounded shadow top-7 right-0 bg-white ${
-                showUser ? "" : "hidden"
-              }`}
-            >
+            <div className={`absolute border rounded shadow top-7 right-0 bg-white w-36 ${showUser ? "" : "hidden"}`}>
               <menu className="text-center">
-                <li className="p-3 border-b hover:bg-[#F5F5F5]">
-                  <h6>{userDecoded.sub}</h6>
-                </li>
-                <li className="p-3 hover:bg-[#F5F5F5]" onClick={handleLogout}>
+                <Link to={"/profile"}>
+                  <li className="p-3 border-b hover:bg-[#F5F5F5]">
+                    <h6>{fullName}</h6>
+                  </li>
+                </Link>
+                <li className="p-3 text-black hover:bg-[#F5F5F5]" onClick={handleLogout}>
                   <h6>Logout</h6>
                 </li>
               </menu>

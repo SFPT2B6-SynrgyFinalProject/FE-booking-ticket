@@ -3,6 +3,8 @@ import InputComponent from "../../components/Input";
 import { useState } from "react";
 import Button from "../../components/Button";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { useSelector } from "react-redux";
+import { RootState } from "../../config/redux/store";
 export default function Data() {
 const [fullName, setFullName] = useState<string>("");
   const [gender, setGender]=useState<string>("")
@@ -10,6 +12,8 @@ const [fullName, setFullName] = useState<string>("");
   const [tanggalLahir, setTanggalLahir]=useState<string>("")
   const [phone, setPhone]=useState<string>("")
   const [disabled, setDisabled]=useState<boolean>(true)
+  const userData = useSelector((state: RootState) => state.userReducer);
+  const birthDateUser = new Date(userData.birthDate);
   const handleOnSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
     setGender(value);
@@ -56,7 +60,7 @@ const [fullName, setFullName] = useState<string>("");
             type="text"
             id="fullName"
             name="fullName"
-            value={fullName}
+            value={userData.fullName}
             onChange={handleChange}
             customStyle="py-3 pl-4 pr-4 mb-5"
             placeholder="Full Name"
@@ -68,10 +72,10 @@ const [fullName, setFullName] = useState<string>("");
         <div className="flex flex-col mb-1 mt-2">
           <label htmlFor="tanggalLahir" className='block'>Tanggal Lahir</label>
           <InputComponent
-            type="date"
+            type="text"
             id="tanggalLahir"
             name="tanggalLahir"
-            value={tanggalLahir}
+            value={userData.birthDate === null ? "-" : birthDateUser.toLocaleDateString("id-ID")}
             customStyle="py-3 pl-4 pr-4"
             onChange={handleChange}
             placeholder=""
@@ -83,11 +87,11 @@ const [fullName, setFullName] = useState<string>("");
           <select
             name="gender"
             id="gender"
-            value={gender}
             onChange={handleOnSelect}
             className="appearance-none shadow-sm transition duration-200 focus:ring focus:ring-blue-500/60 border rounded-[10px] w-full py-[20px] pr-[27px] text-gray-700 border-[#757575] leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline pl-[27px]"
             disabled={disabled ? true : false}
             >
+            <option value={userData.gender === null ? "-" : userData.gender} selected>{userData.gender === null ? "-" : userData.gender}</option>
             <option value="Laki-laki">Laki-laki</option>
             <option value="Perempuan">Perempuan</option>
           </select>
@@ -98,7 +102,7 @@ const [fullName, setFullName] = useState<string>("");
             type="email"
             id="email"
             name="email"
-            value={email}
+            value={userData.email}
             customStyle="py-3 pl-4 pr-4"
             onChange={handleChange}
             placeholder=""
@@ -111,7 +115,7 @@ const [fullName, setFullName] = useState<string>("");
             type="phone"
             id="phone"
             name="phone"
-            value={phone}
+            value={userData.noHp ? userData.noHp : "-"}
             customStyle="py-3 pl-4 pr-4"
             onChange={handleChange}
             placeholder=""
