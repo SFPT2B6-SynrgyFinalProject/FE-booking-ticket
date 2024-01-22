@@ -16,13 +16,13 @@ export default function Navbar() {
       localStorage.clear();
       navigate("/login");
     }
-  }
+  };
   const handleActivePage = (path: string) => {
     switch (path) {
       case "/":
         return location.pathname === "/" ? "text-blue-600" : "";
       case "/penerbangan":
-        return location.pathname === "/penerbangan" ? "text-blue-600" : "";   
+        return location.pathname === "/penerbangan" ? "text-blue-600" : "";
       case "/promo":
         return location.pathname === "/promo" ? "text-blue-600" : "";
       case "/pesanan":
@@ -38,32 +38,55 @@ export default function Navbar() {
       default:
         return "";
     }
-  }
+  };
   const handleShowUser = () => {
     setShowUser(() => !showUser);
-  }
+  };
   return (
-    <>
-      <nav className="flex justify-around items-center py-5 shadow">
+    <div className="w-full">
+      <nav className="flex items-center justify-between px-20 py-5 shadow">
         <img src={Logo} alt="logo-image" />
-        <div className="flex gap-7 text-sm font-medium">
-          <Link to={"/"} className={handleActivePage("/")}>Beranda</Link>
-          <Link to={"/penerbangan"} className={handleActivePage("/penerbangan")}>Penerbangan</Link>
-          <Link to={"/promo"} className={handleActivePage("/promo")}>Promo</Link>
-          <Link to={"/pesanan"} className={handleActivePage("/pesanan")}>Pesanan</Link>
-          <Link to={"/notifikasi"} className={`flex items-center gap-2 ${handleActivePage("/notifikasi")}`}>
+        <div className="flex text-sm font-medium gap-7">
+          <Link to={"/"} className={handleActivePage("/")}>
+            Beranda
+          </Link>
+          <Link to={"/penerbangan"} className={handleActivePage("/penerbangan")}>
+            Penerbangan
+          </Link>
+          <Link to={"/promo"} className={handleActivePage("/promo")}>
+            Promo
+          </Link>
+          <Link to={"/pesanan"} className={handleActivePage("/pesanan")}>
+            Pesanan
+          </Link>
+          <Link
+            to={"/notifikasi"}
+            className={`flex items-center gap-2 ${handleActivePage("/notifikasi")}`}
+          >
             <h6>Notifikasi</h6>
-            <Icon icon="mdi:bell-outline" width={19}/></Link>
-          <Link to={"/bantuan"} className={handleActivePage("/bantuan")}>Bantuan</Link>
-          <Link to={"/unduh-app"} className={handleActivePage("/unduh-app")}>Unduh App</Link>
+            <Icon icon="mdi:bell-outline" width={19} />
+          </Link>
+          <Link to={"/bantuan"} className={handleActivePage("/bantuan")}>
+            Bantuan
+          </Link>
+          <Link to={"/unduh-app"} className={handleActivePage("/unduh-app")}>
+            Unduh App
+          </Link>
           {/* <Link to={"/user"} className={`flex items-center gap-2 ${handleActivePage("/user")}`}>
             <h6>User</h6>
             <Icon icon="tabler:user-circle" width={19}/>
           </Link> */}
-          <div onClick={handleShowUser} className={`flex items-center gap-2 cursor-pointer relative`}>
+          <div
+            onClick={handleShowUser}
+            className={`flex items-center gap-2 cursor-pointer relative`}
+          >
             <h6>User</h6>
-            <Icon icon="tabler:user-circle" width={19}/>
-            <div className={`absolute border rounded shadow top-7 right-0 bg-white ${showUser ? "" : "hidden"}`}>
+            <Icon icon="tabler:user-circle" width={19} />
+            <div
+              className={`absolute border rounded shadow top-7 right-0 bg-white ${
+                showUser ? "" : "hidden"
+              }`}
+            >
               <menu className="text-center">
                 <li className="p-3 border-b hover:bg-[#F5F5F5]">
                   <h6>{userDecoded.sub}</h6>
@@ -76,6 +99,6 @@ export default function Navbar() {
           </div>
         </div>
       </nav>
-    </>
-  )
+    </div>
+  );
 }
