@@ -15,6 +15,10 @@ import Promo from "./pages/buyers/Promo";
 import Order from "./pages/buyers/Order";
 import Support from "./pages/buyers/Support";
 import DownloadApp from "./pages/buyers/DownloadApp";
+import Profile from "./pages/buyers/Profile";
+import Data from "./pages/profile/Data";
+import Reset from "./pages/profile/Reset";
+import DumyHome from "./pages/DumyHome";
 
 const router = createBrowserRouter([
   {
@@ -116,6 +120,10 @@ const router = createBrowserRouter([
       {
         path: "/email-verification",
         element: <EmailVerification />,
+      },
+      {
+        path: "/search",
+        element: <Search />,
       },
     ],
   },
