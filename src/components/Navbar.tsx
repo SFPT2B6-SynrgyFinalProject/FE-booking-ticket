@@ -45,8 +45,8 @@ export default function Navbar() {
   };
   return (
     <div className="w-full">
-      <nav className="flex items-center justify-between px-20 py-5 shadow">
-        <img src={Logo} alt="logo-image" />
+      <nav className="flex items-center justify-between px-20 py-5 shadow-lg shadow-gray-300/40">
+        <img src={Logo} alt="logo-image" className="w-40" />
         <div className="flex text-sm font-medium gap-7">
           <Link to={"/"} className={handleActivePage("/")}>
             Beranda

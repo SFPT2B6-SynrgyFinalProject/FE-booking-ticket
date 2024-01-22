@@ -1,6 +1,7 @@
 import React, { useContext, ChangeEvent } from "react";
 import { StepperContext } from "../context/StepperContext";
 import InputComponent from "../Input";
+import { Card } from "../Card";
 // import Button from "../Button";
 
 interface BookingProps {}
@@ -15,9 +16,7 @@ export const Booking: React.FC<BookingProps> = () => {
 
   return (
     <>
-      <div className="bg-white shadow-xl lg:py-12 shadow-gray-300/70 rounded-3xl md:pt-0 md:px-0 lg:px-10">
-        <h1 className="mb-5 text-2xl font-semibold text-black">Detail Pemesan</h1>
-
+      <Card title="Detail Pemesan">
         <div className="grid grid-cols-2 gap-x-20">
           <div className="flex flex-col mb-7">
             <InputComponent
@@ -78,10 +77,9 @@ export const Booking: React.FC<BookingProps> = () => {
             />
           </div>
         </div>
-      </div>
+      </Card>
 
-      <div className="bg-white shadow-xl mt-14 lg:py-12 shadow-gray-300/70 rounded-3xl md:pt-0 md:px-0 lg:px-10">
-        <h1 className="text-2xl font-semibold text-black">Detail Penumpang</h1>
+      <Card title="Detail Penumpang" customStyle="mt-14">
         <h1 className="mt-4 mb-6 text-xl font-semibold text-black">Penumpang 1 (Dewasa)</h1>
 
         <div className="grid grid-cols-2 gap-x-20">
@@ -131,7 +129,7 @@ export const Booking: React.FC<BookingProps> = () => {
             </div>
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* <div className="flex w-2/6 mx-auto mt-20">
         <Button

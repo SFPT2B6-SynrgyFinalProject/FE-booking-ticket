@@ -5,6 +5,7 @@ import { Payment } from "../../components/steps/Payment";
 import { useState } from "react";
 import { Eticket } from "../../components/steps/Eticket";
 import { StepperContext } from "../../components/context/StepperContext";
+import { ContainerPage } from "../../components/common-page/ContainerPage";
 
 function App() {
   const [currentStep, setCurrentStep] = useState<number>(1);
@@ -41,32 +42,35 @@ function App() {
   };
 
   return (
-    <div className="container mx-auto mt-20 mb-24 px-28">
-      <div className="w-3/4 mx-auto mb-20">
-        {/* Stepper */}
-        <Stepper steps={steps} currentStep={currentStep} />
-      </div>
-      <div className="">
-        <div className="">
-          {/* Display Component */}
-          <div className="p-8">
-            <StepperContext.Provider
-              value={{
-                userData,
-                setUserData,
-                finalData,
-                setFinalData,
-              }}
-            >
-              {displayStep(currentStep)}
-            </StepperContext.Provider>
-          </div>
+    <>
+      <ContainerPage>
+        <div className="w-3/4 mx-auto mb-20">
+          {/* Stepper */}
+          <Stepper steps={steps} currentStep={currentStep} />
         </div>
 
-        {/* Navigation Control */}
-        <StepperControl handleClick={handleClick} currentStep={currentStep} steps={steps} />
-      </div>
-    </div>
+        <div>
+          <div>
+            {/* Display Component */}
+            <div className="pb-8">
+              <StepperContext.Provider
+                value={{
+                  userData,
+                  setUserData,
+                  finalData,
+                  setFinalData,
+                }}
+              >
+                {displayStep(currentStep)}
+              </StepperContext.Provider>
+            </div>
+          </div>
+
+          {/* Navigation Control */}
+          <StepperControl handleClick={handleClick} currentStep={currentStep} steps={steps} />
+        </div>
+      </ContainerPage>
+    </>
   );
 }
 
