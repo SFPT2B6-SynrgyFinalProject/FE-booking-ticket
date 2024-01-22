@@ -52,7 +52,9 @@ const InputComponent: React.FC<InputProps> = ({
         onChange={onChange}
         placeholder={placeholder}
         disabled={disabled}
-        className={`${customStyle} appearance-none shadow-sm transition duration-200 focus:ring focus:ring-blue-500/60 border rounded-[10px] w-full py-[20px] pr-[27px] text-gray-700 border-[#757575] leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline pl-[27px] ${
+        className={`${
+          customStyle ? customStyle : "py-[20px] pr-[27px]"
+        } appearance-none shadow-sm transition duration-200 focus:ring focus:ring-blue-500/60 border rounded-[10px] w-full text-gray-700 border-[#757575] leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline pl-[27px] ${
           isIconLeft ? "pl-[50px]" : "pl-[27px]"
         } ${disabled ? "bg-gray-300 cursor-not-allowed" : ""} 
                     `}
