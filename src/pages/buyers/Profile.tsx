@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { Outlet, useLocation } from 'react-router';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../config/redux/store';
 function Profile() {
   const location = useLocation();
-    const[active,setActive] = useState<number>(1)
+    const[active,setActive] = useState<number>(1);
+    const userData = useSelector((state: RootState) => state.userReducer);
   // Update active value based on the current route
   useEffect(() => {
     if (location.pathname === '/profile/reset') {
@@ -30,8 +33,8 @@ function Profile() {
               />
             </div>
             <div className='ml-3 p-2 rounded-md '>
-              <h6 className='text-black mb-2'>Nama Pengguna</h6>
-              <h6 className='text-black'>Email</h6>
+              <h6 className='text-black mb-2'>{userData.fullName}</h6>
+              <h6 className='text-black'>{userData.email}</h6>
             </div>
           </div>
           <a href='/profile/'><div className='text-black inline-flex w-[100%] pl-5 '>
