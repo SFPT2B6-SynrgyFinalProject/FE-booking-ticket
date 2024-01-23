@@ -14,7 +14,7 @@ export const StepperControl: React.FC<StepperControlProps> = ({
   steps,
 }) => {
   return (
-    <div className="flex flex-col w-2/6 pb-10 mx-auto mt-14 gap-y-4">
+    <div className="flex flex-col md:w-3/6 lg:w-2/6 pb-10 mx-auto mt-14 gap-y-4">
       <Button
         onClick={() => handleClick("next")}
         type="primary-dark"
