@@ -56,24 +56,6 @@ const router = createBrowserRouter([
         element: <DownloadApp />,
       },
       {
-        path: "/history",
-        element: <History />,
-        // children: [
-        //   {
-        //     path: "/history",
-        //     element: <Pesanan />,
-        //   },
-        //   {
-        //     path: "/history/riwayat",
-        //     element: <Riwayat />,
-        //   },
-        //   {
-        //     path: "/profile/detail",
-        //     element: <Detail />,
-        //   },
-        // ],
-      },
-      {
         path: "/profile",
         element: <Profile />,
         children: [
@@ -92,6 +74,10 @@ const router = createBrowserRouter([
   {
     element: <PublicProvider />,
     children: [
+      // {
+      //   path: "/",
+      //   element: <Home />,
+      // },
       {
         path: "/login",
         element: <Login />,
