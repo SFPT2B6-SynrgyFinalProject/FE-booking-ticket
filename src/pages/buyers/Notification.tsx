@@ -6,7 +6,7 @@ export default function Notification() {
   return (
     <>
       <ContainerPage>
-        <Card customStyle="lg:px-0">
+        <Card customStyle="sm:px-0">
         <div className="border-b-2 w-full border-gray-500/70 pb-8 mt-2 mb-10">
           <h3 className="pl-10 font-bold text-2xl">Notifikasi</h3>
         </div>

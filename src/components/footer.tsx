@@ -5,13 +5,13 @@ export default function Footer() {
         <footer className="bg-[#B1C5FF] shadow">
             <div className="w-full mx-auto p-6 text-center  max-w-screen-xl">
                 <div className="mt-10">
-                    <h1 className="block font-outfit lg:text-3xl sm:text-xl font-medium leading-11 text-white xl:text-center sm:text-center">
+                    <h1 className="block font-outfit lg:text-3xl text-xl font-medium leading-11 text-white xl:text-center sm:text-center">
                         Let's Work Together
                     </h1>
                 </div>
                 <div className="mt-10 ">
                     <button
-                        className="bg-white text-gray-600 text-start py-4 px-6 rounded-xl focus:outline-none focus:shadow-outline w-[362px]"
+                        className="bg-white text-gray-600 text-start py-4 px-6 rounded-xl focus:outline-none focus:shadow-outline w-9/12 sm:w-[362px]"
                         type="button"
                     >
                         Contact Us
