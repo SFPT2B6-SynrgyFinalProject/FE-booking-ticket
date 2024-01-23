@@ -34,7 +34,7 @@ export const StepperControl: React.FC<StepperControlProps> = ({
         type="secondary"
         width="full"
         color="secondary-normal"
-        className={`bg-gray-100 hover:bg-gray-200 ${
+        className={`!bg-gray-200/80 ${
           currentStep === 1 ? "hidden" : currentStep === 3 ? "hidden" : ""
         }`}
       >

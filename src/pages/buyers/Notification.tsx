@@ -1,10 +1,13 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { ContainerPage } from "../../components/common-page/ContainerPage";
+import { Card } from "../../components/Card";
 
 export default function Notification() {
   return (
     <>
-      <section className="w-3/4 mx-auto border my-10 rounded-xl shadow">
-        <div className="border-b border-b-black pb-5 mt-10 mb-10">
+      <ContainerPage>
+        <Card customStyle="lg:px-0">
+        <div className="border-b-2 w-full border-gray-500/70 pb-8 mt-2 mb-10">
           <h3 className="pl-10 font-bold text-2xl">Notifikasi</h3>
         </div>
         <div className="bg-[#F5F5F5] flex items-center border rounded-3xl shadow-xl p-10 mb-10 w-4/5 mx-auto gap-14">
@@ -43,7 +46,8 @@ export default function Notification() {
             <p className="text-[#7698ff] cursor-pointer w-fit">Lihat Detail</p>
           </section>
         </div>
-      </section>
+        </Card>
+      </ContainerPage>
     </>
   )
 }
