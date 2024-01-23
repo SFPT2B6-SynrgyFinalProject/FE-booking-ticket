@@ -1,6 +1,7 @@
 import React, { useState, FormEvent } from 'react';
+import InputComponent from './Input';
 
-interface SearchBoxProps {}
+interface SearchBoxProps { }
 
 const SearchBox: React.FC<SearchBoxProps> = () => {
     const [selectedOption, setSelectedOption] = useState<string>('round-trip');
@@ -22,7 +23,7 @@ const SearchBox: React.FC<SearchBoxProps> = () => {
                         className="searchbox-container font-outfit rounded-[30px] py-[27px] px-[22px]"
                         onSubmit={handleSubmit}
                     >
-                        <div className="search-controller flex justify-between">
+                        <div className="search-controller flex flex-col md:flex-row justify-between">
                             <div className="flex gap-8">
                                 <button
                                     onClick={() => handleOptionChange('round-trip')}
@@ -39,29 +40,35 @@ const SearchBox: React.FC<SearchBoxProps> = () => {
                                     One Way
                                 </button>
                             </div>
-                            <button type="submit" className="text-white bg-primary-normal py-2 px-3 rounded-[10px]">
+                            <button type="submit" className="text-white bg-primary-normal max-sm:hidden lg:py-2 px-3 rounded-[10px] mt-4 md:mt-0">
                                 Search
                             </button>
                         </div>
-                        <div className="search-items grid grid-cols-11 gap-x-14 gap-y-[13px] mt-6">
-                            <div className="form-group col-span-4">
-                                <input type="text" className='form-control w-full border border-neutral-600 py-[14px] px-[18px] text-neutral-600 rounded-[10px] outline-none' placeholder='From' />
+                        <div className="search-items grid grid-cols-1 md:grid-cols-11 gap-x-4 md:gap-x-14 gap-y-[13px] mt-6">
+                            <div className="form-group lg:col-span-4">
+                                <InputComponent type="text" placeholder="From" icon="mingcute:flight-takeoff-line" iconPosition="left" />
                             </div>
-                            <div className="form-group col-span-4">
-                                <input type="text" className='form-control w-full border border-neutral-600 py-[14px] px-[18px] text-neutral-600 rounded-[10px] outline-none' placeholder='To' />
+                            <div className="form-group lg:col-span-4">
+                                <InputComponent type="text" placeholder="To" icon="mingcute:flight-land-line" iconPosition="left" />
                             </div>
-                            <div className="form-group col-span-3">
-                                <input type="text" className='form-control w-full border border-neutral-600 py-[14px] px-[18px] text-neutral-600 rounded-[10px] outline-none' placeholder='Passanger' />
+                            <div className="form-group lg:col-span-3">
+                                <InputComponent type="text" placeholder="Passenger" icon="solar:user-rounded-broken" iconPosition="left" />
                             </div>
-                            <div className="form-group col-span-4">
-                                <input type="text" className='form-control w-full border border-neutral-600 py-[14px] px-[18px] text-neutral-600 rounded-[10px] outline-none' placeholder='Departure Date' />
+                            <div className="form-group lg:col-span-4">
+                                <InputComponent type="text" placeholder="Departure Date" icon="lets-icons:date-range" iconPosition="left" />
                             </div>
-                            <div className="form-group col-span-4">
-                                <input type="text" className='form-control w-full border border-neutral-600 py-[14px] px-[18px] text-neutral-600 rounded-[10px] outline-none' placeholder='Returning Date' />
+                            <div className="form-group lg:col-span-4">
+                                <InputComponent type="text" placeholder="Returning Date" icon="lets-icons:date-range" iconPosition="left" />
                             </div>
-                            <div className="form-group col-span-3">
-                                <input type="text" className='form-control w-full border border-neutral-600 py-[14px] px-[18px] text-neutral-600 rounded-[10px] outline-none' placeholder='Class' />
+                            <div className="form-group lg:col-span-3">
+                                <InputComponent type="text" placeholder="Class" icon="ph:office-chair" iconPosition="left" />
                             </div>
+                            <div className="form-group lg:hidden">
+                                <button type="submit" className="text-white bg-primary-normal w-full py-3 px-3 rounded-[10px] mt-4 md:mt-0">
+                                    Search
+                                </button>
+                            </div>
+
                         </div>
                     </form>
                 </div>
