@@ -50,9 +50,9 @@ export default function PrivateProvider() {
 
   return (
     <>
-      <div className="flex flex-col h-[100dvh]">
+      <div className="flex flex-col h-full relative">
         <Navbar/>
-          <main className="flex-grow">
+          <main>
             <Outlet/>
           </main>
         <Footer/>
