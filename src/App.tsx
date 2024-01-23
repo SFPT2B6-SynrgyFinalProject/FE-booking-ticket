@@ -69,15 +69,19 @@ const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: "/search",
+        element: <Search />,
+      },
     ],
   },
   {
     element: <PublicProvider />,
     children: [
-      // {
-      //   path: "/",
-      //   element: <Home />,
-      // },
+      {
+        path: "/",
+        element: <Home />,
+      },
       {
         path: "/login",
         element: <Login />,
