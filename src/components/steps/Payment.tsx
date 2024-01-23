@@ -1,6 +1,7 @@
 import React, { useContext, ChangeEvent } from "react";
 import { StepperContext } from "../context/StepperContext";
 import InputComponent from "../Input";
+import { Card } from "../Card";
 
 interface PaymentProps {}
 
@@ -14,9 +15,7 @@ export const Payment: React.FC<PaymentProps> = () => {
 
   return (
     <>
-      <div className="bg-white shadow-xl lg:py-12 shadow-gray-300/70 rounded-3xl md:pt-0 md:px-0 lg:px-16">
-        <h1 className="mb-8 text-2xl font-semibold text-black">Metode Pembayaran</h1>
-
+      <Card title="Metode Pembayaran" customStyle="lg:px-16">
         <div className="grid grid-cols-2 gap-x-40">
           <div>
             <div className="flex items-center mb-7">
@@ -78,7 +77,7 @@ export const Payment: React.FC<PaymentProps> = () => {
                   customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                   onChange={handleChange}
                   value={userData["cvv"] || ""}
-                  placeholder="Cvv: 3-4 digit kode"
+                  placeholder="CVV: 3-4 digit kode"
                 />
               </div>
             </div>
@@ -103,7 +102,7 @@ export const Payment: React.FC<PaymentProps> = () => {
             </div>
           </div>
         </div>
-      </div>
+      </Card>
     </>
   );
 };
