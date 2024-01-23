@@ -1,4 +1,10 @@
-import { Link, type Location, useLocation, NavigateFunction, useNavigate } from "react-router-dom";
+import {
+  Link,
+  type Location,
+  useLocation,
+  NavigateFunction,
+  useNavigate,
+} from "react-router-dom";
 import Logo from "../assets/images/logo.png";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useEffect, useState } from "react";
@@ -15,8 +21,6 @@ export default function Navbar() {
   const { fullName } = userData;
   const { width } = screenSize();
 
-  console.log(fullName);
-
   useEffect(() => {
     if (width >= 1024) {
       setNavigation(false);
@@ -27,7 +31,8 @@ export default function Navbar() {
     const isLogout = confirm("Apakah anda yakin ingin logout?");
     if (isLogout) {
       localStorage.clear();
-      navigate("/login");
+      navigate("/");
+      window.location.reload();
     }
   };
   const handleActivePage = (path: string) => {
@@ -40,7 +45,6 @@ export default function Navbar() {
       case "/notifikasi":
       case "/bantuan":
       case "/unduh-app":
-        return isCurrentPath ? "text-blue-600" : "";
       case "/profile":
         return isCurrentPath ? "text-blue-600" : "";
       default:
@@ -63,7 +67,9 @@ export default function Navbar() {
             : ""
         }`}
       ></div>
-      <nav className={`bg-white px-8 lg:px-20 py-5 flex shadow items-center justify-between`}>
+      <nav
+        className={`bg-white px-8 lg:px-20 py-5 flex shadow items-center justify-between`}
+      >
         <img src={Logo} alt="logo-image" width={160} />
         {navigation ? (
           <>
@@ -95,7 +101,11 @@ export default function Navbar() {
                   onClick={handleNavigation}
                 />
               </div>
-              <Link to={"/"} className={handleActivePage("/")} onClick={handleNavigation}>
+              <Link
+                to={"/"}
+                className={handleActivePage("/")}
+                onClick={handleNavigation}
+              >
                 Beranda
               </Link>
               <Link
@@ -105,7 +115,11 @@ export default function Navbar() {
               >
                 Penerbangan
               </Link>
-              <Link to={"/promo"} className={handleActivePage("/promo")} onClick={handleNavigation}>
+              <Link
+                to={"/promo"}
+                className={handleActivePage("/promo")}
+                onClick={handleNavigation}
+              >
                 Promo
               </Link>
               <Link
@@ -117,7 +131,9 @@ export default function Navbar() {
               </Link>
               <Link
                 to={"/notifikasi"}
-                className={`flex items-center gap-2 ${handleActivePage("/notifikasi")}`}
+                className={`flex items-center gap-2 ${handleActivePage(
+                  "/notifikasi"
+                )}`}
                 onClick={handleNavigation}
               >
                 <h6>Notifikasi</h6>
@@ -154,13 +170,18 @@ export default function Navbar() {
                       <Link to={"/profile"} onClick={handleNavigation}>
                         <h6
                           className={`p-3 border-b hover:bg-[#F5F5F5] ${
-                            location.pathname === "/profile" ? "bg-[#F5F5F5]" : ""
+                            location.pathname === "/profile"
+                              ? "bg-[#F5F5F5]"
+                              : ""
                           }`}
                         >
                           {fullName}
                         </h6>
                       </Link>
-                      <h6 className="p-3 text-black hover:bg-[#F5F5F5]" onClick={handleLogout}>
+                      <h6
+                        className="p-3 text-black hover:bg-[#F5F5F5]"
+                        onClick={handleLogout}
+                      >
                         Logout
                       </h6>
                     </div>
@@ -184,7 +205,10 @@ export default function Navbar() {
             <Link to={"/"} className={handleActivePage("/")}>
               Beranda
             </Link>
-            <Link to={"/penerbangan"} className={handleActivePage("/penerbangan")}>
+            <Link
+              to={"/penerbangan"}
+              className={handleActivePage("/penerbangan")}
+            >
               Penerbangan
             </Link>
             <Link to={"/promo"} className={handleActivePage("/promo")}>
@@ -195,7 +219,9 @@ export default function Navbar() {
             </Link>
             <Link
               to={"/notifikasi"}
-              className={`flex items-center gap-2 ${handleActivePage("/notifikasi")}`}
+              className={`flex items-center gap-2 ${handleActivePage(
+                "/notifikasi"
+              )}`}
             >
               <h6>Notifikasi</h6>
               <Icon icon="mdi:bell-outline" width={19} />
@@ -227,7 +253,10 @@ export default function Navbar() {
                         <h6>{fullName}</h6>
                       </li>
                     </Link>
-                    <li className="p-3 text-black hover:bg-[#F5F5F5]" onClick={handleLogout}>
+                    <li
+                      className="p-3 text-black hover:bg-[#F5F5F5]"
+                      onClick={handleLogout}
+                    >
                       <h6>Logout</h6>
                     </li>
                   </menu>
