@@ -30,47 +30,51 @@ const router = createBrowserRouter([
       },
       {
         path: "/penerbangan",
-        element: <Flight/>
+        element: <Flight />,
       },
       {
         path: "/promo",
-        element: <Promo/>
+        element: <Promo />,
       },
       {
         path: "/pesanan",
-        element: <Order/>
+        element: <Order />,
       },
       {
         path: "/notifikasi",
-        element: <Notification/>
+        element: <Notification />,
       },
       {
         path: "/bantuan",
-        element: <Support/>
+        element: <Support />,
       },
       {
         path: "/unduh-app",
-        element: <DownloadApp/>
+        element: <DownloadApp />,
       },
       {
         path: "/profile",
-        element: <Profile/>,
-        children:[
-        {
-          path: "/profile",
-          element: <Data/>,
-        },
-        {
-          path: "/profile/reset",
-          element: <Reset/>,
-        }
-      ]
+        element: <Profile />,
+        children: [
+          {
+            path: "/profile",
+            element: <Data />,
+          },
+          {
+            path: "/profile/reset",
+            element: <Reset />,
+          },
+        ],
       },
     ],
   },
   {
     element: <PublicProvider />,
     children: [
+      // {
+      //   path: "/",
+      //   element: <Home />,
+      // },
       {
         path: "/login",
         element: <Login />,
@@ -98,7 +102,7 @@ const router = createBrowserRouter([
       {
         path: "/search",
         element: <Search />,
-      }
+      },
     ],
   },
   {
