@@ -9,7 +9,7 @@ import { ContainerPage } from "../../components/common-page/ContainerPage";
 
 function App() {
   const [currentStep, setCurrentStep] = useState<number>(1);
-  const [userData, setUserData] = useState<string>("");
+  const [orderData, setOrderData] = useState<string>("");
   const [finalData, setFinalData] = useState<string[]>([]);
   const steps: string[] = ["Pemesanan", "Pembayaran", "E-tiket"];
 
@@ -44,7 +44,7 @@ function App() {
   return (
     <>
       <ContainerPage>
-        <div className="w-3/4 mx-auto mb-20">
+        <div className="hidden sm:w-3/4 sm:mx-auto sm:mb-20">
           {/* Stepper */}
           <Stepper steps={steps} currentStep={currentStep} />
         </div>
@@ -55,8 +55,8 @@ function App() {
             <div className="pb-8">
               <StepperContext.Provider
                 value={{
-                  userData,
-                  setUserData,
+                  orderData,
+                  setOrderData,
                   finalData,
                   setFinalData,
                 }}

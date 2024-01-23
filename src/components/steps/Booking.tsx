@@ -7,47 +7,47 @@ import { Card } from "../Card";
 interface BookingProps {}
 
 export const Booking: React.FC<BookingProps> = () => {
-  const { userData, setUserData } = useContext(StepperContext);
+  const { orderData, setOrderData } = useContext(StepperContext);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setUserData({ ...userData, [name]: value });
+    setOrderData({ ...orderData, [name]: value });
   };
 
   return (
     <>
-      <Card title="Detail Pemesan">
-        <div className="grid grid-cols-2 gap-x-20">
+      <Card title="Detail Pemesan" customStyle="md:pt-10">
+        <div className="grid grid-cols-1 gap-x-0 lg:grid-cols-2 lg:gap-x-20">
           <div className="flex flex-col mb-7">
             <InputComponent
               type="text"
-              id="fullName"
-              name="fullName"
+              id="name"
+              name="name"
               customStyle={`py-[16px] pl-[20px] pr-[20px]`}
               onChange={handleChange}
-              value={userData["fullName"] || ""}
+              value={orderData["name"] || ""}
               placeholder="Nama Lengkap"
             />
           </div>
 
           <div className="flex items-center mb-7">
-            <div className="flex items-center mr-10">
+            <div className="flex items-center mr-3 sm:mr-10">
               <input type="radio" name="call" id="tuan" className="w-5 h-5" />
-              <label htmlFor="tuan" className="ml-3 text-lg text-gray-800 select-none">
+              <label htmlFor="tuan" className="ml-2 sm:ml-3 sm:text-lg text-gray-800 select-none">
                 Tuan
               </label>
             </div>
 
-            <div className="flex items-center mr-10">
+            <div className="flex items-center mr-3 sm:mr-10">
               <input type="radio" name="call" id="nyonya" className="w-5 h-5" />
-              <label htmlFor="nyonya" className="ml-3 text-lg text-gray-800 select-none">
+              <label htmlFor="nyonya" className="ml-2 sm:ml-3 sm:text-lg text-gray-800 select-none">
                 Nyonya
               </label>
             </div>
 
             <div className="flex items-center">
               <input type="radio" name="call" id="nona" className="w-5 h-5" />
-              <label htmlFor="nona" className="ml-3 text-lg text-gray-800 select-none">
+              <label htmlFor="nona" className="ml-2 sm:ml-3 sm:text-lg text-gray-800 select-none">
                 Nona
               </label>
             </div>
@@ -60,7 +60,7 @@ export const Booking: React.FC<BookingProps> = () => {
               name="phone"
               customStyle={`py-[16px] pl-[20px] pr-[20px]`}
               onChange={handleChange}
-              value={userData["phone"] || ""}
+              value={orderData["phone"] || ""}
               placeholder="Nomor Telepon"
             />
           </div>
@@ -72,25 +72,25 @@ export const Booking: React.FC<BookingProps> = () => {
               name="email"
               customStyle={`py-[16px] pl-[20px] pr-[20px]`}
               onChange={handleChange}
-              value={userData["email"] || ""}
+              value={orderData["email"] || ""}
               placeholder="Alamat E-mail"
             />
           </div>
         </div>
       </Card>
 
-      <Card title="Detail Penumpang" customStyle="mt-14">
+      <Card title="Detail Penumpang" customStyle="mt-14 md:pt-10">
         <h1 className="mt-4 mb-6 text-xl font-semibold text-black">Penumpang 1 (Dewasa)</h1>
 
-        <div className="grid grid-cols-2 gap-x-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-20">
           <div className="flex flex-col mb-7">
             <InputComponent
               type="text"
-              id="fullName"
-              name="fullName"
+              id="name"
+              name="name"
               customStyle={`py-[16px] pl-[20px] pr-[20px]`}
               onChange={handleChange}
-              value={userData["fullName"] || ""}
+              value={orderData["name"] || ""}
               placeholder="Nama Lengkap"
             />
             <span className="mt-3 ml-1 text-sm text-gray-500">
@@ -98,7 +98,7 @@ export const Booking: React.FC<BookingProps> = () => {
             </span>
           </div>
 
-          <div className="flex flex-col items-center justify-start mb-7">
+          <div className="flex flex-col items-start lg:items-center justify-start mb-7">
             <label className="relative inline-flex items-center cursor-pointer me-5">
               <input type="checkbox" className="sr-only peer" />
               <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-700" />
@@ -106,24 +106,24 @@ export const Booking: React.FC<BookingProps> = () => {
             </label>
           </div>
 
-          <div className="flex items-center mb-7">
-            <div className="flex items-center mr-10">
-              <input type="radio" name="call" id="tuan" className="w-5 h-5" />
-              <label htmlFor="tuan" className="ml-3 text-lg text-gray-800 select-none">
+          <div className="flex items-center mb-7 md:pl-1">
+            <div className="flex items-center mr-3 sm:mr-10">
+              <input type="radio" name="call2" id="tuan2" className="w-5 h-5" />
+              <label htmlFor="tuan2" className="ml-2 sm:ml-3 sm:text-lg text-gray-800 select-none">
                 Tuan
               </label>
             </div>
 
-            <div className="flex items-center mr-10">
-              <input type="radio" name="call" id="nyonya" className="w-5 h-5" />
-              <label htmlFor="nyonya" className="ml-3 text-lg text-gray-800 select-none">
+            <div className="flex items-center mr-3 sm:mr-10">
+              <input type="radio" name="call2" id="nyonya2" className="w-5 h-5" />
+              <label htmlFor="nyonya2" className="ml-2 sm:ml-3 sm:text-lg text-gray-800 select-none">
                 Nyonya
               </label>
             </div>
 
             <div className="flex items-center">
-              <input type="radio" name="call" id="nona" className="w-5 h-5" />
-              <label htmlFor="nona" className="ml-3 text-lg text-gray-800 select-none">
+              <input type="radio" name="call2" id="nona2" className="w-5 h-5" />
+              <label htmlFor="nona2" className="ml-2 sm:ml-3 sm:text-lg text-gray-800 select-none">
                 Nona
               </label>
             </div>

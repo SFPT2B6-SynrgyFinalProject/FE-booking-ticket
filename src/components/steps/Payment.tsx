@@ -6,18 +6,18 @@ import { Card } from "../Card";
 interface PaymentProps {}
 
 export const Payment: React.FC<PaymentProps> = () => {
-  const { userData, setUserData } = useContext(StepperContext);
+  const { orderData, setOrderData } = useContext(StepperContext);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setUserData({ ...userData, [name]: value });
+    setOrderData({ ...orderData, [name]: value });
   };
 
   return (
     <>
       <Card title="Metode Pembayaran" customStyle="lg:px-16">
-        <div className="grid grid-cols-2 gap-x-40">
-          <div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-40">
+          <div className="mb-5 lg:mb-0">
             <div className="flex items-center mb-7">
               <div className="flex items-center mr-10">
                 <input type="radio" name="payment" id="creditCard" className="w-5 h-5" />
@@ -40,7 +40,7 @@ export const Payment: React.FC<PaymentProps> = () => {
                 name="noCreditCard"
                 customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                 onChange={handleChange}
-                value={userData["noCreditCard"] || ""}
+                value={orderData["noCreditCard"] || ""}
                 placeholder="Nomor Kartu Kredit"
               />
             </div>
@@ -52,12 +52,12 @@ export const Payment: React.FC<PaymentProps> = () => {
                 name="nameCreditCard"
                 customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                 onChange={handleChange}
-                value={userData["nameCreditCard"] || ""}
+                value={orderData["nameCreditCard"] || ""}
                 placeholder="Nama yang Tertera di Kartu Kredit"
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-x-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-10">
               <div className="flex flex-col mb-7">
                 <InputComponent
                   type="text"
@@ -65,7 +65,7 @@ export const Payment: React.FC<PaymentProps> = () => {
                   name="validityPeriod"
                   customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                   onChange={handleChange}
-                  value={userData["validityPeriod"] || ""}
+                  value={orderData["validityPeriod"] || ""}
                   placeholder="Masa Berlaku: MM/YY"
                 />
               </div>
@@ -76,7 +76,7 @@ export const Payment: React.FC<PaymentProps> = () => {
                   name="cvv"
                   customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                   onChange={handleChange}
-                  value={userData["cvv"] || ""}
+                  value={orderData["cvv"] || ""}
                   placeholder="CVV: 3-4 digit kode"
                 />
               </div>
@@ -86,7 +86,7 @@ export const Payment: React.FC<PaymentProps> = () => {
           <div>
             <h3 className="mb-8 text-xl font-semibold text-black">Rincian Harga</h3>
             <div className="grid grid-cols-2 gap-x-20">
-              <div className="grid grid-flow-row gap-y-8">
+              <div className="grid grid-flow-row gap-y-3 sm:gap-y-8">
                 <span className="font-medium">Harga Dewasa (x1)</span>
                 <span className="font-medium">Diskon</span>
                 <span className="font-medium">Pajak</span>
