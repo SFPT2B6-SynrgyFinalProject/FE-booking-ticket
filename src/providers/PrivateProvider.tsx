@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Location, Navigate, Outlet, useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/footer";
 import { useEffect, useState } from "react";
@@ -6,19 +6,19 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../config/redux/store";
 import { UserToken, userData } from "../lib/services/userLogin";
 import { setUserData } from "../config/redux/action";
+import { useUserToken } from "../lib/services/userToken";
 
 export default function PrivateProvider() {
-  const userToken = localStorage.getItem("user_access_token") as string;
+  const userToken = useUserToken();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  if (!userToken || userToken === undefined) {
-    return <Navigate to="/login"/>;
-  }
+  const location: Location = useLocation();
+  const publicPaths: string[] = ["/", "/search"];
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
-    (async () => {
+    const fetchData = async () => {
       try {
         const payload: UserToken = {
-          token: userToken
+          token: userToken,
         };
         const result = await userData(payload);
         dispatch(setUserData(result));
@@ -29,10 +29,20 @@ export default function PrivateProvider() {
       } finally {
         setIsLoading(false);
       }
-    })();
+    };
+
+    if (userToken) {
+      fetchData();
+    }
   }, [userToken, dispatch]);
 
-  if (isLoading) {
+  if (!userToken || userToken === undefined) {
+    if (!publicPaths.includes(location.pathname)) {
+      return <Navigate to="/login" />;
+    }
+  }
+
+  if (userToken && isLoading) {
     return (
       <>
         <div className="text-center pt-72">
