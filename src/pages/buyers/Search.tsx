@@ -1,10 +1,11 @@
 import SearchBox from "../../components/SearchBox";
 import SearchFilter from "../../components/SearchFilter";
+import SearchResult from "../../components/SearchResult";
 
 export default function Search() {
     return (
         <>
-            <nav className="navbar w-full h-[84px] shadow fixed top-0 font-outfit bg-white">
+            <nav className="navbar w-full h-[84px] shadow fixed top-0 z-50 font-outfit bg-white">
                 <div className="container">
                     <div className="w-full h-full flex items-center justify-between">
                         <div className="logo">
@@ -28,6 +29,7 @@ export default function Search() {
                 <div className="container">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-[26px] mt-[50px]">
                         <SearchFilter />
+                        <SearchResult />
                     </div>
                 </div>
             </section>
