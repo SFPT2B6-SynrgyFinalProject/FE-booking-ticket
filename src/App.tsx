@@ -77,10 +77,6 @@ const router = createBrowserRouter([
     element: <PublicProvider />,
     children: [
       {
-        path: "/",
-        element: <Home />,
-      },
-      {
         path: "/login",
         element: <Login />,
       },
@@ -103,10 +99,6 @@ const router = createBrowserRouter([
       {
         path: "/email-verification",
         element: <EmailVerification />,
-      },
-      {
-        path: "/search",
-        element: <Search />,
       },
       {
         path: "/menu-pengguna",
