@@ -15,6 +15,10 @@ import Promo from "./pages/buyers/Promo";
 import Order from "./pages/buyers/Order";
 import Support from "./pages/buyers/Support";
 import DownloadApp from "./pages/buyers/DownloadApp";
+import History from "./pages/buyers/History";
+// import Pesanan from "./pages/history/Pesanan";
+// import Riwayat from "./pages/history/Riwayat";
+// import Detail from "./pages/history/Detail";
 
 const router = createBrowserRouter([
   {
@@ -26,27 +30,45 @@ const router = createBrowserRouter([
       },
       {
         path: "/penerbangan",
-        element: <Flight/>
+        element: <Flight />,
       },
       {
         path: "/promo",
-        element: <Promo/>
+        element: <Promo />,
       },
       {
         path: "/pesanan",
-        element: <Order/>
+        element: <Order />,
       },
       {
         path: "/notifikasi",
-        element: <Notification/>
+        element: <Notification />,
       },
       {
         path: "/bantuan",
-        element: <Support/>
+        element: <Support />,
       },
       {
         path: "/unduh-app",
-        element: <DownloadApp/>
+        element: <DownloadApp />,
+      },
+      {
+        path: "/history",
+        element: <History />,
+        // children: [
+        //   {
+        //     path: "/history",
+        //     element: <Pesanan />,
+        //   },
+        //   {
+        //     path: "/history/riwayat",
+        //     element: <Riwayat />,
+        //   },
+        //   {
+        //     path: "/profile/detail",
+        //     element: <Detail />,
+        //   },
+        // ],
       },
     ],
   },
