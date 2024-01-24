@@ -80,10 +80,6 @@ const router = createBrowserRouter([
     element: <PublicProvider />,
     children: [
       {
-        path: "/",
-        element: <Home />,
-      },
-      {
         path: "/login",
         element: <Login />,
       },
@@ -114,10 +110,6 @@ const router = createBrowserRouter([
       {
         path: "/search",
         element: <Search />,
-      },
-      {
-        path: "/menu-pengguna",
-        element: <TableUseExample />,
       },
     ],
   },
