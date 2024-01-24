@@ -19,6 +19,7 @@ import Profile from "./pages/buyers/Profile";
 import Data from "./pages/profile/Data";
 import Reset from "./pages/profile/Reset";
 import Search from "./pages/buyers/Search";
+import TableUseExample from "./components/TableUseExample";
 
 const router = createBrowserRouter([
   {
@@ -106,6 +107,10 @@ const router = createBrowserRouter([
       {
         path: "/search",
         element: <Search />,
+      },
+      {
+        path: "/menu-pengguna",
+        element: <TableUseExample />,
       },
     ],
   },
