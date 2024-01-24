@@ -56,24 +56,6 @@ const router = createBrowserRouter([
         path: "/unduh-app",
         element: <DownloadApp />,
       },
-      {
-        path: "/profile",
-        element: <Profile />,
-        children: [
-          {
-            path: "/profile",
-            element: <Data />,
-          },
-          {
-            path: "/profile/reset",
-            element: <Reset />,
-          },
-        ],
-      },
-      {
-        path: "/search",
-        element: <Search />,
-      },
     ],
   },
   {
@@ -108,8 +90,8 @@ const router = createBrowserRouter([
         element: <EmailVerification />,
       },
       {
-        path: "/search",
-        element: <Search />,
+        path: "/menu-pengguna",
+        element: <TableUseExample />,
       },
     ],
   },
