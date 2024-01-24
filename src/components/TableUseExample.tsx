@@ -1,5 +1,4 @@
 // this example shows how to use the table component for menu-pengguna
-import React from 'react';
 import { Table } from './Table';
 
 const data = [
