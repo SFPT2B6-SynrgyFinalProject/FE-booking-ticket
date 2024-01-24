@@ -44,7 +44,7 @@ function App() {
   return (
     <>
       <ContainerPage>
-        <div className="hidden sm:w-3/4 sm:mx-auto sm:mb-20">
+        <div className="hidden sm:block sm:w-3/4 sm:mx-auto sm:mb-20">
           {/* Stepper */}
           <Stepper steps={steps} currentStep={currentStep} />
         </div>
