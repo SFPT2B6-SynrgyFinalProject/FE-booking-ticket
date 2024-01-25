@@ -7,6 +7,7 @@ import gambar3 from "../assets/images/temple-gates-lempuyang-luhur-temple-bali-i
 import  { useState } from 'react';
 import Select,  { components, ControlProps, GroupBase } from 'react-select';
 import HeaderSearchItem from "../components/addPerson";
+import { Link } from "react-router-dom";
 
 
 
@@ -92,7 +93,7 @@ export default function DumyHome() {
                     <div className="flex">
                         <button className="flex items-center text-sm bg-primary-normal px-8 py-2 rounded font-medium text-white ml-auto ">
                             <Icon icon="akar-icons:search" width={16} className="mr-2" />
-                            Search
+                            <Link to={"/search"}>Search</Link>
                         </button>
 
                     </div>
