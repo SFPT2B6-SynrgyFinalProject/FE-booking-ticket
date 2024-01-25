@@ -33,14 +33,15 @@ export type RegisterResponseBody = {
 export type LoginRequestBody = {
   email: string;
   password: string;
-}
+};
 
 export interface LoginResponseBody {
-    data:{
+  data: {
     email: string;
     password: string;
     authentication: string;
     token: string;
+    roles: string;
   };
   status: string;
 }
@@ -65,16 +66,24 @@ export async function loginUser(
   return await fetchInstance({
     endpoint: "/api/login",
     method: "POST",
-    data: form
-  })
+    data: form,
+  });
 }
 
 export async function loginGoogleUser(
   form: UserRequestGoogle
-  ): Promise<LoginResponseBody> {
-    return await fetchInstance({
-      endpoint: "/api/login/google",
-      method: "POST",
-      data: form
-    })
-  }
+): Promise<LoginResponseBody> {
+  return await fetchInstance({
+    endpoint: "/api/login/google",
+    method: "POST",
+    data: form,
+  });
+}
+
+export function useUserToken() {
+  return localStorage.getItem("user_access_token") as string;
+}
+
+export function useUserRole() {
+  return localStorage.getItem("user_role") as string;
+}
