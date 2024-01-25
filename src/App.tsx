@@ -30,10 +30,6 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/dumyHome",
-        element: <DumyHome />,
-      },
-      {
         path: "/penerbangan",
         element: <Flight />,
       },
@@ -85,10 +81,6 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: "/profile",
-        element: <Profile />,
-      },
-      {
         path: "/register",
         element: <Register />,
       },
@@ -109,8 +101,8 @@ const router = createBrowserRouter([
         element: <EmailVerification />,
       },
       {
-        path: "/search",
-        element: <Search />,
+        path: "/menu-pengguna",
+        element: <TableUseExample />,
       },
     ],
   },
