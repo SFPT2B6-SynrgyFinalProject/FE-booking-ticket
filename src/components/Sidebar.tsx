@@ -1,6 +1,5 @@
-import { Icon } from '@iconify/react/dist/iconify.js';
-import { Link } from 'react-router-dom';
-
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { Link } from "react-router-dom";
 
 export default function Sidebar() {
   const menu = [
@@ -19,7 +18,7 @@ export default function Sidebar() {
   };
   return (
     <>
-      <div className="lg:w-64 border-r border-gray-200 px-4 lg:px-12 space-y-14 pb-10">
+      <div className="lg:w-72 h-auto border-r border-gray-200 px-4 lg:px-12 space-y-14 pb-10">
         <div className="flex flex-col items-end lg:items-start">
           <h3 className="mb-4 font-semibold text-blue-700 mt-5">Menu</h3>
           <ul className="space-y-7">
@@ -27,18 +26,10 @@ export default function Sidebar() {
               const pathName = val.name.toLowerCase().replace(/\s+/g, "-");
               return (
                 <Link
-                  to={`/${
-                    val.name.toLowerCase() === "dashboard"
-                      ? "admin"
-                      : `admin/${pathName}`
-                  }`}
+                  to={`/${val.name.toLowerCase() === "dashboard" ? "admin" : `admin/${pathName}`}`}
                   key={index}
                   className={`flex flex-row items-center  ${handleActivePage(
-                    `/${
-                      val.name.toLowerCase() === `dashboard`
-                        ? `admin`
-                        : `admin/${pathName}`
-                    }`
+                    `/${val.name.toLowerCase() === `dashboard` ? `admin` : `admin/${pathName}`}`
                   )}`}
                 >
                   <div className="mr-4">{val.icon}</div>

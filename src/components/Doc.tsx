@@ -1,14 +1,65 @@
 // Example usage in another component
-import React from "react";
+import React, { useState } from "react";
 import Button from "./Button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import InputComponent from "./Input";
 import { Tablev2 } from "./Tablev2";
+import { FormModal } from "./FormModal";
 
 const MyComponent: React.FC = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
   return (
     <>
-      <div className="mb-10">
+      <div className="my-10">
+        <div className="flex justify-center">
+          <Button type="primary-dark" color="primary-dark" onClick={openModal}>
+            Click Me!
+          </Button>
+        </div>
+
+        <FormModal title="Payment successful" isOpen={isOpen}>
+          <div className="mt-2">
+            <p className="text-sm text-gray-500 mb-10">
+              Your payment has been successfully submitted. Weve sent you an email with all of the
+              details of your order. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Laboriosam et fuga minima debitis, sit enim soluta inventore eveniet nisi numquam?
+            </p>
+          </div>
+
+          <div className="mt-4 flex gap-x-4 justify-center">
+            <Button
+              type="secondary"
+              className="border border-gray-300 hover:bg-gray-100 rounded-xl"
+              color="secondary-normal"
+              size="sm"
+              onClick={closeModal}
+            >
+              Close
+            </Button>
+
+            <Button type="primary-dark" className=" rounded-xl" color="primary-dark" size="sm">
+              Simpan
+            </Button>
+          </div>
+        </FormModal>
+      </div>
+
+      {/* <div className="flex justify-center my-10">
+        <Button type="primary-dark" width="default">
+          Click Me
+        </Button>
+      </div> */}
+
+      <div className="my-10">
         <Tablev2 />
       </div>
 
