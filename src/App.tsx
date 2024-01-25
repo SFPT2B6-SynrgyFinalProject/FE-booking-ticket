@@ -19,6 +19,7 @@ import Profile from "./pages/buyers/Profile";
 import Data from "./pages/profile/Data";
 import Reset from "./pages/profile/Reset";
 import Search from "./pages/buyers/Search";
+import TableUseExample from "./components/TableUseExample";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,24 @@ const router = createBrowserRouter([
         path: "/unduh-app",
         element: <DownloadApp />,
       },
+      {
+        path: "/profile",
+        element: <Profile />,
+        children: [
+          {
+            path: "/profile",
+            element: <Data />,
+          },
+          {
+            path: "/profile/reset",
+            element: <Reset />,
+          },
+        ],
+      },
+      {
+        path: "/search",
+        element: <Search />,
+      },
     ],
   },
   {
@@ -88,6 +107,10 @@ const router = createBrowserRouter([
       {
         path: "/email-verification",
         element: <EmailVerification />,
+      },
+      {
+        path: "/search",
+        element: <Search />,
       },
     ],
   },
