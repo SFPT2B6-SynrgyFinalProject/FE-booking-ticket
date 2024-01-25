@@ -19,7 +19,7 @@ import Profile from "./pages/buyers/Profile";
 import Data from "./pages/profile/Data";
 import Reset from "./pages/profile/Reset";
 import Search from "./pages/buyers/Search";
-import Dashboard from "./layouts/admin/Dashboard";
+import Dashboard from "./layouts/admin/dashboard";
 import Airport from "./layouts/admin/Airport";
 import OrderAdmin from "./layouts/admin/Order";
 import PromoAdmin from "./layouts/admin/Promo";
