@@ -46,22 +46,22 @@ export default function OrderList() {
   const icons = (icon: string) => {
     switch (icon) {
       case "success":
-        return <Icon icon="ion:airplane-outline"className="text-white" />;
+        return <Icon icon="ion:airplane-outline" className="text-white" />;
 
       case "cancel":
         return <Icon icon="material-symbols:cancel-outline" className="text-white" />;
 
       case "on-going":
-        return <Icon icon="material-symbols:pending-actions" className="text-white"/>;
+        return <Icon icon="material-symbols:pending-actions" className="text-white" />;
 
       default:
-        return <Icon icon="mi:notification" className="text-white"/>;
+        return <Icon icon="mi:notification" className="text-white" />;
     }
   };
 
   return (
     <section>
-      <div className="mt-10">
+      <div className="mt-5">
         <h3>Today</h3>
         <div>
           {today.map((val, index) => {
@@ -81,7 +81,7 @@ export default function OrderList() {
                   <div className="text-base font-medium">{val.name}</div>
                   <div className="text-sm">{val.status}</div>
                 </div>
-                <div className="text-green-600">+{val.price}</div>
+                <div className="hidden sm:block text-green-600">+{val.price}</div>
               </div>
             );
           })}
@@ -108,7 +108,7 @@ export default function OrderList() {
                   <div className="text-base font-medium">{val.name}</div>
                   <div className="text-sm">{val.status}</div>
                 </div>
-                <div className="text-red-600">-{val.price}</div>
+                <div className="hidden sm:block text-red-600">-{val.price}</div>
               </div>
             );
           })}
