@@ -163,10 +163,10 @@ export default function ResetPassword() {
                     icon={showConfirmPassword ? "mingcute:eye-line" : "mingcute:eye-close-line"}
                     onIconClick={toggleConfirmPasswordVisibility}
                     iconPosition="right"
-                    customStyle={newPassword !== confirmpassword ? "border-red-500" : ""}
+                    customStyle={newPassword !== confirmpassword ? "border-2 py-[20px] border-rose-600" : ""}
                   />
                   {newPassword !== confirmpassword && (
-                    <p className="text-red-500">Password tidak sama</p>
+                    <span className="text-rose-600">password tidak sama</span>
                   )}
                 </div>
 
