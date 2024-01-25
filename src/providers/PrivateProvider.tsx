@@ -6,14 +6,16 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../config/redux/store";
 import { UserToken, userData } from "../lib/services/userLogin";
 import { setUserData } from "../config/redux/action";
-import { useUserToken } from "../lib/services/userToken";
+import { useUserRole, useUserToken } from "../lib/services/auth";
+import Sidebar from "../components/Sidebar";
 
 export default function PrivateProvider() {
   const userToken = useUserToken();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const location: Location = useLocation();
-  const publicPaths: string[] = ["/", "/search"];
+  const publicPaths: string[] = ["/", "/search", "/bantuan", "/unduh-app"];
   const dispatch = useDispatch<AppDispatch>();
+  const userRole = useUserRole();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -46,25 +48,38 @@ export default function PrivateProvider() {
     return (
       <>
         <div className="h-screen flex items-center justify-center">
-            <div role="status">
-              <div className="animate-spin rounded-full w-10 h-10 bg-gradient-to-tr from-blue-600 to-blue-300">
-                <div className="h-6 w-6 rounded-full bg-gray-100"></div>
-              </div>
+          <div role="status">
+            <div className="animate-spin rounded-full w-10 h-10 bg-gradient-to-tr from-blue-600 to-blue-300">
+              <div className="h-6 w-6 rounded-full bg-gray-100"></div>
             </div>
+          </div>
         </div>
       </>
-    )
+    );
+  }
+
+  if (userRole === "ROLE_ADMIN" && !location.pathname.includes("admin")) {
+    return <Navigate to="/admin" />;
   }
 
   return (
     <>
       <div className="flex flex-col h-full relative">
-        <Navbar/>
-          <main>
-            <Outlet/>
-          </main>
-        <Footer/>
+        <Navbar />
+        <main className={`${userRole === "ROLE_ADMIN" ? "flex w-full" : ""}`}>
+          {userRole !== "ROLE_ADMIN" ? (
+            <>
+              <Outlet />
+            </>
+          ) : (
+            <>
+              <Sidebar />
+              <Outlet />
+            </>
+          )}
+        </main>
+        {userRole !== "ROLE_ADMIN" ? <Footer /> : null}
       </div>
     </>
-  )
+  );
 }

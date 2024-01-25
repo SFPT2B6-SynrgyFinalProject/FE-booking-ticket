@@ -6,7 +6,11 @@ import Logo from "./../assets/images/logo.png";
 import Airplane from "./../assets/images/airplane-and-packages-1.png";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Alert from "../components/Alert";
-import { CredentialResponse, GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import {
+  CredentialResponse,
+  GoogleLogin,
+  GoogleOAuthProvider,
+} from "@react-oauth/google";
 import {
   LoginRequestBody,
   loginGoogleUser,
@@ -65,21 +69,15 @@ export default function Login() {
 
       const fetchResult = await loginUser(payload);
 
-      // const response = await fetch(`${API_URL}/api/login`, {
-      //     method: "POST",
-      //     headers: {
-      //         "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({ email, password }),
-      // });
-      // const result = await response.json();
-
       if (fetchResult.status === "fail" || fetchResult.status === "error") {
-        const errorMessages = Object.values(fetchResult.data).map((value) => value);
+        const errorMessages = Object.values(fetchResult.data).map(
+          (value) => value
+        );
         throw new Error(errorMessages.join("\n"));
       }
 
       localStorage.setItem("user_access_token", fetchResult.data.token);
+      localStorage.setItem("user_role", fetchResult.data.roles[0]);
 
       setAlert({
         type: "success",
@@ -88,7 +86,6 @@ export default function Login() {
       });
     } catch (error) {
       if (error instanceof Error) {
-        // console.log(error.message);
         setAlert({
           type: "fail",
           data: { errorResponse: error.message },
@@ -101,7 +98,9 @@ export default function Login() {
     }
   };
 
-  const handleCredentialResponse = async (credentialResponse: CredentialResponse) => {
+  const handleCredentialResponse = async (
+    credentialResponse: CredentialResponse
+  ) => {
     try {
       const token = credentialResponse.credential as string;
       const response: LoginResponseBody = await loginGoogleUser({
@@ -147,9 +146,14 @@ export default function Login() {
           <div className="px-0 mt-10 md:pt-0 md:px-16 lg:px-2">
             {alert && (
               <div>
-                {alert.type === "success" && <Alert message={alert.message} type="success" />}
+                {alert.type === "success" && (
+                  <Alert message={alert.message} type="success" />
+                )}
                 {alert.type === "fail" && (
-                  <Alert message={Object.values(alert.data).join("\n")} type="fail" />
+                  <Alert
+                    message={Object.values(alert.data).join("\n")}
+                    type="fail"
+                  />
                 )}
               </div>
             )}
@@ -164,10 +168,14 @@ export default function Login() {
                     color="#1C1C1E"
                   />
                 </Link>{" "}
-                &nbsp;&nbsp; <h1 className="text-xl font-bold">Log In into your account</h1>
+                &nbsp;&nbsp;{" "}
+                <h1 className="text-xl font-bold">Log In into your account</h1>
               </div>
             </div>
-            <form onSubmit={handleSubmit} className="mt-10 md:pt-0 md:px-0 lg:px-12">
+            <form
+              onSubmit={handleSubmit}
+              className="mt-10 md:pt-0 md:px-0 lg:px-12"
+            >
               <>
                 <div className="flex flex-col mb-7">
                   <InputComponent
@@ -187,7 +195,11 @@ export default function Login() {
                     value={password}
                     placeholder="Password"
                     onChange={handleChange}
-                    icon={showPassword ? "mingcute:eye-line" : "mingcute:eye-close-line"}
+                    icon={
+                      showPassword
+                        ? "mingcute:eye-line"
+                        : "mingcute:eye-close-line"
+                    }
                     onIconClick={togglePasswordVisibility}
                     iconPosition="right"
                   />
@@ -267,7 +279,10 @@ export default function Login() {
 
             <p className="mt-5 text-center">
               Need an account?{" "}
-              <Link to={"/register"} className="text-indigo-600 hover:text-indigo-500">
+              <Link
+                to={"/register"}
+                className="text-indigo-600 hover:text-indigo-500"
+              >
                 Create an account
               </Link>
             </p>

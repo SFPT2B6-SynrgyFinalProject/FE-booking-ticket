@@ -1,13 +1,14 @@
 import { Navigate, Outlet } from "react-router-dom";
+import { useUserToken } from "../lib/services/auth";
 
 export default function PublicProvider() {
-  const userToken = localStorage.getItem("user_access_token") as string;
+  const userToken = useUserToken();
   if (userToken) {
-    return <Navigate to="/"/>;
+    return <Navigate to="/" />;
   }
   return (
     <>
-      <Outlet/>
+      <Outlet />
     </>
-  )
+  );
 }
