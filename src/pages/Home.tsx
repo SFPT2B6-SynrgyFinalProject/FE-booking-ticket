@@ -1,9 +1,10 @@
 
 
 import { Icon } from "@iconify/react/dist/iconify.js";
-import gambar1 from "../assets/images/famous-borobudur-temple-mungkid-indonesia.png"
-import gambar2 from "../assets/images/kelingking-beach-sunset-nusa-penida-island-bali-indonesia.png"
-import gambar3 from "../assets/images/temple-gates-lempuyang-luhur-temple-bali-indonesia.png"
+import gambarbg from "../assets/images/plane-is-flying-blue-sky.jpg"
+import gambar1 from "../assets/images/famous-borobudur-temple-mungkid-indonesia.webp"
+import gambar2 from "../assets/images/kelingking-beach-sunset-nusa-penida-island-bali-indonesia.webp"
+import gambar3 from "../assets/images/temple-gates-lempuyang-luhur-temple-bali-indonesia.jpg"
 import  { useState } from 'react';
 import Select,  { components, ControlProps, GroupBase } from 'react-select';
 import HeaderSearchItem from "../components/addPerson";
@@ -68,10 +69,10 @@ export default function DumyHome() {
         <div>
             <header className="">
                 <div
-                    className="w-full h-[400px] bg-center bg-cover"
+                    className="w-full h-[400px] bg-center bg-cover "
                     style={{
                         backgroundImage:
-                            'url(https://res.cloudinary.com/de7e1strs/image/upload/v1705758232/samples/dguegrbq5erys6i7ets8.png)',
+                            `url(${gambarbg})`,
                     }}
                 >
                     <div className="flex  justify-center w-full h-full bg-gray-900 bg-opacity-50 py-12">
