@@ -49,7 +49,7 @@ const Button: React.FC<ButtonProps> = ({
   ...rest
 }) => {
   const sizeClasses = {
-    xs: "text-xs py-[6px] px-[30px]",
+    xs: "text-sm font-semibold py-[8px] px-[24px] rounded-lg",
     sm: "text-sm font-bold py-[8px] px-[30px]",
     base: "text-base",
     md: "text-md py-[14px] px-[60px]",

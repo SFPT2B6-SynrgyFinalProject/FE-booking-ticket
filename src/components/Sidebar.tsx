@@ -18,7 +18,7 @@ export default function Sidebar() {
   };
   return (
     <>
-      <div className="lg:w-72 h-auto border-r border-gray-200 px-4 lg:px-12 space-y-14 pb-10">
+      <div className="lg:w-72 h-auto border-r border-gray-200 px-4 lg:px-12 space-y-14 pb-10 lg:pb-48">
         <div className="flex flex-col items-end lg:items-start">
           <h3 className="mb-4 font-semibold text-blue-700 mt-5">Menu</h3>
           <ul className="space-y-7">

@@ -3,6 +3,7 @@ import Tablev2 from "../../components/Tablev2";
 import Button from "../../components/Button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
+import InputComponent from "../../components/Input";
 
 interface Row {
   id: number;
@@ -13,15 +14,15 @@ interface Row {
 }
 
 interface TableColumn {
-  name: any;
-  width?: any;
+  name: string;
+  width?: string;
   selector?: (row: Row) => string;
-  sortable?: any;
+  sortable?: boolean;
 }
 
 interface TableProps {
   columns?: TableColumn[];
-  data?: any;
+  data?: Row[];
 }
 
 function handleEdit(id: number): void {
@@ -35,43 +36,47 @@ function handleDelete(id: number): void {
 const columns = [
   {
     name: "Name",
-    selector: (row: any) => row.name,
+    selector: (row: Row) => row.name,
+    width: "15rem",
     sortable: true,
   },
   {
     name: "Email",
-    selector: (row: any) => row.email,
+    selector: (row: Row) => row.email,
+    width: "19rem",
     sortable: true,
   },
   {
     name: "Nomor Telepon",
-    selector: (row: any) => row.nohp,
+    selector: (row: Row) => row.nohp,
     sortable: true,
   },
   {
-    name: "Role",
-    selector: (row: any) => row.role,
+    name: "Peran",
+    selector: (row: Row) => row.role,
     sortable: true,
   },
   {
-    name: "Action",
-    center: true,
-    width: "20rem",
-    cell: (row: any) => (
-      <div className="flex items-center py-2">
+    name: "Aksi",
+    center: "true",
+    width: "18rem",
+    cell: (row: Row) => (
+      <div className="flex items-center gap-x-3 py-2">
         <Button
+          type="primary-dark" 
+          color="primary-dark"  
           onClick={() => handleEdit(row.id)}
-          className={`mr-2 text-sm font-bold bg-blue-900 text-white rounded-lg`}
+          className={`text-white !px-4`}
           size="xs"
         >
-          Edit
+          Edit <Icon icon="bx:edit" width={18} />
         </Button>
         <Button
           onClick={() => handleDelete(row.id)}
-          className={`text-sm font-bold bg-red-600 text-white rounded-lg`}
+          className={`text-white bg-rose-600 !px-4`}
           size="xs"
         >
-          Hapus
+          Hapus <Icon icon="ci:trash-empty" width={19}/>
         </Button>
       </div>
     ),
@@ -81,39 +86,109 @@ const columns = [
 const data = [
   {
     id: 1,
-    name: "Admin",
-    nohp: "081234567890",
-    email: "Admin@gmail.com",
+    name: "John Doe",
+    nohp: "1234567890",
+    email: "john.doe@example.com",
     role: "Admin",
   },
   {
     id: 2,
-    name: "Pengguna",
-    nohp: "081234567890",
-    email: "Pengguna@gmail.com",
-    role: "Pembeli",
+    name: "Jane Michel",
+    nohp: "9876543210",
+    email: "jane.mi@example.com",
+    role: "Buyer",
   },
   {
     id: 3,
-    name: "Pengguna",
-    nohp: "081234567890",
-    email: "Pengguna@gmail.com",
-    role: "Pembeli",
+    name: "Alice Smith",
+    nohp: "5551234567",
+    email: "alice.smith@example.com",
+    role: "Buyer",
   },
   {
     id: 4,
-    name: "Pengguna",
-    nohp: "081234567890",
-    email: "Pengguna@gmail.com",
-    role: "Pembeli",
+    name: "Bob Johnson",
+    nohp: "8885551234",
+    email: "bob.johnson@example.com",
+    role: "Buyer",
   },
   {
     id: 5,
-    name: "Pengguna",
-    nohp: "081234567890",
-    email: "Pengguna@gmail.com",
-    role: "Pembeli",
+    name: "Eve Wilson",
+    nohp: "7778889999",
+    email: "eve.wilson@example.com",
+    role: "Buyer",
   },
+  {
+    id: 6,
+    name: "Charlie Brown",
+    nohp: "5554443333",
+    email: "charlie.brown@example.com",
+    role: "Admin",
+  },
+  {
+    id: 7,
+    name: "David Smith",
+    nohp: "1112223333",
+    email: "david.smith@example.com",
+    role: "Buyer",
+  },
+  {
+    id: 8,
+    name: "Grace Davis",
+    nohp: "4445556666",
+    email: "grace.davis@example.com",
+    role: "Buyer",
+  },
+  {
+    id: 9,
+    name: "Frank Johnson",
+    nohp: "9998887777",
+    email: "frank.johnson@example.com",
+    role: "Admin",
+  },
+  {
+    id: 10,
+    name: "Helen Brown",
+    nohp: "7776665555",
+    email: "helen.brown@example.com",
+    role: "Buyer",
+  },
+  {
+    id: 11,
+    name: "Ivy Wilson",
+    nohp: "3332221111",
+    email: "ivy.wilson@example.com",
+    role: "Admin",
+  },
+  {
+    id: 12,
+    name: "Jack Smith",
+    nohp: "6667778888",
+    email: "jack.smith@example.com",
+    role: "Buyer",
+  },
+  {
+    id: 13,
+    name: "Karen Davis",
+    nohp: "2223334444",
+    email: "karen.davis@example.com",
+    role: "Buyer",
+  },
+  {
+    id: 14,
+    name: "Leo Johnson",
+    nohp: "7779998888",
+    email: "leo.johnson@example.com",
+    role: "Admin",
+  },
+  {
+    id: 15,
+    name: "Mia Brown",
+    nohp: "8887776666",
+    email: "mia.brown@example.com",
+    role: "Buyer",
+  }
 ];
 
 const customStyles = {
@@ -125,7 +200,7 @@ const customStyles = {
   headRow: {
     style: {
       fontSize: "16px",
-      background: "#F0F0F0",
+      background: "#f3f4f6",
     },
   },
 };
@@ -146,18 +221,18 @@ const User: React.FC<TableProps> = () => {
   }
 
   return (
-    <div className="w-full ">
-      <div className="lg:flex mx-4 justify-between items-center mt-3 mb-10">
-        <Button className={`bg-green-700 text-white rounded-lg`} size="sm">
-          Tambah Pengguna <Icon icon="prime:file-import" width={20} className="text-white" />
+    <div className="flex-1 px-8 mt-14">
+      <div className="flex flex-col lg:flex-row justify-between items-center">
+        <Button className={`!bg-green-600 py-[10px] text-white`} size="xs">
+          Tambah Pengguna <Icon icon="prime:file-import" width={20} />
         </Button>
         <div>
-          <input
-            type="text"
-            placeholder="Search..."
-            className="border border-gray-400 px-4 py-2 mt-2 rounded-xl"
-            onChange={handleFilter}
-          />
+            <InputComponent
+              type="text"
+              placeholder="Cari..."
+              customStyle="border border-gray-400/80 px-4 py-[10px] rounded-xl"
+              onChange={handleFilter}
+            />
         </div>
       </div>
       <Tablev2 columns={columns} data={records} customStyles={customStyles} />
