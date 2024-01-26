@@ -1,5 +1,5 @@
 // this example shows how to use the table component for menu-pengguna
-import { Table } from './Table';
+import Table from './Table';
 
 const data = [
     { name: 'Admin', email: 'Admin@gmail.com', nohp: '08123456789', role: 'Admin', status: 'AKTIF' },
@@ -11,31 +11,42 @@ const data = [
 ];
 
 // this is the header of the table.
-const headers = ['Nama', 'Email', 'No HP', 'Peran', 'Status'];
+const columns = [
+    {
+        name: 'Name',
+        selector: 'name',
+    },
+    {
+        name: 'Email',
+        selector: 'email',
+    },
+    {
+        name: 'No HP',
+        selector: 'nohp',
+    },
+    {
+        name: 'Peran',
+        selector: 'role',
+    },
+    {
+        name: 'Status',
+        selector: 'status',
+    },
+];
 
-const renderRow = (item: any) => (
-    <>
-        <td>{item.name}</td>
-        <td>{item.email}</td>
-        <td>{item.nohp}</td>
-        <td>{item.role}</td>
-        <td>{item.status}</td>
-    </>
-);
-
-const handleEdit = (index: number) => {
+const handleEdit = (row: any) => {
     // logics to handle edit button
-    console.log(`Edit item with index ${index}`);
+    console.log(`Edit item with index ${row}`);
 };
 
-const handleDelete = (index: number) => {
+const handleDelete = (row: any) => {
     // logics to handle delete button
-    console.log(`Delete item with index ${index}`);
+    console.log(`Delete item with index ${row}`);
 };
 
 
 const TableUseExample = () => {
-    return <Table headers={headers} data={data} renderRow={renderRow} onEdit={handleEdit}
+    return <Table headers={columns} data={data} onEdit={handleEdit}
         onDelete={handleDelete} />;
 };
 

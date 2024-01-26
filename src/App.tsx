@@ -28,6 +28,7 @@ import Route from "./layouts/admin/Route";
 import Airline from "./layouts/admin/Airline";
 import FlightSchedule from "./layouts/admin/FlightSchedule";
 import Transaction from "./layouts/admin/Transaction";
+import TableUseExample from "./components/TableUseExample";
 
 const router = createBrowserRouter([
   {
@@ -131,6 +132,10 @@ const router = createBrowserRouter([
       {
         path: "/components",
         element: <MyComponent />,
+      },
+      {
+        path: "/menu-pengguna",
+        element: <TableUseExample />,
       },
       {
         path: "/forget-password",
