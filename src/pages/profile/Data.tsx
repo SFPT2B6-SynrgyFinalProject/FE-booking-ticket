@@ -5,6 +5,7 @@ import Button from "../../components/Button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useSelector } from "react-redux";
 import { RootState } from "../../config/redux/store";
+import Select,  { components, ControlProps, GroupBase } from 'react-select';
 export default function Data() {
 // const [fullName, setFullName] = useState<string>("");
 //   const [gender, setGender]=useState<string>("")
@@ -45,91 +46,103 @@ export default function Data() {
       
 //   };
 // }
+const options2 = [
+  { value: 'Laki-Laki', label: 'Laki-Laki',  },
+  { value: 'Perempuan', label: 'Perempuan' },
+
+];
+
+interface Option {
+  value: string;
+  label: string;
+}
+const [selectedOption] = useState(null);
+
+const CustomControl2: React.FC<ControlProps<Option, boolean, GroupBase<Option>>> = ({ children, ...props }) => (
+  <components.Control {...props}>   
+      {children}
+  </components.Control>
+);
     return (
-       <div> 
+       <div className="w-[100%] h-[530px] md:p-10"> 
         <div className='head inline-flex flex  '>
-        <h1 className='font-bold text-xl mt-2 mb-1'>Information Account</h1>
-        {disabled?<Button type='secondary' color="secondary-normal" onClick={off} ><Icon icon={"typcn:edit"}></Icon>Edit Profile</Button>:""}
+        <h1 className=' text-2xl font-bold text-black'>Information Account</h1>
+        {disabled?<Button type='secondary' color="secondary-normal" className="mb-5" onClick={off} ><Icon icon={"typcn:edit"}></Icon>Edit Profile</Button>:""}
         </div>
         <div className='body'>
           <form>
         <>
-        <div className="flex flex-col mb-1 mt-2">
-          <label htmlFor="fullName" className='text-lg'>Nama Lengkap</label>
+        <div  className="flex flex-col mb-1 mt-5">
           <InputComponent
             type="text"
             id="fullName"
             name="fullName"
             value={userData.fullName}
             // onChange={handleChange}
-            customStyle="py-3 pl-4 pr-4 mb-5"
+            customStyle={`py-[16px] pl-[20px] pr-[20px]`}
             placeholder="Full Name"
             disabled={disabled ? true : false}
           />
         </div>
   
         {/* Date of Birth Input */}
-        <div className="flex flex-col mb-1 mt-2">
-          <label htmlFor="tanggalLahir" className='block'>Tanggal Lahir</label>
+        <div  className="flex flex-col mb-1 mt-5">
           <InputComponent
             type="text"
             id="tanggalLahir"
             name="tanggalLahir"
             value={userData.birthDate === null ? "-" : birthDateUser.toLocaleDateString("id-ID")}
-            customStyle="py-3 pl-4 pr-4"
+            customStyle={`py-[16px] pl-[20px] pr-[20px]`}
             // onChange={handleChange}
             placeholder=""
             disabled={disabled ? true : false}
           />
         </div>
-        <div className="flex flex-col mb-1 mt-5">
-          <label htmlFor="gender" className='block'>Gender</label>
-          <select
-            name="gender"
-            id="gender"
-            // onChange={handleOnSelect}
-            className="appearance-none shadow-sm transition duration-200 focus:ring focus:ring-blue-500/60 border rounded-[10px] w-full py-[20px] pr-[27px] text-gray-700 border-[#757575] leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline pl-[27px]"
-            disabled={disabled ? true : false}
-            >
-            <option value={userData.gender === null ? "-" : userData.gender} selected>{userData.gender === null ? "-" : userData.gender}</option>
-            <option value="Laki-laki">Laki-laki</option>
-            <option value="Perempuan">Perempuan</option>
-          </select>
+        <div  className="flex flex-col mb-1 mt-5">
+        <Select
+        components={{ Control: CustomControl2 }}
+        classNames={{
+        control: () => " py-[10px] pl-[10px] pr-[10px] !bg-white border rounded-[10px] ",
+        }}
+        placeholder="geder"
+        defaultValue={selectedOption}
+        options={options2}
+        isDisabled={disabled ? true : false}
+           />
+
         </div>
-        <div className="flex flex-col mb-1 mt-2">
-          <label htmlFor="email" className='block'>Email</label>
+        <div  className="flex flex-col mb-1 mt-5">
           <InputComponent
             type="email"
             id="email"
             name="email"
             value={userData.email}
-            customStyle="py-3 pl-4 pr-4"
+            customStyle={`py-[16px] pl-[20px] pr-[20px]`}
             // onChange={handleChange}
             placeholder=""
             disabled={disabled ? true : false}
           />
         </div>
-        <div className="flex flex-col mb-1 mt-2">
-          <label htmlFor="phone" className='block'>Telephone</label>
+        <div  className="flex flex-col mb-1 mt-5">
           <InputComponent
             type="phone"
             id="phone"
             name="phone"
             value={userData.noHp ? userData.noHp : "-"}
-            customStyle="py-3 pl-4 pr-4"
+            customStyle={`py-[16px] pl-[20px] pr-[20px]`}
             // onChange={handleChange}
             placeholder=""
             disabled={disabled ? true : false}
           />
         </div>
         {disabled ?null:(
-  <div className="flex mt-4  justify-end mt-8 ">
-    <Button className="bg-rose-800 mr-5 sm:button-sm " onClick={on}>Batal</Button>
-    <Button >Kirim</Button>
-  </div>
-) }
-</>
-</form>
+        <div className="flex mt-4  justify-end mt-8 ">
+          <Button className="bg-rose-800 mr-5 sm:button-sm " onClick={on}>Batal</Button>
+          <Button >Kirim</Button>
+        </div>
+      ) }
+    </>
+      </form>
         </div>
         </div>
     )
