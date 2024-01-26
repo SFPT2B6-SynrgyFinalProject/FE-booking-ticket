@@ -7,32 +7,32 @@ interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "typ
   children: ReactNode;
   type?: "primary" | "secondary" | "tertiary" | "text" | "primary-dark";
   color?:
-    | "primary-normal"
-    | "primary-dark"
-    | "primary-bright"
-    | "primary-light"
-    | "primary-v"
-    | "primary-v-dark"
-    | "primary-v-bright"
-    | "primary-v-light"
-    | "secondary-normal"
-    | "secondary-dark"
-    | "secondary-bright"
-    | "secondary-light"
-    | "secondary-v"
-    | "secondary-v-dark"
-    | "secondary-v-bright"
-    | "secondary-v-light"
-    | "tertiary-normal"
-    | "tertiary-dark"
-    | "tertiary-bright"
-    | "tertiary-light"
-    | "tertiary-v"
-    | "tertiary-v-dark"
-    | "tertiary-v-bright"
-    | "tertiary-v-light"
-    | "text";
-  size?: "sm" | "base" | "md" | "lg";
+  | "primary-normal"
+  | "primary-dark"
+  | "primary-bright"
+  | "primary-light"
+  | "primary-v"
+  | "primary-v-dark"
+  | "primary-v-bright"
+  | "primary-v-light"
+  | "secondary-normal"
+  | "secondary-dark"
+  | "secondary-bright"
+  | "secondary-light"
+  | "secondary-v"
+  | "secondary-v-dark"
+  | "secondary-v-bright"
+  | "secondary-v-light"
+  | "tertiary-normal"
+  | "tertiary-dark"
+  | "tertiary-bright"
+  | "tertiary-light"
+  | "tertiary-v"
+  | "tertiary-v-dark"
+  | "tertiary-v-bright"
+  | "tertiary-v-light"
+  | "text";
+  size?: "xs" | "sm" | "base" | "md" | "lg";
   width?: "default" | "full";
   icon?: IconifyIcon; // Use IconifyIcon type for Iconify icons
   className?: string; // Add className prop for custom classes
@@ -49,7 +49,8 @@ const Button: React.FC<ButtonProps> = ({
   ...rest
 }) => {
   const sizeClasses = {
-    sm: "text-sm py-[8] px-[40px]",
+    xs: "text-xs py-[6px] px-[30px]",
+    sm: "text-sm font-bold py-[8px] px-[30px]",
     base: "text-base",
     md: "text-md py-[14px] px-[60px]",
     lg: "text-lg py-[16px] px-[66px] rounded-[34px]",
