@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import DataTable from "react-data-table-component";
+import Button from "./Button";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 interface Row {
   id: number;
   name: string;
-  age: number;
-  gender: string;
   email: string;
+  nohp: string;
   role: string;
 }
 
@@ -23,50 +24,47 @@ const handleDelete = (id: number) => {
 const columns = [
   {
     name: "Name",
-    width: "11rem",
+    width: '12rem',
     selector: (row: Row) => row.name,
     sortable: true,
   },
   {
     name: "Email",
-    width: "18rem",
+    width: '13rem',
     selector: (row: Row) => row.email,
     sortable: true,
   },
   {
-    name: "Age",
-    selector: (row: Row) => row.age,
-    sortable: true,
-  },
-  {
-    name: "Gender",
-    selector: (row: Row) => row.gender,
+    name: "Nomor Telepon",
+    width: '10rem',
+    selector: (row: Row) => row.nohp,
     sortable: true,
   },
   {
     name: "Role",
+    width: '8rem',
     selector: (row: Row) => row.role,
     sortable: true,
   },
   {
     name: "Action",
-    width: "18rem",
+    width: 'max-content',
     center: true,
     cell: (row: Row) => (
-      <div className="grid grid-cols-2 gap-x-1">
-        <button
+      <div className="flex items-center py-2">
+        <Button
           onClick={() => handleEdit(row.id)} // Assuming you have a delete function
-          className="bg-blue-500 px-3 py-1 text-sm rounded-xl text-white hover:underline"
+          className={`mr-2 text-sm font-bold bg-blue-900 text-white rounded-lg`} size="xs"
         >
-          Edit
-        </button>
+          Edit <Icon icon="bx:edit" width={20} className="text-white" />
+        </Button>
 
-        <button
+        <Button
           onClick={() => handleDelete(row.id)} // Assuming you have a delete function
-          className="bg-red-500 px-3 py-1 text-sm rounded-xl text-white hover:underline"
+          className={`text-sm font-bold bg-red-600 text-white rounded-lg`} size="xs"
         >
-          Delete
-        </button>
+          Hapus <Icon icon="uil:trash" width={20} className="text-white" />
+        </Button>
       </div>
     ),
   },
@@ -75,131 +73,38 @@ const columns = [
 const data = [
   {
     id: 1,
-    name: "John Doe",
-    age: 30,
-    gender: "Male",
-    email: "john.doe@example.com",
-    role: "admin",
+    name: "Admin",
+    nohp: "081234567890",
+    email: "Admin@gmail.com",
+    role: "Admin",
   },
   {
     id: 2,
-    name: "Jane Smith",
-    age: 25,
-    gender: "Female",
-    email: "jane.smith@example.com",
-    role: "buyer",
+    name: "Pengguna",
+    nohp: "081234567890",
+    email: "Pengguna@gmail.com",
+    role: "Pembeli",
   },
   {
     id: 3,
-    name: "Michael Johnson",
-    age: 35,
-    gender: "Male",
-    email: "michael.johnson@example.com",
-    role: "buyer",
+    name: "Pengguna",
+    nohp: "081234567890",
+    email: "Pengguna@gmail.com",
+    role: "Pembeli",
   },
   {
     id: 4,
-    name: "Emily Davis",
-    age: 28,
-    gender: "Female",
-    email: "emily.davis@example.com",
-    role: "admin",
+    name: "Pengguna",
+    nohp: "081234567890",
+    email: "Pengguna@gmail.com",
+    role: "Pembeli",
   },
   {
     id: 5,
-    name: "Christopher Brown",
-    age: 32,
-    gender: "Male",
-    email: "christopher.brown@example.com",
-    role: "buyer",
-  },
-  {
-    id: 6,
-    name: "Olivia Wilson",
-    age: 26,
-    gender: "Female",
-    email: "olivia.wilson@example.com",
-    role: "admin",
-  },
-  {
-    id: 7,
-    name: "Daniel Miller",
-    age: 31,
-    gender: "Male",
-    email: "daniel.miller@example.com",
-    role: "buyer",
-  },
-  {
-    id: 8,
-    name: "Sophia Moore",
-    age: 29,
-    gender: "Female",
-    email: "sophia.moore@example.com",
-    role: "admin",
-  },
-  {
-    id: 9,
-    name: "Matthew Taylor",
-    age: 34,
-    gender: "Male",
-    email: "matthew.taylor@example.com",
-    role: "buyer",
-  },
-  {
-    id: 10,
-    name: "Emma Anderson",
-    age: 27,
-    gender: "Female",
-    email: "emma.anderson@example.com",
-    role: "admin",
-  },
-  {
-    id: 11,
-    name: "Christopher Lee",
-    age: 33,
-    gender: "Male",
-    email: "christopher.lee@example.com",
-    role: "buyer",
-  },
-  {
-    id: 12,
-    name: "Ava Garcia",
-    age: 28,
-    gender: "Female",
-    email: "ava.garcia@example.com",
-    role: "admin",
-  },
-  {
-    id: 13,
-    name: "Ethan Hernandez",
-    age: 30,
-    gender: "Male",
-    email: "ethan.hernandez@example.com",
-    role: "buyer",
-  },
-  {
-    id: 14,
-    name: "Mia Martinez",
-    age: 25,
-    gender: "Female",
-    email: "mia.martinez@example.com",
-    role: "admin",
-  },
-  {
-    id: 15,
-    name: "William Brown",
-    age: 29,
-    gender: "Male",
-    email: "william.brown@example.com",
-    role: "buyer",
-  },
-  {
-    id: 16,
-    name: "William Brown",
-    age: 26,
-    gender: "Male",
-    email: "william.brown@example.com",
-    role: "buyer",
+    name: "Pengguna",
+    nohp: "081234567890",
+    email: "Pengguna@gmail.com",
+    role: "Pembeli",
   },
 ];
 
@@ -241,9 +146,9 @@ export const Tablev2: React.FC = () => {
     <div className="w-4/6 mx-auto my-6">
       <div className="border border-gray-300 p-4 rounded-xl">
         <div className="flex justify-between items-center mt-3 mb-10">
-          <button className="px-4 text-sm py-2.5 font-bold bg-blue-600 text-white rounded-lg">
-            Add Account
-          </button>
+          <Button className={`bg-green-700 text-white rounded-lg`} size="sm">
+            Tambah Pengguna <Icon icon="prime:file-import" width={20} className="text-white" />
+          </Button>
           <div>
             <input
               type="text"
@@ -261,6 +166,8 @@ export const Tablev2: React.FC = () => {
           // fixedHeader
           pointerOnHover
           pagination
+          paginationPerPage={5}
+          paginationRowsPerPageOptions={[5, 10, 15, 20]}
         ></DataTable>
       </div>
     </div>
