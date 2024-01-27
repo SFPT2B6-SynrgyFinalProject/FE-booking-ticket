@@ -14,3 +14,4 @@
     h. Silahkan buat pull request ke main dan assign minimal 2 reviewer dan infokan pada grup telegram<br>
     i. Setelah sudah direview, Untuk merge program konfirmasi terlebih dahulu pada grup telegram<br>
 
+"# frontend-8" 
