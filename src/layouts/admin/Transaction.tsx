@@ -62,6 +62,11 @@ const columns = [
     name: "Status",
     selector: (row: Row) => row.status,
     sortable: true,
+    cell: (row: Row) => (
+    <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ring-gray-500/10 ${getStatusBadgeClass(row.status)}`}>
+      {row.status}
+      </span>
+    ),
   },
   {
     name: "Aksi",
@@ -116,6 +121,18 @@ const customStyles = {
   },
 };
 
+function getStatusBadgeClass(status: string): string {
+  switch (status.trim().toLowerCase()) {
+    case "selesai":
+      return "bg-green-50";
+    case "pending":
+      return "bg-yelllow-50";
+    case "canceled":
+      return "bg-red-50";
+    default:
+      return "bg-default"; // Add a default class or handle unknown statuses
+  }
+}
 
 
 const Transaction: React.FC<TableProps> = () => {

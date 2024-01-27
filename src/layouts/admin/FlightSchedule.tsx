@@ -91,10 +91,10 @@ const columns = [
      
     selector: (row: Row) => row.status,
      sortable: true,
-        cell: (row: Row) => (
-      <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ring-gray-500/10 ${getStatusBadgeClass(row.status)}`}>
-        {row.status}
-      </span>
+      cell: (row: Row) => (
+    <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ring-gray-500/10 ${getStatusBadgeClass(row.status)}`}>
+      {row.status}
+    </span>
      ),
   },
   {
@@ -172,9 +172,9 @@ function getStatusBadgeClass(status: string): string {
     case "tiba":
       return "bg-green-50";
     case "pending":
-      return "bg-warning";
+      return "bg-yelllow-50";
     case "delayed":
-      return "bg-danger";
+      return "bg-red-50";
     default:
       return "bg-default"; // Add a default class or handle unknown statuses
   }
