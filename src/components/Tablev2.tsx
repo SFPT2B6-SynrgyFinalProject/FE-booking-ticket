@@ -10,7 +10,7 @@ interface TableProps {
 const Tablev2: React.FC<TableProps> = ({ columns, data, customStyles }) => {
 
   return (
-    <div className="w-full my-8 border border-gray-200 rounded-xl overflow-hidden">
+    <div className="grid grid-cols-1 my-8 border border-gray-200 rounded-md md:rounded-xl overflow-hidden">
       <div className="border-gray-300">
         <DataTable
           columns={columns}
