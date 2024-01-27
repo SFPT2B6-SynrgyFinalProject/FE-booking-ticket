@@ -221,12 +221,12 @@ const User: React.FC<TableProps> = () => {
   }
 
   return (
-    <div className="flex-1 px-8 mt-14">
-      <div className="flex flex-col lg:flex-row justify-between items-center">
-        <Button className={`!bg-green-600 py-[10px] text-white`} size="xs">
+    <div className="flex-1 px-4 mt-8 md:px-8 md:mt-14">
+      <div className="flex flex-col md:flex-row md:justify-between items-center">
+        <Button className={`!bg-green-600 py-[11px] text-white px-[14px] sm:px-[35px] md:px-[24px]`} size="xs">
           Tambah Pengguna <Icon icon="prime:file-import" width={20} />
         </Button>
-        <div>
+        <div className="mt-4 w-full sm:w-fit">
             <InputComponent
               type="text"
               placeholder="Cari..."

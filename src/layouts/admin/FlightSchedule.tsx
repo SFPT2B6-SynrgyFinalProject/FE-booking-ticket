@@ -138,7 +138,7 @@ const data = [
     status: "Tiba ",
   },
   {
-    no: 1,
+    no: 2,
     id: 123456789,
     maskapai: "City Link",
     keberangkatan: "01-01-2023(09.00)",
@@ -196,7 +196,7 @@ const flightSchedule: React.FC<TableProps> = () => {
   }
 
   return (
-    <div className="flex-1 px-8 mt-14 w-full">
+    <div className="flex-1 px-8 mt-14">
       <div className="flex flex-col lg:flex-row justify-between items-center">
         <div className="flex flex-col lg:flex-row gap-4">
           <Button className="!bg-green-600 py-[10px] text-white" size="xs">
