@@ -19,6 +19,15 @@ import Profile from "./pages/buyers/Profile";
 import Data from "./pages/profile/Data";
 import Reset from "./pages/profile/Reset";
 import Search from "./pages/buyers/Search";
+import Dashboard from "./layouts/admin/dashboard";
+import Airport from "./layouts/admin/Airport";
+import OrderAdmin from "./layouts/admin/Order";
+import PromoAdmin from "./layouts/admin/Promo";
+import User from "./layouts/admin/User";
+import Route from "./layouts/admin/Route";
+import Airline from "./layouts/admin/Airline";
+import FlightSchedule from "./layouts/admin/FlightSchedule";
+import Transaction from "./layouts/admin/Transaction";
 
 const router = createBrowserRouter([
   {
@@ -30,41 +39,81 @@ const router = createBrowserRouter([
       },
       {
         path: "/penerbangan",
-        element: <Flight/>
+        element: <Flight />,
       },
       {
         path: "/promo",
-        element: <Promo/>
+        element: <Promo />,
       },
       {
         path: "/pesanan",
-        element: <Order/>
+        element: <Order />,
       },
       {
         path: "/notifikasi",
-        element: <Notification/>
+        element: <Notification />,
       },
       {
         path: "/bantuan",
-        element: <Support/>
+        element: <Support />,
       },
       {
         path: "/unduh-app",
-        element: <DownloadApp/>
+        element: <DownloadApp />,
       },
       {
         path: "/profile",
-        element: <Profile/>,
-        children:[
-        {
-          path: "/profile",
-          element: <Data/>,
-        },
-        {
-          path: "/profile/reset",
-          element: <Reset/>,
-        }
-      ]
+        element: <Profile />,
+        children: [
+          {
+            path: "/profile",
+            element: <Data />,
+          },
+          {
+            path: "/profile/reset",
+            element: <Reset />,
+          },
+        ],
+      },
+      {
+        path: "/search",
+        element: <Search />,
+      },
+      {
+        path: "/admin",
+        element: <Dashboard />,
+      },
+      {
+        path: "/admin/pengguna",
+        element: <User />,
+      },
+      {
+        path: "/admin/bandara",
+        element: <Airport />,
+      },
+      {
+        path: "/admin/rute",
+        element: <Route />,
+      },
+      {
+        path: "/admin/maskapai",
+        element: <Airline />,
+      },
+      {
+        path: "/admin/jadwal-penerbangan",
+        element: <FlightSchedule />,
+      },
+      {
+        path: "/admin/pemesanan",
+        element: <OrderAdmin />,
+      },
+      {
+        path: "/admin/promo",
+        element: <PromoAdmin />,
+      },
+      {
+        path: "/admin/transaksi",
+        element: <Transaction />,
       },
     ],
   },
@@ -95,10 +144,6 @@ const router = createBrowserRouter([
         path: "/email-verification",
         element: <EmailVerification />,
       },
-      {
-        path: "/search",
-        element: <Search />,
-      }
     ],
   },
   {

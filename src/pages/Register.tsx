@@ -203,7 +203,7 @@ export default function Register() {
                     name="email"
                     value={email}
                     onChange={handleChange}
-                    customStyle={`py-[15px] pl-[20px] pr-[20px]`}
+                    customStyle={`py-[18px] pl-[20px] pr-[20px]`}
                     placeholder="Email Address"
                   />
                 </div>
@@ -213,7 +213,7 @@ export default function Register() {
                     id="fullName"
                     name="fullName"
                     value={fullName}
-                    customStyle="py-[15px] pl-[20px] pr-[20px]"
+                    customStyle="py-[18px] pl-[20px] pr-[20px]"
                     onChange={handleChange}
                     placeholder="Full Name"
                   />
@@ -224,7 +224,7 @@ export default function Register() {
                     id="password"
                     name="password"
                     value={password}
-                    customStyle="py-[15px] pl-[20px] pr-[20px]"
+                    customStyle="py-[18px] pl-[20px] pr-[20px]"
                     placeholder="Password"
                     onChange={handleChange}
                     icon={showPassword ? "mingcute:eye-line" : "mingcute:eye-close-line"}
@@ -240,7 +240,7 @@ export default function Register() {
                     value={confirm_password}
                     onChange={validate}
                     placeholder="Confirm Password"
-                    customStyle={`py-[15px] pl-[20px] pr-[20px] ${
+                    customStyle={`py-[18px] pl-[20px] pr-[20px] ${
                       border ? "" : "border-2 border-rose-600"
                     }`}
                     icon={showConfirmPassword ? "mingcute:eye-line" : "mingcute:eye-close-line"}
@@ -256,7 +256,7 @@ export default function Register() {
                     id="tanggalLahir"
                     name="tanggalLahir"
                     value={tanggalLahir}
-                    customStyle="py-[15px] pl-[20px] pr-[20px]"
+                    customStyle="py-[18px] pl-[20px] pr-[20px]"
                     onChange={handleChange}
                     onIconClick={togglePasswordVisibility1}
                     placeholder=""
@@ -268,7 +268,7 @@ export default function Register() {
                     id="gender"
                     value={gender}
                     onChange={handleOnSelect}
-                    className="appearance-none bg-white border rounded-[10px] w-full py-[20px] pr-[20px] text-gray-700 border-[#757575] leading-tight focus:outline-none focus:shadow-outline pl-[20px]"
+                    className="appearance-none bg-white border rounded-[10px] w-full py-[18px] pr-[20px] text-gray-700 border-[#757575] leading-tight focus:outline-none focus:shadow-outline pl-[20px]"
                   >
                     <option disabled={true} value="">
                       -- Choose Gender --

@@ -1,77 +1,64 @@
-import { Stepper } from "../../components/Stepper";
-import { StepperControl } from "../../components/StepperControl";
-import { Booking } from "../../components/steps/Booking";
-import { Payment } from "../../components/steps/Payment";
-import { useState } from "react";
-import { Eticket } from "../../components/steps/Eticket";
-import { StepperContext } from "../../components/context/StepperContext";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import { ContainerPage } from "../../components/common-page/ContainerPage";
+import { Card } from "../../components/Card";
 
-function App() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
-  const [userData, setUserData] = useState<string>("");
-  const [finalData, setFinalData] = useState<string[]>([]);
-  const steps: string[] = ["Pemesanan", "Pembayaran", "E-tiket"];
-
-  const displayStep = (step: number) => {
-    switch (step) {
-      case 1:
-        return <Booking />;
-      case 2:
-        return <Payment />;
-      case 3:
-        return <Eticket />;
-      default:
-        return null;
-    }
-  };
-
-  const handleClick = (direction: "next" | "prev") => {
-    let newStep = currentStep;
-
-    if (direction === "next") {
-      newStep++;
-    } else {
-      newStep--;
-    }
-
-    // check if step is within bounds
-    if (newStep > 0 && newStep <= steps.length) {
-      setCurrentStep(newStep);
-    }
-  };
-
+export default function Order() {
   return (
     <>
       <ContainerPage>
-        <div className="w-3/4 mx-auto mb-20">
-          {/* Stepper */}
-          <Stepper steps={steps} currentStep={currentStep} />
-        </div>
-
-        <div>
-          <div>
-            {/* Display Component */}
-            <div className="pb-8">
-              <StepperContext.Provider
-                value={{
-                  userData,
-                  setUserData,
-                  finalData,
-                  setFinalData,
-                }}
-              >
-                {displayStep(currentStep)}
-              </StepperContext.Provider>
+        <Card customStyle="sm:px-0">
+          <div className="border-b-2 w-full border-gray-500/70 pb-8 mt-2 mb-10">
+            <div className="flex flex-col lg:flex-row items-center justify-between">
+              <h3 className="pl-10 font-bold text-2xl">Pesanan Anda</h3>
+              <h3 className="pl-10 font-bold text-2xl text-primary-bright">
+                Riwayat Pesanan
+              </h3>
             </div>
           </div>
-
-          {/* Navigation Control */}
-          <StepperControl handleClick={handleClick} currentStep={currentStep} steps={steps} />
-        </div>
+          <div className="bg-[#F5F5F5] flex flex-col lg:flex-row items-center border rounded-3xl shadow-xl p-5 mb-5 w-4/5 mx-auto gap-6 lg:gap-14">
+            <figure className="ml-5 mb-14">
+              <Icon icon="tabler:plane" width={24} color="#3355cc" />
+            </figure>
+            <section className="font-semibold text-sm flex flex-col gap-6 lg:gap-6 grow">
+              <p>Order id : 12345678</p>
+              <div className="flex flex-col lg:flex-row">
+                <p>Jakarta</p>
+                <p className="mx-5">
+                  <Icon icon="icons8:arrows-long-right" width={20} />
+                </p>
+                <p>Denpasar</p>
+              </div>
+              <div className="flex flex-col lg:flex-row justify-between">
+                <p className="p-1 rounded-xl bg-primary-light cursor-pointer w-fit self-end lg:self-start text-gray-500">
+                  E-ticket sudah terbit
+                </p>
+                <p className="text-primary-bright">Lihat Disini</p>
+              </div>
+            </section>
+          </div>
+          <div className="bg-[#F5F5F5] flex flex-col lg:flex-row items-center border rounded-3xl shadow-xl p-5 mb-5 w-4/5 mx-auto gap-6 lg:gap-14">
+            <figure className="ml-5 mb-14">
+              <Icon icon="tabler:plane" width={24} color="#3355cc" />
+            </figure>
+            <section className="font-semibold text-sm flex flex-col gap-6 lg:gap-6 grow">
+              <p>Order id : 12345678</p>
+              <div className="flex flex-col lg:flex-row">
+                <p>Jakarta</p>
+                <p className="mx-5">
+                  <Icon icon="icons8:arrows-long-right" width={20} />
+                </p>
+                <p>Denpasar</p>
+              </div>
+              <div className="flex flex-col lg:flex-row justify-between">
+                <p className="p-1 rounded-xl bg-primary-light cursor-pointer w-fit self-end lg:self-start text-gray-500">
+                  E-ticket sudah terbit
+                </p>
+                <p className="text-primary-bright">Lihat Disini</p>
+              </div>
+            </section>
+          </div>
+        </Card>
       </ContainerPage>
     </>
   );
 }
-
-export default App;
