@@ -4,6 +4,7 @@ import Button from "../../components/Button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
 import InputComponent from "../../components/Input";
+import Badge from "../../components/Badges";
 
 interface Row {
   no: number;
@@ -11,7 +12,7 @@ interface Row {
   total: string;
   metode: string;
   tanggal: string;
-  status: string;
+  status: "success" | "fail" |"pending" | "tertunda" | "dibatalkan" |"tepat waktu";
 }
 
 interface TableColumn {
@@ -63,9 +64,8 @@ const columns = [
     selector: (row: Row) => row.status,
     sortable: true,
     cell: (row: Row) => (
-    <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ring-gray-500/10 ${getStatusBadgeClass(row.status)}`}>
-      {row.status}
-      </span>
+      <Badge type={row.status} message={row.status} />
+
     ),
   },
   {
@@ -94,7 +94,7 @@ const data = [
     total: "1200000",
     metode: "COD",
     tanggal: "12-21-2024",
-    status: "Selesai",
+    status: "success",
   },
   {
     no:1,
@@ -102,7 +102,7 @@ const data = [
     total: "1200000",
     metode: "COD",
     tanggal: "12-21-2024",
-    status: "Selesai",
+    status: "dibatalkan",
   },
   
 ];
@@ -121,18 +121,7 @@ const customStyles = {
   },
 };
 
-function getStatusBadgeClass(status: string): string {
-  switch (status.trim().toLowerCase()) {
-    case "selesai":
-      return "bg-green-50";
-    case "pending":
-      return "bg-yelllow-50";
-    case "canceled":
-      return "bg-red-50";
-    default:
-      return "bg-default"; // Add a default class or handle unknown statuses
-  }
-}
+
 
 
 const Transaction: React.FC<TableProps> = () => {
@@ -150,8 +139,8 @@ const Transaction: React.FC<TableProps> = () => {
 
   return (
     <div className="flex-1 px-8 mt-14">
-      <div className="flex flex-col lg:flex-row justify-between items-center">
-        <Button className={`!bg-green-600 py-[10px] text-white`} size="xs">
+      <div className="flex flex-col lg:flex-row justify-between  items-center">
+        <Button className={`!bg-green-600 py-[10px] text-white mb-4`} size="xs">
           Eksport Data Transaksi <Icon icon="prime:file-import" width={20} />
         </Button>
         <div>
