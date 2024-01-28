@@ -144,7 +144,7 @@ const Promo: React.FC<TableProps> = () => {
   return (
     <div className="flex-1 px-8 mt-14">
       <div className="flex flex-col lg:flex-row justify-between items-center">
-        <Button className={`!bg-green-600 py-[10px] text-white`} size="xs">
+        <Button className={`!bg-green-600 py-[10px] text-white mb-4`} size="xs">
           Tambah Promo <Icon icon="prime:file-import" width={20} />
         </Button>
         <div>
