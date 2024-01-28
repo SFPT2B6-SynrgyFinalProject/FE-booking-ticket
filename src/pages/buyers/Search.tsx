@@ -6,7 +6,7 @@ export default function Search() {
   return (
     <>
       <SearchBox />
-      <section>
+      <section className="mb-14">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-[26px] mt-[50px]">
             <SearchFilter />

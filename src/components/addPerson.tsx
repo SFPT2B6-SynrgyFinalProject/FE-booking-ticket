@@ -57,13 +57,13 @@ const HeaderSearchItem: React.FC = () => {
             <input
                 type="text"
                 placeholder="Passenger"
-                className="bg-white border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 !h-[55px] pl-14 rounded-[10px]"
+                className="bg-white border border-gray-400 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 !h-[55px] pl-14 rounded-[10px]"
                 value={`${options.dewasa} Dewasa, ${options.anak} Anak, ${options.bayi} Bayi`}
                 onClick={handlePassanger}
             />
 
             {clickPassenger && (
-                <div className="absolute w-full px-5 py-3 mt-3 bg-white border border-gray-500 shadow-sm rounded-xl z-10">
+                <div className="absolute w-full px-5 py-3 mt-3 bg-white border border-gray-400 shadow-sm rounded-xl z-10">
                     <CounterOption label="dewasa" value={options.dewasa} onIncrement={() => handleOption('dewasa', 'i')} onDecrement={() => handleOption('dewasa', 'd')} />
                     <CounterOption label="anak" value={options.anak} onIncrement={() => handleOption('anak', 'i')} onDecrement={() => handleOption('anak', 'd')} />
                     <CounterOption label="bayi" value={options.bayi} onIncrement={() => handleOption('bayi', 'i')} onDecrement={() => handleOption('bayi', 'd')} />
