@@ -4,6 +4,7 @@ import Button from "../../components/Button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
 import InputComponent from "../../components/Input";
+import Badge from "../../components/Badges";
 
 interface Row {
   no: number;
@@ -15,7 +16,7 @@ interface Row {
   diskon: number;
   jumlahKursi: number;
   kelas: string;
-  status: string;
+  status: "success" | "fail" |"pending" | "tertunda" | "dibatalkan" |"tepat waktu";
 }
 
 interface TableColumn {
@@ -87,14 +88,13 @@ const columns = [
   },
    {
      name: "Status",
-    width: '100px',
+    width: '150px',
      
     selector: (row: Row) => row.status,
      sortable: true,
-      cell: (row: Row) => (
-    <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ring-gray-500/10 ${getStatusBadgeClass(row.status)}`}>
-      {row.status}
-    </span>
+     cell: (row: Row) => (
+        <Badge type={row.status} message={row.status} />
+   
      ),
   },
   {
@@ -102,7 +102,7 @@ const columns = [
     center: "true",
     width: '400px',
     cell: (row: Row) => (
-      <div className="flex items-center gap-x-3 py-2">
+      <div className="flex items-center gap-x-3  py-2">
         <Button
           type="primary-dark" 
           color="primary-dark"  
@@ -135,7 +135,7 @@ const data = [
     diskon: 12000,
     jumlahKursi: 12,
     kelas: "Ekonomi",
-    status: "Tiba ",
+    status: "Tertunda",
   },
   {
     no: 2,
@@ -147,7 +147,7 @@ const data = [
     diskon: 12000,
     jumlahKursi: 12,
     kelas: "Ekonomi",
-    status: "Tiba ",
+    status: "Tepat Waktu",
   },
 ];
 
@@ -167,18 +167,7 @@ const customStyles = {
   
 };
 
-function getStatusBadgeClass(status: string): string {
-  switch (status.trim().toLowerCase()) {
-    case "tiba":
-      return "bg-green-50";
-    case "pending":
-      return "bg-yelllow-50";
-    case "delayed":
-      return "bg-red-50";
-    default:
-      return "bg-default"; // Add a default class or handle unknown statuses
-  }
-}
+
 
 
 const flightSchedule: React.FC<TableProps> = () => {
@@ -198,7 +187,7 @@ const flightSchedule: React.FC<TableProps> = () => {
   return (
     <div className="flex-1 px-8 mt-14">
       <div className="flex flex-col lg:flex-row justify-between items-center">
-        <div className="flex flex-col lg:flex-row gap-4">
+        <div className="flex flex-col lg:flex-row gap-4 mb-4">
           <Button className="!bg-green-600 py-[10px] text-white" size="xs">
             Tambah Jadwal <Icon icon="prime:file-import" width={20} />
           </Button>
