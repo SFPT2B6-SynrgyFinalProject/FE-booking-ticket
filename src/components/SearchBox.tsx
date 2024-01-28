@@ -1,9 +1,5 @@
 import React, { useState, FormEvent } from "react";
-import InputComponent from "./Input";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import gambar1 from "../assets/images/famous-borobudur-temple-mungkid-indonesia.png";
-import gambar2 from "../assets/images/kelingking-beach-sunset-nusa-penida-island-bali-indonesia.png";
-import gambar3 from "../assets/images/temple-gates-lempuyang-luhur-temple-bali-indonesia.png";
 import Select, { components, ControlProps, GroupBase } from "react-select";
 import HeaderSearchItem from "../components/addPerson";
 
@@ -54,11 +50,6 @@ interface SearchBoxProps {}
 const SearchBox: React.FC<SearchBoxProps> = () => {
   const [selectedOption2] = useState(null);
   const [isFocused, setIsFocused] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<string>("round-trip");
-
-  const handleOptionChange = (option: string) => {
-    setSelectedOption((prevOption) => (prevOption === option ? "" : option));
-  };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault(); // Prevents the default form submission behavior
@@ -73,29 +64,7 @@ const SearchBox: React.FC<SearchBoxProps> = () => {
             className="searchbox-container font-outfit rounded-[30px] py-[27px] px-[22px]"
             onSubmit={handleSubmit}
           >
-            <div className="search-controller flex flex-col md:flex-row justify-between">
-              <div className="flex gap-8">
-                <button
-                  onClick={() => handleOptionChange("round-trip")}
-                  className={`p-[10px] border rounded-tr-[1px] rounded-br-[15px] rounded-bl-[4px] rounded-tl-[15px] border-[#757575] text-neutral-900 ${
-                    selectedOption === "round-trip"
-                      ? "bg-primary-normal !text-white"
-                      : ""
-                  }`}
-                >
-                  Round Trip
-                </button>
-                <button
-                  onClick={() => handleOptionChange("one-way")}
-                  className={`p-[10px] border rounded-tr-[1px] rounded-br-[15px] rounded-bl-[4px] rounded-tl-[15px] border-[#757575] text-neutral-900 ${
-                    selectedOption === "one-way"
-                      ? "bg-primary-normal !text-white"
-                      : ""
-                  }`}
-                >
-                  One Way
-                </button>
-              </div>
+            <div className="search-controller flex flex-col md:flex-row justify-end">
               <button
                 type="submit"
                 className="text-white bg-primary-normal max-sm:hidden lg:py-2 px-3 rounded-[10px] mt-4 md:mt-0"
