@@ -42,6 +42,7 @@ const customStyles = {
 
 const Route: React.FC<TableProps> = () => {
   const[judul,setJudul]=useState("Tambah Data Rute")
+  const[deleteId,setDeleteId]=useState("")
   function handleEdit(id: number): void {
     setJudul("Ubah Data Rute")
     setBandaraAsal(data[id-1]["bandara_asal"])
@@ -49,7 +50,8 @@ const Route: React.FC<TableProps> = () => {
     setOpen(true)
   }
   
-  function handleDelete(id: number): void {
+  function handleDelete(id:any): void {
+    setDeleteId(id)
     setJudul("Hapus Data Rute")
     setOpen(true)
   }
@@ -263,6 +265,7 @@ const Route: React.FC<TableProps> = () => {
         )}
 
         <div className="mt-4 flex gap-x-4 justify-center">
+        <input type="hidden" id="hiddenInput" name="hiddenInput" value={deleteId}/>
           <Button
             type="secondary"
             className="border border-gray-300 hover:bg-gray-100 rounded-xl"
