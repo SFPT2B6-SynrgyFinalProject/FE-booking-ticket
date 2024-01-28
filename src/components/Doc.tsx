@@ -3,10 +3,18 @@ import React, { useState } from "react";
 import Button from "./Button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import InputComponent from "./Input";
-import { Tablev2 } from "./Tablev2";
+import Tablev2 from "./Tablev2";
 import { FormModal } from "./FormModal";
 
 const MyComponent: React.FC = () => {
+  interface Row {
+    id: number;
+    name: string;
+    email: string;
+    nohp: string;
+    role: string;
+  }
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   function openModal() {
@@ -16,6 +24,99 @@ const MyComponent: React.FC = () => {
   function closeModal() {
     setIsOpen(false);
   }
+  function handleEdit(id: number): void {
+    console.log(`Editing record with ID ${id}`);
+  }
+
+  function handleDelete(id: number): void {
+    console.log(`Deleting record with ID ${id}`);
+  }
+
+  const columns = [
+    {
+      name: "Name",
+      selector: (row: Row) => row.name,
+      sortable: true,
+    },
+    {
+      name: "Nomor Telepon",
+      selector: (row: Row) => row.nohp,
+      sortable: true,
+    },
+    {
+      name: "Email",
+      selector: (row: Row) => row.email,
+      sortable: true,
+    },
+
+    {
+      name: "Role",
+      selector: (row: Row) => row.role,
+      sortable: true,
+    },
+    {
+      name: "Action",
+      center: true,
+      cell: (row: Row) => (
+        <div className="flex items-center py-2">
+          <Button
+            onClick={() => handleEdit(row.id)}
+            className={`mr-2 text-sm font-bold bg-blue-900 text-white rounded-lg`}
+            size="xs"
+          >
+            Edit
+          </Button>
+          <Button
+            onClick={() => handleDelete(row.id)}
+            className={`text-sm font-bold bg-red-600 text-white rounded-lg`}
+            size="xs"
+          >
+            Hapus
+          </Button>
+        </div>
+      ),
+    },
+  ];
+
+
+
+  const data = [
+    {
+      id: 1,
+      name: "Admin",
+      nohp: "081234567890",
+      email: "Admin@gmail.com",
+      role: "Admin",
+    },
+    {
+      id: 2,
+      name: "Pengguna",
+      nohp: "081234567890",
+      email: "Pengguna@gmail.com",
+      role: "Pembeli",
+    },
+    {
+      id: 3,
+      name: "Pengguna",
+      nohp: "081234567890",
+      email: "Pengguna@gmail.com",
+      role: "Pembeli",
+    },
+    {
+      id: 4,
+      name: "Pengguna",
+      nohp: "081234567890",
+      email: "Pengguna@gmail.com",
+      role: "Pembeli",
+    },
+    {
+      id: 5,
+      name: "Pengguna",
+      nohp: "081234567890",
+      email: "Pengguna@gmail.com",
+      role: "Pembeli",
+    },
+  ];
 
   return (
     <>
@@ -60,7 +161,7 @@ const MyComponent: React.FC = () => {
       </div> */}
 
       <div className="my-10">
-        <Tablev2 />
+        <Tablev2 columns={columns} data={data} />
       </div>
 
       <div className="flex justify-start flex-col px-10 py-8 mt-20">

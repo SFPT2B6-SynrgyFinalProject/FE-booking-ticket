@@ -1,149 +1,154 @@
-
 import InputComponent from "../../components/Input";
 import { useState } from "react";
 import Button from "../../components/Button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useSelector } from "react-redux";
 import { RootState } from "../../config/redux/store";
-import Select,  { components, ControlProps, GroupBase } from 'react-select';
+
 export default function Data() {
-// const [fullName, setFullName] = useState<string>("");
-//   const [gender, setGender]=useState<string>("")
-//   const [email, setEmail]=useState<string>("")
-//   const [tanggalLahir, setTanggalLahir]=useState<string>("")
-//   const [phone, setPhone]=useState<string>("")
-  const [disabled, setDisabled]=useState<boolean>(true)
+  // const [fullName, setFullName] = useState<string>("");
+  //   const [gender, setGender]=useState<string>("")
+  //   const [email, setEmail]=useState<string>("")
+  //   const [tanggalLahir, setTanggalLahir]=useState<string>("")
+  //   const [phone, setPhone]=useState<string>("")
+  const [disabled, setDisabled] = useState<boolean>(true);
   const userData = useSelector((state: RootState) => state.userReducer);
-  const birthDateUser = new Date(userData.birthDate);
+
   // const handleOnSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
   //   const { value } = event.target;
   //   setGender(value);
   // };
-  const off=()=>{
-    setDisabled(false)
-  }
-   const on=()=>{
-    setDisabled(true)
-  }
-//   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-//     const { name, value } = event.target;
-//     switch (name) {
-//       case "fullName":
-//         setFullName(value);
-//         break;
-//       case "tanggalLahir":
-//         setTanggalLahir(value);
-//         break;
-//       case "gender":
-//         setGender(value);
-//         break;
-//       case "email":
-//         setEmail(value);
-//         break;
-//       case "phone":
-//         setPhone(value);
-//         break;
-      
-//   };
-// }
-const options2 = [
-  { value: 'Laki-Laki', label: 'Laki-Laki',  },
-  { value: 'Perempuan', label: 'Perempuan' },
+  const off = () => {
+    setDisabled(false);
+  };
+  const on = () => {
+    setDisabled(true);
+  };
+  //   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //     const { name, value } = event.target;
+  //     switch (name) {
+  //       case "fullName":
+  //         setFullName(value);
+  //         break;
+  //       case "tanggalLahir":
+  //         setTanggalLahir(value);
+  //         break;
+  //       case "gender":
+  //         setGender(value);
+  //         break;
+  //       case "email":
+  //         setEmail(value);
+  //         break;
+  //       case "phone":
+  //         setPhone(value);
+  //         break;
 
-];
+  //   };
+  // }
 
-interface Option {
-  value: string;
-  label: string;
+  return (
+    <div>
+      <div>
+        <div className="flex mb-8 items-center">
+          <h1 className="text-xl md:text-2xl font-bold text-black">Information Account</h1>
+          {disabled ? (
+            <Button
+              type="secondary"
+              color="secondary-normal"
+              onClick={off}
+              className="!py-0 text-base md:text-lg font-semibold"
+            >
+              <Icon icon={"typcn:edit"} /> Edit Profile
+            </Button>
+          ) : (
+            ""
+          )}
+        </div>
+        <h3 className="text-black font-bold text-lg md:text-xl mb-6">Data Pribadi</h3>
+      </div>
+
+      <div>
+        <form>
+          <>
+            <div className="flex flex-col mb-7">
+              <InputComponent
+                type="text"
+                id="fullName"
+                name="fullName"
+                value={userData.fullName ? userData.fullName : ""}
+                // onChange={handleChange}
+                customStyle={`py-[16px] pl-[20px] pr-[20px]`}
+                placeholder="Full Name"
+                disabled={disabled ? true : false}
+              />
+            </div>
+
+            {/* Date of Birth Input */}
+            <div className="flex flex-col mb-7">
+              <InputComponent
+                type="date"
+                id="tanggalLahir"
+                name="tanggalLahir"
+                value={userData.birthDate === null ? "" : userData.birthDate.split("T")[0]}
+                customStyle={`py-[16px] pl-[20px] pr-[20px]`}
+                // onChange={handleChange}
+                placeholder="Tanggal Lahir"
+                disabled={disabled ? true : false}
+              />
+            </div>
+            <div className="flex flex-col mb-7">
+              <select
+                name="gender"
+                id="gender"
+                disabled={disabled ? true : false}
+                value={userData.gender ? userData.gender : ""}
+                // onChange={handleOnSelect}
+                className={`appearance-none bg-white border rounded-[10px] w-full py-[15px] pr-[20px] text-black border-black/60 focus:outline-none focus:shadow-outline pl-[20px] ${
+                  disabled === true ? "!bg-gray-300/80 text-black cursor-not-allowed" : ""
+                }`}
+              >
+                <option disabled={true} value="">
+                  -- Choose Gender --
+                </option>
+                <option value="Laki-laki">Laki-laki</option>
+                <option value="Perempuan">Perempuan</option>
+              </select>
+            </div>
+            <div className="flex flex-col mb-7">
+              <InputComponent
+                type="email"
+                id="email"
+                name="email"
+                value={userData.email ? userData.email : ""}
+                customStyle={`py-[16px] pl-[20px] pr-[20px]`}
+                // onChange={handleChange}
+                placeholder="example@gmail.com"
+                disabled={disabled ? true : false}
+              />
+            </div>
+            <div className="flex flex-col mb-7">
+              <InputComponent
+                type="phone"
+                id="phone"
+                name="phone"
+                value={userData.noHp ? userData.noHp : ""}
+                customStyle={`py-[16px] pl-[20px] pr-[20px]`}
+                // onChange={handleChange}
+                placeholder="Nomor Telepon"
+                disabled={disabled ? true : false}
+              />
+            </div>
+            {disabled ? null : (
+              <div className="flex justify-center sm:justify-end mt-8">
+                <Button className="!px-9 bg-red-600 mr-3 sm:mr-5" onClick={on}>
+                  Batal
+                </Button>
+                <Button className="!px-9">Kirim</Button>
+              </div>
+            )}
+          </>
+        </form>
+      </div>
+    </div>
+  );
 }
-const [selectedOption] = useState(null);
-
-const CustomControl2: React.FC<ControlProps<Option, boolean, GroupBase<Option>>> = ({ children, ...props }) => (
-  <components.Control {...props}>   
-      {children}
-  </components.Control>
-);
-    return (
-       <div className="w-[100%] h-[530px] md:p-10"> 
-        <div className='head inline-flex flex  '>
-        <h1 className=' text-2xl font-bold text-black'>Information Account</h1>
-        {disabled?<Button type='secondary' color="secondary-normal" className="mb-5" onClick={off} ><Icon icon={"typcn:edit"}></Icon>Edit Profile</Button>:""}
-        </div>
-        <div className='body'>
-          <form>
-        <>
-        <div  className="flex flex-col mb-1 mt-5">
-          <InputComponent
-            type="text"
-            id="fullName"
-            name="fullName"
-            value={userData.fullName}
-            // onChange={handleChange}
-            customStyle={`py-[16px] pl-[20px] pr-[20px]`}
-            placeholder="Full Name"
-            disabled={disabled ? true : false}
-          />
-        </div>
-  
-        {/* Date of Birth Input */}
-        <div  className="flex flex-col mb-1 mt-5">
-          <InputComponent
-            type="text"
-            id="tanggalLahir"
-            name="tanggalLahir"
-            value={userData.birthDate === null ? "-" : birthDateUser.toLocaleDateString("id-ID")}
-            customStyle={`py-[16px] pl-[20px] pr-[20px]`}
-            // onChange={handleChange}
-            placeholder=""
-            disabled={disabled ? true : false}
-          />
-        </div>
-        <div  className="flex flex-col mb-1 mt-5">
-        <Select
-        components={{ Control: CustomControl2 }}
-        classNames={{
-        control: () => " py-[10px] pl-[10px] pr-[10px] !bg-white border rounded-[10px] ",
-        }}
-        placeholder="geder"
-        defaultValue={selectedOption}
-        options={options2}
-        isDisabled={disabled ? true : false}
-           />
-
-        </div>
-        <div  className="flex flex-col mb-1 mt-5">
-          <InputComponent
-            type="email"
-            id="email"
-            name="email"
-            value={userData.email}
-            customStyle={`py-[16px] pl-[20px] pr-[20px]`}
-            // onChange={handleChange}
-            placeholder=""
-            disabled={disabled ? true : false}
-          />
-        </div>
-        <div  className="flex flex-col mb-1 mt-5">
-          <InputComponent
-            type="phone"
-            id="phone"
-            name="phone"
-            value={userData.noHp ? userData.noHp : "-"}
-            customStyle={`py-[16px] pl-[20px] pr-[20px]`}
-            // onChange={handleChange}
-            placeholder=""
-            disabled={disabled ? true : false}
-          />
-        </div>
-        {disabled ?null:(
-        <div className="flex mt-4  justify-end mt-8 ">
-          <Button className="bg-rose-800 mr-5 sm:button-sm " onClick={on}>Batal</Button>
-          <Button >Kirim</Button>
-        </div>
-      ) }
-    </>
-      </form>
-        </div>
-        </div>
-    )
-}   
