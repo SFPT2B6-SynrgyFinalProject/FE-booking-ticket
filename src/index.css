@@ -6,8 +6,6 @@ body {
 @tailwind components;
 @tailwind utilities;
 
-@import '@headlessui/react/dist/index.css';
-
 .container {
     @apply mx-auto h-full
 }

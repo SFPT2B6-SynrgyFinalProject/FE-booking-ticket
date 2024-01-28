@@ -53,11 +53,11 @@ const HeaderSearchItem: React.FC = () => {
     };
     return (
         <div className="relative">
-            <Icon icon="mdi:user" width={20} style={{ position: 'absolute', top: '50%', left: '10px', transform: 'translateY(-50%)', color: '#495057' }} />
+            <Icon icon="ic:outline-people" width={24} style={{ position: 'absolute', top: '50%', left: '20px', transform: 'translateY(-50%)' }} />
             <input
                 type="text"
                 placeholder="Passenger"
-                className="bg-white border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pl-10"
+                className="bg-white border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 !h-[55px] pl-14 rounded-[10px]"
                 value={`${options.dewasa} Dewasa, ${options.anak} Anak, ${options.bayi} Bayi`}
                 onClick={handlePassanger}
             />

@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 export default function SearchFilter() {
     return (
         <>
-            <div className="search-filter-container lg:col-span-1 bg-white py-[45px] px-[51px] rounded-[30px]">
+            <div className="search-filter-container lg:col-span-1 bg-white py-[45px] px-[51px] rounded-[30px] h-fit">
                 <header className="flex justify-between">
                     <div className="flex gap-4">
                         <Icon icon="mingcute:filter-line" className="w-[24px] h-[24px] text-neutral-800" />
