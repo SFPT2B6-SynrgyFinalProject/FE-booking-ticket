@@ -38,11 +38,11 @@ export default function PrivateProvider() {
     }
   }, [userToken, dispatch]);
 
-  if (!userToken || userToken === undefined) {
-    if (!publicPaths.includes(location.pathname)) {
-      return <Navigate to="/login" />;
-    }
-  }
+  // if (!userToken || userToken === undefined) {
+  //   if (!publicPaths.includes(location.pathname)) {
+  //     return <Navigate to="/login" />;
+  //   }
+  // }
 
   if (userToken && isLoading) {
     return (
