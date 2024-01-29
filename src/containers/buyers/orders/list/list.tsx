@@ -1,9 +1,13 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { ContainerPage } from "../../components/common-page/ContainerPage";
+import { ContainerPage } from "../../../../components/common-page/ContainerPage";
 import { Link } from "react-router-dom";
-import { Card } from "../../components/Card";
+import { Card } from "../../../../components/Card";
+import useAction from "./list.hooks";
 
 export default function Order() {
+  const { orders } = useAction();
+  console.log(orders);
+
   return (
     <>
       <ContainerPage>

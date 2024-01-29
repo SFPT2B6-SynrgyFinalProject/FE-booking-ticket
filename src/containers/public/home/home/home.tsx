@@ -1,10 +1,14 @@
-import gambarbg from "../assets/images/plane-is-flying-blue-sky.jpg";
-import gambar1 from "../assets/images/famous-borobudur-temple-mungkid-indonesia.webp";
-import gambar2 from "../assets/images/kelingking-beach-sunset-nusa-penida-island-bali-indonesia.webp";
-import gambar3 from "../assets/images/temple-gates-lempuyang-luhur-temple-bali-indonesia.jpg";
-import SearchBox from "../components/SearchBox";
+import gambarbg from "../../../../assets/images/plane-is-flying-blue-sky.jpg";
+import gambar1 from "../../../../assets/images/famous-borobudur-temple-mungkid-indonesia.webp";
+import gambar2 from "../../../../assets/images/kelingking-beach-sunset-nusa-penida-island-bali-indonesia.webp";
+import gambar3 from "../../../../assets/images/temple-gates-lempuyang-luhur-temple-bali-indonesia.jpg";
+import SearchBox from "../../../../components/SearchBox";
+import useAction from "./home.hooks";
 
-export default function DumyHome() {
+export default function Home() {
+  const { homeData } = useAction();
+  console.log(homeData);
+
   return (
     <div>
       <div className="relative">

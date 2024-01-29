@@ -1,22 +1,11 @@
-import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Outlet, useLocation } from "react-router";
-import { useSelector } from "react-redux";
-import { RootState } from "../../config/redux/store";
-import { Card } from "../../components/Card";
-import { ContainerPage } from "../../components/common-page/ContainerPage";
+import { Outlet } from "react-router";
+import { Card } from "../../../../components/Card";
+import { ContainerPage } from "../../../../components/common-page/ContainerPage";
+import useAction from "./list.hooks";
+
 function Profile() {
-  const location = useLocation();
-  const [active, setActive] = useState<number>(1);
-  const userData = useSelector((state: RootState) => state.userReducer);
-  // Update active value based on the current route
-  useEffect(() => {
-    if (location.pathname === "/profile/reset") {
-      setActive(2);
-    } else {
-      setActive(1);
-    }
-  }, [location.pathname]);
+  const { active, profiles } = useAction();
 
   return (
     <ContainerPage>
@@ -29,8 +18,8 @@ function Profile() {
             </div>
 
             <div className="rounded-md font-medium">
-              <h6 className="mb-0.5 text-black">{userData.fullName}</h6>
-              <h6 className="text-sm text-gray-600">{userData.email}</h6>
+              <h6 className="mb-0.5 text-black">{profiles.fullName}</h6>
+              <h6 className="text-sm text-gray-600">{profiles.email}</h6>
             </div>
           </div>
 

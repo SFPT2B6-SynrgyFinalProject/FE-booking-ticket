@@ -1,8 +1,12 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { ContainerPage } from "../../components/common-page/ContainerPage";
-import { Card } from "../../components/Card";
+import { ContainerPage } from "../../../../components/common-page/ContainerPage";
+import { Card } from "../../../../components/Card";
+import useAction from "./list.hooks";
 
 export default function Notification() {
+  const { notifications } = useAction();
+  console.log(notifications);
+
   return (
     <>
       <ContainerPage>
@@ -12,17 +16,10 @@ export default function Notification() {
           </div>
           <div className="bg-[#F5F5F5] flex flex-col lg:flex-row items-center border rounded-3xl shadow-xl p-10 mb-10 w-4/5 mx-auto gap-6 lg:gap-14">
             <figure className="p-2 bg-blue-700 rounded-full">
-              <Icon
-                icon="iconamoon:discount-light"
-                width={70}
-                className="text-white"
-              />
+              <Icon icon="iconamoon:discount-light" width={70} className="text-white" />
             </figure>
             <section className="font-semibold text-sm flex flex-col gap-6 lg:gap-10 grow">
-              <p>
-                Nikmati potongan hingga 80% untuk pembelian tiket pesawat dengan
-                rute berikut!
-              </p>
+              <p>Nikmati potongan hingga 80% untuk pembelian tiket pesawat dengan rute berikut!</p>
               <p className="text-[#7698ff] cursor-pointer w-fit self-end lg:self-start">
                 Lihat Detail
               </p>
@@ -30,17 +27,10 @@ export default function Notification() {
           </div>
           <div className="bg-[#F5F5F5] flex flex-col lg:flex-row items-center border rounded-3xl shadow-xl p-10 mb-10 w-4/5 mx-auto gap-6 lg:gap-14">
             <figure className="p-2 bg-blue-700 rounded-full">
-              <Icon
-                icon="iconamoon:discount-light"
-                width={70}
-                className="text-white"
-              />
+              <Icon icon="iconamoon:discount-light" width={70} className="text-white" />
             </figure>
             <section className="font-semibold text-sm flex flex-col gap-6 lg:gap-10 grow">
-              <p>
-                Nikmati potongan hingga 80% untuk pembelian tiket pesawat dengan
-                rute berikut!
-              </p>
+              <p>Nikmati potongan hingga 80% untuk pembelian tiket pesawat dengan rute berikut!</p>
               <p className="text-[#7698ff] cursor-pointer w-fit self-end lg:self-start">
                 Lihat Detail
               </p>
@@ -48,17 +38,10 @@ export default function Notification() {
           </div>
           <div className="bg-[#F5F5F5] flex flex-col lg:flex-row items-center border rounded-3xl shadow-xl p-10 mb-10 w-4/5 mx-auto gap-6 lg:gap-14">
             <figure className="p-2 bg-blue-700 rounded-full">
-              <Icon
-                icon="iconamoon:discount-light"
-                width={70}
-                className="text-white"
-              />
+              <Icon icon="iconamoon:discount-light" width={70} className="text-white" />
             </figure>
             <section className="font-semibold text-sm flex flex-col gap-6 lg:gap-10 grow">
-              <p>
-                Nikmati potongan hingga 80% untuk pembelian tiket pesawat dengan
-                rute berikut!
-              </p>
+              <p>Nikmati potongan hingga 80% untuk pembelian tiket pesawat dengan rute berikut!</p>
               <p className="text-[#7698ff] cursor-pointer w-fit self-end lg:self-start">
                 Lihat Detail
               </p>
@@ -66,17 +49,10 @@ export default function Notification() {
           </div>
           <div className="bg-[#F5F5F5] flex flex-col lg:flex-row items-center border rounded-3xl shadow-xl p-10 mb-10 w-4/5 mx-auto gap-6 lg:gap-14">
             <figure className="p-2 bg-blue-700 rounded-full">
-              <Icon
-                icon="iconamoon:discount-light"
-                width={70}
-                className="text-white"
-              />
+              <Icon icon="iconamoon:discount-light" width={70} className="text-white" />
             </figure>
             <section className="font-semibold text-sm flex flex-col gap-6 lg:gap-10 grow">
-              <p>
-                Nikmati potongan hingga 80% untuk pembelian tiket pesawat dengan
-                rute berikut!
-              </p>
+              <p>Nikmati potongan hingga 80% untuk pembelian tiket pesawat dengan rute berikut!</p>
               <p className="text-[#7698ff] cursor-pointer w-fit self-end lg:self-start">
                 Lihat Detail
               </p>
