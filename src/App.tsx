@@ -4,7 +4,6 @@ import PublicProvider from "./providers/PublicProvider";
 import MyComponent from "./components/Doc";
 import Dashboard from "./layouts/admin/dashboard";
 import {
-  Home,
   Register,
   Login,
   ForgetPassword,
@@ -13,18 +12,20 @@ import {
   NotFound,
 } from "./pages";
 
+import { Home, Search } from "./pages/public";
+
 import {
   Flight,
   Promo,
-  Order,
   Support,
-  Notification,
   DownloadApp,
-  Search,
-  Profile,
-  Data,
-  Reset,
-  History,
+  // refacor
+  BuyerNotificationsList,
+  BuyerProfileList,
+  BuyerProfileData,
+  BuyerProfileResetPassword,
+  BuyerOrderList,
+  BuyerOrderHistory,
 } from "./pages/buyers";
 
 import {
@@ -56,15 +57,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/pesanan",
-        element: <Order />,
+        element: <BuyerOrderList />,
       },
       {
         path: "/pesanan/riwayat",
-        element: <History />,
+        element: <BuyerOrderHistory />,
       },
       {
         path: "/notifikasi",
-        element: <Notification />,
+        element: <BuyerNotificationsList />,
       },
       {
         path: "/bantuan",
@@ -76,15 +77,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <Profile />,
+        element: <BuyerProfileList />,
         children: [
           {
             path: "/profile",
-            element: <Data />,
+            element: <BuyerProfileData />,
           },
           {
             path: "/profile/reset",
-            element: <Reset />,
+            element: <BuyerProfileResetPassword />,
           },
         ],
       },

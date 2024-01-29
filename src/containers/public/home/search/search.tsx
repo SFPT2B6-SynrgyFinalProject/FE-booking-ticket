@@ -1,10 +1,14 @@
-import SearchBox from "../../components/SearchBox";
-import SearchFilter from "../../components/SearchFilter";
-import SearchResult from "../../components/SearchResult";
+import SearchBox from "../../../../components/SearchBox";
+import SearchFilter from "../../../../components/SearchFilter";
+import SearchResult from "../../../../components/SearchResult";
+import useAction from "./search.hooks";
 
 export default function Search() {
+  const { searchData } = useAction();
+  console.log(searchData);
+
   return (
-    <>
+    <div className="mt-24">
       <SearchBox />
       <section className="mb-14">
         <div className="container">
@@ -14,6 +18,6 @@ export default function Search() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

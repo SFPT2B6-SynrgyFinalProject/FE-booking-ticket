@@ -1,4 +1,5 @@
 import React, { useState, FormEvent } from "react";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Select, { components, ControlProps, GroupBase } from "react-select";
 import HeaderSearchItem from "../components/addPerson";
@@ -52,11 +53,14 @@ interface SearchBoxProps {}
 
 const SearchBox: React.FC<SearchBoxProps> = () => {
   const [selectedOption2] = useState(null);
+  const navigate: NavigateFunction = useNavigate();
   const [isFocused, setIsFocused] = useState(false);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault(); // Prevents the default form submission behavior
     // Your form submission logic goes here
+
+    navigate("/search");
   };
 
   return (

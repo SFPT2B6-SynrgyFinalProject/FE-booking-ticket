@@ -1,50 +1,10 @@
-import InputComponent from "../../../components/Input";
-import { useState } from "react";
-import Button from "../../../components/Button";
+import InputComponent from "../../../../components/Input";
+import Button from "../../../../components/Button";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../config/redux/store";
+import useAction from "./data.hooks";
 
-export default function Data() {
-  // const [fullName, setFullName] = useState<string>("");
-  //   const [gender, setGender]=useState<string>("")
-  //   const [email, setEmail]=useState<string>("")
-  //   const [tanggalLahir, setTanggalLahir]=useState<string>("")
-  //   const [phone, setPhone]=useState<string>("")
-  const [disabled, setDisabled] = useState<boolean>(true);
-  const userData = useSelector((state: RootState) => state.userReducer);
-
-  // const handleOnSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const { value } = event.target;
-  //   setGender(value);
-  // };
-  const off = () => {
-    setDisabled(false);
-  };
-  const on = () => {
-    setDisabled(true);
-  };
-  //   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //     const { name, value } = event.target;
-  //     switch (name) {
-  //       case "fullName":
-  //         setFullName(value);
-  //         break;
-  //       case "tanggalLahir":
-  //         setTanggalLahir(value);
-  //         break;
-  //       case "gender":
-  //         setGender(value);
-  //         break;
-  //       case "email":
-  //         setEmail(value);
-  //         break;
-  //       case "phone":
-  //         setPhone(value);
-  //         break;
-
-  //   };
-  // }
+export default function ProfileData() {
+  const { disabled, profileData, on, off, handleSubmit } = useAction();
 
   return (
     <div>
@@ -68,14 +28,14 @@ export default function Data() {
       </div>
 
       <div>
-        <form>
+        <form onSubmit={handleSubmit}>
           <>
             <div className="flex flex-col mb-7">
               <InputComponent
                 type="text"
                 id="fullName"
                 name="fullName"
-                value={userData.fullName ? userData.fullName : ""}
+                value={profileData.fullName ? profileData.fullName : ""}
                 // onChange={handleChange}
                 customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                 placeholder="Full Name"
@@ -89,7 +49,7 @@ export default function Data() {
                 type="date"
                 id="tanggalLahir"
                 name="tanggalLahir"
-                value={userData.birthDate === null ? "" : userData.birthDate.split("T")[0]}
+                value={profileData.birthDate === null ? "" : profileData.birthDate.split("T")[0]}
                 customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                 // onChange={handleChange}
                 placeholder="Tanggal Lahir"
@@ -101,7 +61,7 @@ export default function Data() {
                 name="gender"
                 id="gender"
                 disabled={disabled ? true : false}
-                value={userData.gender ? userData.gender : ""}
+                value={profileData.gender ? profileData.gender : ""}
                 // onChange={handleOnSelect}
                 className={`appearance-none bg-white border rounded-[10px] w-full py-[15px] pr-[20px] text-black border-black/60 focus:outline-none focus:shadow-outline pl-[20px] ${
                   disabled === true ? "!bg-gray-300/80 text-black cursor-not-allowed" : ""
@@ -119,7 +79,7 @@ export default function Data() {
                 type="email"
                 id="email"
                 name="email"
-                value={userData.email ? userData.email : ""}
+                value={profileData.email ? profileData.email : ""}
                 customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                 // onChange={handleChange}
                 placeholder="example@gmail.com"
@@ -131,7 +91,7 @@ export default function Data() {
                 type="phone"
                 id="phone"
                 name="phone"
-                value={userData.noHp ? userData.noHp : ""}
+                value={profileData.noHp ? profileData.noHp : ""}
                 customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                 // onChange={handleChange}
                 placeholder="Nomor Telepon"

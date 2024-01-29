@@ -1,9 +1,13 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { ContainerPage } from "../../../components/common-page/ContainerPage";
-import { Card } from "../../../components/Card";
-import Button from "../../../components/Button";
+import { ContainerPage } from "../../../../components/common-page/ContainerPage";
+import { Card } from "../../../../components/Card";
+import Button from "../../../../components/Button";
+import useAction from "./history.hooks";
 
 export default function History() {
+  const { orderHistory } = useAction();
+  console.log(orderHistory);
+
   return (
     <>
       <ContainerPage>
