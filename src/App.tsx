@@ -1,33 +1,41 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
 import PrivateProvider from "./providers/PrivateProvider";
 import PublicProvider from "./providers/PublicProvider";
-import NotFound from "./pages/NotFound";
 import MyComponent from "./components/Doc";
-import ForgetPassword from "./pages/ForgetPassword";
-import ResetPassword from "./pages/ResetPassword";
-import EmailVerification from "./pages/EmailVerification";
-import Notification from "./pages/buyers/Notification";
-import Flight from "./pages/buyers/Flight";
-import Promo from "./pages/buyers/Promo";
-import Order from "./pages/buyers/Order";
-import Support from "./pages/buyers/Support";
-import DownloadApp from "./pages/buyers/DownloadApp";
-import Profile from "./pages/buyers/Profile";
-import Data from "./pages/profile/Data";
-import Reset from "./pages/profile/Reset";
-import Search from "./pages/buyers/Search";
 import Dashboard from "./layouts/admin/dashboard";
-import Airport from "./layouts/admin/Airport";
-import OrderAdmin from "./layouts/admin/Order";
-import PromoAdmin from "./layouts/admin/Promo";
-import User from "./layouts/admin/User";
-import Route from "./layouts/admin/Route";
-import Airline from "./layouts/admin/Airline";
-import FlightSchedule from "./layouts/admin/FlightSchedule";
-import Transaction from "./layouts/admin/Transaction";
+import {
+  Home,
+  Register,
+  Login,
+  ForgetPassword,
+  ResetPassword,
+  EmailVerification,
+  NotFound,
+} from "./pages";
+
+import {
+  Flight,
+  Promo,
+  Order,
+  Support,
+  Notification,
+  DownloadApp,
+  Search,
+  Profile,
+  Data,
+  Reset,
+} from "./pages/buyers";
+
+import {
+  UsersList,
+  RoutesList,
+  AirLinesList,
+  TransactionsList,
+  PromosList,
+  FlightSchedulesList,
+  OrdersList,
+  AirportsList,
+} from "./pages/admin";
 
 const router = createBrowserRouter([
   {
@@ -85,35 +93,35 @@ const router = createBrowserRouter([
       },
       {
         path: "/admin/pengguna",
-        element: <User />,
+        element: <UsersList />,
       },
       {
         path: "/admin/bandara",
-        element: <Airport />,
+        element: <AirportsList />,
       },
       {
         path: "/admin/rute",
-        element: <Route />,
+        element: <RoutesList />,
       },
       {
         path: "/admin/maskapai",
-        element: <Airline />,
+        element: <AirLinesList />,
       },
       {
         path: "/admin/jadwal-penerbangan",
-        element: <FlightSchedule />,
+        element: <FlightSchedulesList />,
       },
       {
         path: "/admin/pemesanan",
-        element: <OrderAdmin />,
+        element: <OrdersList />,
       },
       {
         path: "/admin/promo",
-        element: <PromoAdmin />,
+        element: <PromosList />,
       },
       {
         path: "/admin/transaksi",
-        element: <Transaction />,
+        element: <TransactionsList />,
       },
     ],
   },
