@@ -1,5 +1,6 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { ContainerPage } from "../../components/common-page/ContainerPage";
+import { Link } from "react-router-dom";
 import { Card } from "../../components/Card";
 
 export default function Order() {
@@ -32,7 +33,9 @@ export default function Order() {
                 <p className="p-1 rounded-xl bg-primary-light cursor-pointer w-fit self-end lg:self-start text-gray-500">
                   E-ticket sudah terbit
                 </p>
-                <p className="text-primary-bright">Lihat Disini</p>
+                <Link to="../order/Riwayat" className="text-primary-bright">
+                  Lihat Disini
+                </Link>
               </div>
             </section>
           </div>
@@ -53,7 +56,9 @@ export default function Order() {
                 <p className="p-1 rounded-xl bg-primary-light cursor-pointer w-fit self-end lg:self-start text-gray-500">
                   E-ticket sudah terbit
                 </p>
-                <p className="text-primary-bright">Lihat Disini</p>
+                <Link to="../order/Riwayat" className="text-primary-bright">
+                  Lihat Disini
+                </Link>
               </div>
             </section>
           </div>
