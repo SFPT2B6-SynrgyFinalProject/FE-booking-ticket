@@ -11,9 +11,7 @@ export default function Order() {
           <div className="border-b-2 w-full border-gray-500/70 pb-8 mt-2 mb-10">
             <div className="flex flex-col lg:flex-row items-center justify-between">
               <h3 className="pl-10 font-bold text-2xl">Pesanan Anda</h3>
-              <h3 className="pl-10 font-bold text-2xl text-primary-bright">
-                Riwayat Pesanan
-              </h3>
+              <h3 className="pl-10 font-bold text-2xl text-primary-bright">Riwayat Pesanan</h3>
             </div>
           </div>
           <div className="bg-[#F5F5F5] flex flex-col lg:flex-row items-center border rounded-3xl shadow-xl p-5 mb-5 w-4/5 mx-auto gap-6 lg:gap-14">
@@ -33,7 +31,7 @@ export default function Order() {
                 <p className="p-1 rounded-xl bg-primary-light cursor-pointer w-fit self-end lg:self-start text-gray-500">
                   E-ticket sudah terbit
                 </p>
-                <Link to="../order/Riwayat" className="text-primary-bright">
+                <Link to="/pesanan/riwayat" className="text-primary-bright">
                   Lihat Disini
                 </Link>
               </div>
@@ -56,7 +54,7 @@ export default function Order() {
                 <p className="p-1 rounded-xl bg-primary-light cursor-pointer w-fit self-end lg:self-start text-gray-500">
                   E-ticket sudah terbit
                 </p>
-                <Link to="../order/Riwayat" className="text-primary-bright">
+                <Link to="/pesanan/riwayat" className="text-primary-bright">
                   Lihat Disini
                 </Link>
               </div>
