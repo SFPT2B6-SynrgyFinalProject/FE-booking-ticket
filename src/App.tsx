@@ -24,6 +24,7 @@ import {
   Profile,
   Data,
   Reset,
+  History,
 } from "./pages/buyers";
 
 import {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: "/pesanan",
         element: <Order />,
+      },
+      {
+        path: "/pesanan/riwayat",
+        element: <History />,
       },
       {
         path: "/notifikasi",
