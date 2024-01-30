@@ -1,9 +1,10 @@
 import React from "react";
-import OrderSuccess from "../../assets/images/order-success.png";
+import OrderSuccess from "../../../../../assets/images/order-success.png";
 
 interface EticketProps {}
 
 export const Eticket: React.FC<EticketProps> = () => {
+  console.log("Cieee oke nihh yehh!");
   return (
     <>
       <div className="flex flex-col items-center justify-center bg-white lg:pt-12 lg:pb-0 ">
