@@ -15,7 +15,7 @@ import {
 import { Home, Search } from "./pages/public";
 
 import {
-  Flight,
+  // Flight,
   Promo,
   Support,
   DownloadApp,
@@ -26,6 +26,7 @@ import {
   BuyerProfileResetPassword,
   BuyerOrderList,
   BuyerOrderHistory,
+  BuyerFlightOrder,
 } from "./pages/buyers";
 
 import {
@@ -49,7 +50,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/penerbangan",
-        element: <Flight />,
+        element: <BuyerFlightOrder />,
       },
       {
         path: "/promo",
