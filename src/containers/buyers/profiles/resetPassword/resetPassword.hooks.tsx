@@ -26,7 +26,6 @@ export default function useResetPassword() {
     const { name, value } = event.target;
     switch (name) {
       case "confirmPassword":
-      
         setConfirmPassword(value);
         break;
       case "newPassword":
@@ -55,6 +54,9 @@ export default function useResetPassword() {
     }
     else{
     setStatus("password sukses diubah"); 
+    setConfirmPassword("");
+    setCurrentPassword("");
+    setNewPassword("");
     }
    }
   return {
