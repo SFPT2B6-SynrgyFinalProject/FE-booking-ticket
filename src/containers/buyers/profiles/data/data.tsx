@@ -2,12 +2,25 @@ import InputComponent from "../../../../components/Input";
 import Button from "../../../../components/Button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import useAction from "./data.hooks";
+import Alert from "../../../../components/Alert";
 
 export default function ProfileData() {
-  const { disabled, profileData, on, off, handleSubmit } = useAction();
+  const { disabled, on, off, handleSubmit , fullName,
+    gender,
+    handleChange,
+    email,
+    noHp,
+    status,
+    handleOnSelect,
+    birthDate} = useAction();
 
   return (
     <div>
+        {
+    status !== "" ? (
+        status === "data gagal diubah" ? <Alert type="fail" message={status} /> : <Alert type="success" message={status} />
+     ) : null
+    }
       <div>
         <div className="flex mb-8 items-center">
           <h1 className="text-xl md:text-2xl font-bold text-black">Information Account</h1>
@@ -35,8 +48,8 @@ export default function ProfileData() {
                 type="text"
                 id="fullName"
                 name="fullName"
-                value={profileData.fullName ? profileData.fullName : ""}
-                // onChange={handleChange}
+                value={fullName ? fullName : ""}
+                 onChange={handleChange}
                 customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                 placeholder="Full Name"
                 disabled={disabled ? true : false}
@@ -49,9 +62,9 @@ export default function ProfileData() {
                 type="date"
                 id="tanggalLahir"
                 name="tanggalLahir"
-                value={profileData.birthDate === null ? "" : profileData.birthDate.split("T")[0]}
+                value={birthDate === null ? "" : birthDate.split("T")[0]}
                 customStyle={`py-[16px] pl-[20px] pr-[20px]`}
-                // onChange={handleChange}
+                 onChange={handleChange}
                 placeholder="Tanggal Lahir"
                 disabled={disabled ? true : false}
               />
@@ -61,8 +74,8 @@ export default function ProfileData() {
                 name="gender"
                 id="gender"
                 disabled={disabled ? true : false}
-                value={profileData.gender ? profileData.gender : ""}
-                // onChange={handleOnSelect}
+                value={gender ? gender : ""}
+                onChange={handleOnSelect}
                 className={`appearance-none bg-white border rounded-[10px] w-full py-[15px] pr-[20px] text-black border-black/60 focus:outline-none focus:shadow-outline pl-[20px] ${
                   disabled === true ? "!bg-gray-300/80 text-black cursor-not-allowed" : ""
                 }`}
@@ -79,9 +92,9 @@ export default function ProfileData() {
                 type="email"
                 id="email"
                 name="email"
-                value={profileData.email ? profileData.email : ""}
+                value={email ? email : ""}
                 customStyle={`py-[16px] pl-[20px] pr-[20px]`}
-                // onChange={handleChange}
+                 onChange={handleChange}
                 placeholder="example@gmail.com"
                 disabled={disabled ? true : false}
               />
@@ -89,11 +102,11 @@ export default function ProfileData() {
             <div className="flex flex-col mb-7">
               <InputComponent
                 type="phone"
-                id="phone"
-                name="phone"
-                value={profileData.noHp ? profileData.noHp : ""}
+                id="noHp"
+                name="noHp"
+                value={noHp ? noHp : ""}
                 customStyle={`py-[16px] pl-[20px] pr-[20px]`}
-                // onChange={handleChange}
+                onChange={handleChange}
                 placeholder="Nomor Telepon"
                 disabled={disabled ? true : false}
               />

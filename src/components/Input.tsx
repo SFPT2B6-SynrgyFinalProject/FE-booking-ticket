@@ -9,10 +9,12 @@ interface InputProps {
   icon?: string;
   id?: string;
   name?: string;
+  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void; // Define onFocus event handler
   value?: string | number;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onIconClick?: () => void;
-  iconPosition?: "left" | "right"; // The icon position
+  iconPosition?: "left" | "right";
 }
 
 const InputComponent: React.FC<InputProps> = ({
@@ -24,6 +26,7 @@ const InputComponent: React.FC<InputProps> = ({
   id,
   name,
   value,
+  onFocus=()=>{},
   onChange = () => {},
   onIconClick = () => {},
   iconPosition = "right",
@@ -51,6 +54,7 @@ const InputComponent: React.FC<InputProps> = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        onFocus={onFocus}
         disabled={disabled}
         className={`${
           customStyle ? customStyle : "py-[20px] pr-[27px]"
