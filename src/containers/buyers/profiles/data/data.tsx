@@ -96,7 +96,7 @@ export default function ProfileData() {
                 customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                  onChange={handleChange}
                 placeholder="example@gmail.com"
-                disabled={disabled ? true : false}
+                disabled={true}
               />
             </div>
             <div className="flex flex-col mb-7">
