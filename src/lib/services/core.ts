@@ -6,12 +6,17 @@ export type FetchOption = {
 };
 const API_URL: string = import.meta.env.VITE_API_URL;
 
-export async function fetchInstance({ method, endpoint, data, authToken }: FetchOption) {
+export async function fetchInstance({
+  method,
+  endpoint,
+  data,
+  authToken,
+}: FetchOption) {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
   if (authToken) {
-    headers["Authorization"] = `Bearer ${authToken}`
+    headers["Authorization"] = `Bearer ${authToken}`;
   }
   const response = await fetch(API_URL + endpoint, {
     method: method,
