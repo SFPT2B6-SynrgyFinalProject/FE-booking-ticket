@@ -4,6 +4,7 @@ import { Card } from "../../../../components/Card";
 import { ContainerPage } from "../../../../components/common-page/ContainerPage";
 import useAction from "./list.hooks";
 
+
 function Profile() {
   const { active, profiles } = useAction();
 
@@ -51,6 +52,7 @@ function Profile() {
 
         {/* Information Account Section */}
         <Card customStyle="w-full">
+        
           <Outlet></Outlet>
         </Card>
       </div>

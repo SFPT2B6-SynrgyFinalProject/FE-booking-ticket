@@ -60,25 +60,20 @@ export default function Login() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
     event.preventDefault();
-
     try {
       const payload: LoginRequestBody = {
         email,
         password,
       };
-
       const fetchResult = await loginUser(payload);
-
       if (fetchResult.status === "fail" || fetchResult.status === "error") {
         const errorMessages = Object.values(fetchResult.data).map(
           (value) => value
         );
         throw new Error(errorMessages.join("\n"));
       }
-
       localStorage.setItem("user_access_token", fetchResult.data.token);
       localStorage.setItem("user_role", fetchResult.data.roles[0]);
-
       setAlert({
         type: "success",
         data: {},
