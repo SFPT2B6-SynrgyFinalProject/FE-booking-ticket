@@ -8,7 +8,32 @@ import { IOrders } from "../orders.types";
 
 export default function Order() {
   const [status, setStatus] = useState<"COMPLETED" | "ONGOING">("ONGOING");
-  const [data, setData] = useState<IOrders[]>([1, 2, 3, 4, 5]);
+  const [data, setData] = useState<IOrders[]>([
+    1, 2, 3, 4, 5,
+    // {
+    //   orderId: "3123123",
+    //   departure: {
+    //     dateTime: "",
+    //     airportId: 0,
+    //     airportName: "",
+    //     city: "",
+    //   },
+    //   airline: {
+    //     name: "",
+    //     iconUrl: "",
+    //     airlineId: 0,
+    //   },
+    //   arrival: {
+    //     airportId: 0,
+    //     airportName: "",
+    //     dateTime: "",
+    //     city: "",
+    //   },
+    //   flightCode: "",
+    //   paymentStatus: "",
+    //   totalPassengers: 0,
+    // },
+  ]);
 
   async function get() {
     setStatus(status);
