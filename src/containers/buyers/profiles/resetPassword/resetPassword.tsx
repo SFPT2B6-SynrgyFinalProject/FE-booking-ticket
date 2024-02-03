@@ -10,7 +10,6 @@ const ProfileResetPassword = () => {
     confirmPassword,
     showPassword,
     showPassword2,
-
     showConfirmPassword,
     togglePasswordVisibility,
     togglePasswordVisibility2,

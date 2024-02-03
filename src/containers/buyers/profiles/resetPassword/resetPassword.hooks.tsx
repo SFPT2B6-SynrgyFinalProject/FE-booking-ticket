@@ -70,7 +70,7 @@ export default function useResetPassword() {
     togglePasswordVisibility2,
     toggleConfirmPasswordVisibility,
     handleChange,
- 
+    close,
     status,
     handleSubmit,
   };

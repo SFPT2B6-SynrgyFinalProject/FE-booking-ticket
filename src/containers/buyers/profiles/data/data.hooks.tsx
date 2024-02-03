@@ -79,6 +79,7 @@ export default function useData() {
     birthDate,
     on,
     off,
+    close,
     handleSubmit,
   };
 }
