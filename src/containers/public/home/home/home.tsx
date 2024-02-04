@@ -2,33 +2,24 @@ import gambarbg from "../../../../assets/images/plane-is-flying-blue-sky.jpg";
 import gambar1 from "../../../../assets/images/famous-borobudur-temple-mungkid-indonesia.webp";
 import gambar2 from "../../../../assets/images/kelingking-beach-sunset-nusa-penida-island-bali-indonesia.webp";
 import gambar3 from "../../../../assets/images/temple-gates-lempuyang-luhur-temple-bali-indonesia.jpg";
-import SearchBox from "../../../../components/SearchBox";
-import useAction from "./home.hooks";
+// import useAction from "./home.hooks";
 
 export default function Home() {
-  const { homeData } = useAction();
-  console.log(homeData);
-
   return (
     <div>
-      <div className="relative">
-        <div
-          className="w-full h-[25rem] bg-center bg-cover"
-          style={{
-            backgroundImage: `url(${gambarbg})`,
-          }}
-        >
-          <div className="flex justify-center w-full h-full bg-gray-800/40">
-            <div className="container text-center">
-              <p className="pt-28 text-white text-center font-outfit text-4xl leading-10 tracking-tight">
-                Let's Start Booking Your Tickets and Soar to Your Dream Destinations!
-              </p>
-            </div>
+      <div
+        className="w-full h-[25rem] bg-center bg-cover"
+        style={{
+          backgroundImage: `url(${gambarbg})`,
+        }}
+      >
+        <div className="flex justify-center w-full h-full bg-gray-800/40">
+          <div className="container text-center">
+            <p className="pt-28 text-white text-center font-outfit text-4xl leading-10 tracking-tight">
+              Let's Start Booking Your Tickets and Soar to Your Dream
+              Destinations!
+            </p>
           </div>
-        </div>
-
-        <div className="absolute -bottom-48 md:-bottom-28 left-0 right-0">
-          <SearchBox />
         </div>
       </div>
 
@@ -66,3 +57,4 @@ export default function Home() {
     </div>
   );
 }
+
