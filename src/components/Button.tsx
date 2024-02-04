@@ -5,8 +5,9 @@ import { IconifyIcon } from "@iconify/react/dist/offline";
 
 interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type"> {
   children: ReactNode;
-  type?: "primary" | "secondary" | "tertiary" | "text" | "primary-dark";
+  type?: "primary" | "secondary" | "tertiary" | "text" | "primary-dark" | "danger";
   color?:
+  | "danger"
   | "primary-normal"
   | "primary-dark"
   | "primary-bright"
@@ -57,6 +58,7 @@ const Button: React.FC<ButtonProps> = ({
   };
 
   const colorClasses = {
+    "danger":"bg-[#CB3A31] text-white",
     "primary-normal": "bg-primary-normal text-white",
     "primary-dark": "bg-primary-dark text-white hover:bg-blue-800",
     "primary-bright": "bg-primary-bright text-white",
@@ -90,6 +92,7 @@ const Button: React.FC<ButtonProps> = ({
   };
 
   const typeClasses = {
+    danger:"bg-[#CB3A31] text-white",
     primary: "bg-primary-normal text-white",
     "primary-dark": "bg-primary-dark text-white",
     secondary: "bg-white text-primary-normal",

@@ -9,6 +9,8 @@ interface InputProps {
   icon?: string;
   id?: string;
   name?: string;
+  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void; // Define onFocus event handler
   value?: string | number;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onIconClick?: () => void;
@@ -26,6 +28,7 @@ const InputComponent: React.FC<InputProps> = ({
   name,
   value,
   required,
+  onFocus = () => {},
   onChange = () => {},
   onIconClick = () => {},
   iconPosition = "right",
@@ -53,6 +56,7 @@ const InputComponent: React.FC<InputProps> = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        onFocus={onFocus}
         disabled={disabled}
         required={required}
         className={`${

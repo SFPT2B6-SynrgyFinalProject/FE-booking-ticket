@@ -25,6 +25,7 @@ export default function Register() {
   const [border, setBorder] = useState<boolean>(true);
   const navigate: NavigateFunction = useNavigate();
   const [alert, setAlert] = useState<IAlert | null>(null);
+  const [clickTanggal, setClickTanggal] = useState<boolean>(false);
 
   useEffect(() => {
     if (alert !== null) {
@@ -251,16 +252,20 @@ export default function Register() {
                 </div>
 
                 <div className="flex flex-col mb-5">
-                  <InputComponent
-                    type="date"
-                    id="tanggalLahir"
-                    name="tanggalLahir"
-                    value={tanggalLahir}
-                    customStyle="py-[18px] pl-[20px] pr-[20px]"
-                    onChange={handleChange}
-                    onIconClick={togglePasswordVisibility1}
-                    placeholder=""
-                  />
+
+<InputComponent
+  type={clickTanggal ? "date" : "text"}
+  id="tanggalLahir"
+  name="tanggalLahir"
+  value={tanggalLahir}
+  customStyle="py-[18px] pl-[20px] pr-[20px]"
+  onChange={handleChange}
+  onFocus={() => setClickTanggal(true)} // Toggle clickTanggal to true when the input is focused
+  onBlur={() => setClickTanggal(false)} // Toggle clickTanggal to false when the input loses focus
+  placeholder="Tanggal Lahir"
+/>
+
+                 
                 </div>
                 <div className="flex flex-col mb-7">
                   <select
