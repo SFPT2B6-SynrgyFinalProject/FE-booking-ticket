@@ -8,12 +8,14 @@ import { UserToken, userData } from "../lib/services/userLogin";
 import { setUserData } from "../config/redux/action";
 import { useUserRole, useUserToken } from "../lib/services/auth";
 import Sidebar from "../components/Sidebar";
+import SearchBox from "../components/SearchBox";
 
 export default function PrivateProvider() {
   const userToken = useUserToken();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const location: Location = useLocation();
   const publicPaths: string[] = ["/", "/search", "/bantuan", "/unduh-app"];
+  const searchBoxIncludes: string[] = ["/", "/search"];
   const dispatch = useDispatch<AppDispatch>();
   const userRole = useUserRole();
   useEffect(() => {
@@ -66,6 +68,17 @@ export default function PrivateProvider() {
     <>
       <div className="flex flex-col h-full relative">
         <Navbar />
+        {searchBoxIncludes.includes(location.pathname) ? (
+          <>
+            <div
+              className={`absolute left-0 right-0 z-[5] ${
+                location.pathname === "/search" ? "top-44" : "top-28 md:top-96"
+              }`}
+            >
+              <SearchBox />
+            </div>
+          </>
+        ) : null}
         <main className={`${userRole === "ROLE_ADMIN" ? "flex w-full" : ""}`}>
           {userRole !== "ROLE_ADMIN" ? (
             <>

@@ -1,8 +1,12 @@
 export interface ISearch {
-  from: string;
-  to: string;
-  class: string;
+  from: string | undefined;
+  to: string | undefined;
+  class: string | number;
   depatureDate: string;
   depatureArrival: string;
-  person: string;
+  person: {
+    adult: number;
+    child: number;
+    infant: number;
+  };
 }
