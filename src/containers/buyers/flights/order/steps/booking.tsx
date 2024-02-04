@@ -1,112 +1,103 @@
-import React, { ChangeEvent } from "react";
+// import { StepperControl } from "./stepperControl";
+import { Switch } from "@headlessui/react";
 import InputComponent from "../../../../../components/Input";
 import { Card } from "../../../../../components/Card";
-import { IFlightData } from "../../flights.types";
+import { InputRadioComponent } from "../../../../../components/InputRadio";
 import useAction from "./booking.hooks";
+import Alert from "../../../../../components/Alert";
+import Button from "../../../../../components/Button";
 
-interface BookingProps {
-  formFlightData: IFlightData;
-  setFormFlightData: React.Dispatch<React.SetStateAction<IFlightData>>;
-}
+export const Booking = () => {
+  const {
+    flightOrderData,
+    flightData,
+    enabled,
+    setEnabled,
+    isLoading,
+    handleChange,
+    handleSubmitFlightOrder,
+    alert,
+  } = useAction();
 
-export const Booking: React.FC<BookingProps> = ({ formFlightData, setFormFlightData }) => {
-  const { flightOrderData } = useAction();
-
-  const adultLength = flightOrderData.passengerDetails.adult.length;
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value, checked } = e.target;
-
-    if ((name === "call" && checked) || (name === "call1" && checked)) {
-      setFormFlightData({ ...formFlightData, [name]: e.target.id });
-    } else {
-      setFormFlightData({ ...formFlightData, [name]: value });
-    }
-  };
-
-  // flightOrderData.passengerDetails.adult.map((passenger, index, adultLength) => {
-  // console.log(index);
-  //   console.log(adultLength.length);
-  // });
-
-  // console.log(adultLength);
-  // console.log(formFlightData);
-  // console.log(flightOrderData.passengerDetails);
+  const { passengerDetails } = flightOrderData;
 
   return (
     <>
-      {/* <form onSubmit={handleSubmitFlightOrder}> */}
-      <form>
+      {alert && (
+        <div>
+          {alert.type === "success" && (
+            <Alert message={alert.message} type="success" customStyle="fixed" />
+          )}
+          {alert.type === "fail" && (
+            <Alert message={Object.values(alert.data).join("\n")} type="fail" customStyle="fixed" />
+          )}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmitFlightOrder}>
         <Card title="Detail Pemesan" customStyle="md:pt-10">
           <div className="grid grid-cols-1 gap-x-0 lg:grid-cols-2 lg:gap-x-20">
             <div className="flex flex-col mb-7">
               <InputComponent
                 type="text"
-                id="name"
-                name="name"
+                id="fullName"
+                name="fullName"
                 customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                 onChange={handleChange}
-                value={formFlightData["name"] || ""}
+                value={flightData.fullName || ""}
                 placeholder="Nama Lengkap"
+                required
               />
             </div>
 
             <div className="flex items-center mb-7">
               <div className="flex items-center mr-3 sm:mr-10">
-                <input
-                  type="radio"
-                  name="call"
+                <InputRadioComponent
                   id="Tuan"
-                  className="w-5 h-5"
-                  checked={formFlightData.call === "Tuan"}
+                  name="call"
+                  checked={flightData.call === "Tuan"}
                   onChange={handleChange}
+                  value="Tuan"
+                  label="Tuan"
+                  required
                 />
-                <label htmlFor="Tuan" className="ml-2 sm:ml-3 sm:text-lg text-gray-800 select-none">
-                  Tuan
-                </label>
               </div>
 
               <div className="flex items-center mr-3 sm:mr-10">
-                <input
-                  type="radio"
-                  name="call"
+                <InputRadioComponent
                   id="Nyonya"
-                  className="w-5 h-5"
-                  checked={formFlightData.call === "Nyonya"}
+                  name="call"
+                  checked={flightData.call === "Nyonya"}
                   onChange={handleChange}
+                  value="Nyonya"
+                  label="Nyonya"
+                  required
                 />
-                <label
-                  htmlFor="Nyonya"
-                  className="ml-2 sm:ml-3 sm:text-lg text-gray-800 select-none"
-                >
-                  Nyonya
-                </label>
               </div>
 
               <div className="flex items-center">
-                <input
-                  type="radio"
-                  name="call"
+                <InputRadioComponent
                   id="Nona"
-                  className="w-5 h-5"
-                  checked={formFlightData.call === "Nona"}
+                  name="call"
+                  checked={flightData.call === "Nona"}
                   onChange={handleChange}
+                  value="Nona"
+                  label="Nona"
+                  required
                 />
-                <label htmlFor="Nona" className="ml-2 sm:ml-3 sm:text-lg text-gray-800 select-none">
-                  Nona
-                </label>
               </div>
             </div>
 
             <div className="flex flex-col mb-7">
               <InputComponent
-                type="text"
+                type="number"
                 id="phoneNumber"
                 name="phoneNumber"
                 customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                 onChange={handleChange}
-                value={formFlightData["phoneNumber"] || ""}
+                value={flightData["phoneNumber"] || ""}
                 placeholder="Nomor Telepon"
+                required
               />
             </div>
 
@@ -117,8 +108,9 @@ export const Booking: React.FC<BookingProps> = ({ formFlightData, setFormFlightD
                 name="email"
                 customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                 onChange={handleChange}
-                value={formFlightData["email"] || ""}
+                value={flightData["email"] || ""}
                 placeholder="Alamat E-mail"
+                required
               />
             </div>
           </div>
@@ -127,22 +119,28 @@ export const Booking: React.FC<BookingProps> = ({ formFlightData, setFormFlightD
         <Card title="Detail Penumpang" customStyle="mt-14 md:pt-10">
           <div>
             <h1 className="mt-4 mb-6 text-xl font-semibold text-black">
-              Penumpang {adultLength} (Dewasa)
+              Penumpang {passengerDetails.adult} (Dewasa)
             </h1>
-            {flightOrderData.passengerDetails.adult.map((passenger, index) => (
+            {[...Array(passengerDetails.adult)].map((_, index) => (
               <div
                 key={index}
                 className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-20 lg:items-start"
               >
-                <div className="flex flex-col mb-7">
+                <div className="flex flex-col mb-5">
                   <InputComponent
                     type="text"
-                    id="name1"
-                    name="name1"
+                    id={`fullName-${index}`}
+                    name={`fullName-${index}`}
                     customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                     onChange={handleChange}
-                    value={formFlightData["name1"] || passenger}
+                    value={
+                      enabled && `fullName-${index}` === "fullName-0"
+                        ? flightData[`fullName`]
+                        : flightData[`fullName-${index}`] || ""
+                    }
                     placeholder="Nama Lengkap"
+                    disabled={enabled && `fullName-${index}` === "fullName-0" ? true : false}
+                    required
                   />
                   <span className="mt-3 ml-1 text-sm text-gray-500">
                     Isi sesuai KTP/Paspor/SIM (tanpa tanda baca dan gelar)
@@ -150,157 +148,224 @@ export const Booking: React.FC<BookingProps> = ({ formFlightData, setFormFlightD
                 </div>
 
                 {index === 0 ? (
-                  <div className="flex flex-col items-start lg:items-center justify-start mb-7">
-                    <label className="relative inline-flex items-center cursor-pointer me-5">
-                      <input type="checkbox" className="sr-only peer" />
-                      <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-700" />
-                      <span className="ml-3 text-sm text-gray-800">Sama dengan pemesan</span>
-                    </label>
-                  </div>
+                  <>
+                    <div className="flex flex-col items-start xl:ml-32 relative justify-start mb-7">
+                      <Switch.Group>
+                        <Switch.Label
+                          passive
+                          as="div"
+                          className="absolute right-0 left-16 lg:right-32 text-md text-gray-800"
+                        >
+                          Sama dengan pemesan
+                        </Switch.Label>
+                        <Switch
+                          checked={enabled}
+                          onChange={setEnabled}
+                          className={`${
+                            enabled ? "bg-blue-600" : "bg-gray-200"
+                          } relative inline-flex h-6 w-11 items-center rounded-full`}
+                        >
+                          <span
+                            className={`${
+                              enabled ? "translate-x-6" : "translate-x-1"
+                            } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+                          />
+                        </Switch>
+                      </Switch.Group>
+                    </div>
+                  </>
                 ) : (
                   ""
                 )}
 
                 <div className={`flex items-center ${index === 0 ? "" : "lg:pt-3"} mb-7 md:pl-1`}>
                   <div className="flex items-center mr-3 sm:mr-10">
-                    <input
-                      type="radio"
-                      name="call1"
-                      id="Tuan-1"
-                      className="w-5 h-5"
-                      checked={formFlightData.call1 === "Tuan-1"}
+                    <InputRadioComponent
+                      id={`Tuan-${index}`}
+                      name={`call-${index}`}
                       onChange={handleChange}
+                      value="Tuan"
+                      checked={
+                        enabled && `call-${index}` === "call-0"
+                          ? flightData["call"] === `Tuan`
+                          : flightData[`call-${index}`] === `Tuan`
+                      }
+                      label="Tuan"
+                      required
                     />
-                    <label
-                      htmlFor="Tuan-1"
-                      className="ml-2 sm:ml-3 sm:text-lg text-gray-800 select-none"
-                    >
-                      Tuan
-                    </label>
                   </div>
 
                   <div className="flex items-center mr-3 sm:mr-10">
-                    <input
-                      type="radio"
-                      name="call1"
-                      id="Nyonya-1"
-                      className="w-5 h-5"
-                      checked={formFlightData.call1 === "Nyonya-1"}
+                    <InputRadioComponent
+                      id={`Nyonya-${index}`}
+                      name={`call-${index}`}
                       onChange={handleChange}
+                      value="Nyonya"
+                      checked={
+                        enabled && `call-${index}` === "call-0"
+                          ? flightData["call"] === `Nyonya`
+                          : flightData[`call-${index}`] === `Nyonya`
+                      }
+                      label="Nyonya"
+                      required
                     />
-                    <label
-                      htmlFor="Nyonya-1"
-                      className="ml-2 sm:ml-3 sm:text-lg text-gray-800 select-none"
-                    >
-                      Nyonya
-                    </label>
                   </div>
 
                   <div className="flex items-center">
-                    <input
-                      type="radio"
-                      name="call1"
-                      id="Nona-1"
-                      className="w-5 h-5"
-                      checked={formFlightData.call1 === "Nona-1"}
+                    <InputRadioComponent
+                      id={`Nona-${index}`}
+                      name={`call-${index}`}
                       onChange={handleChange}
+                      value="Nona"
+                      checked={
+                        enabled && `call-${index}` === "call-0"
+                          ? flightData["call"] === `Nona`
+                          : flightData[`call-${index}`] === `Nona`
+                      }
+                      label="Nona"
+                      required
                     />
-                    <label
-                      htmlFor="Nona-1"
-                      className="ml-2 sm:ml-3 sm:text-lg text-gray-800 select-none"
-                    >
-                      Nona
-                    </label>
                   </div>
                 </div>
               </div>
             ))}
-
-            {/*  */}
           </div>
 
-          {/* <div>
-            <h1 className="mt-4 mb-6 text-xl font-semibold text-black">Penumpang 2 (Anak)</h1>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-20">
-              <div className="flex flex-col mb-7">
-                <InputComponent
-                  type="text"
-                  id="name1"
-                  name="name1"
-                  customStyle={`py-[16px] pl-[20px] pr-[20px]`}
-                  // onChange={handleChange}
-                  // value={formFlightData["name1"] || ""}
-                  placeholder="Nama Lengkap"
-                />
-              </div>
-
-              <div className="flex items-center mb-7 md:pl-1">
-                <div className="flex items-center mr-3 sm:mr-10">
-                  <input
-                    type="radio"
-                    name="call1"
-                    id="Tuan-1"
-                    className="w-5 h-5"
-                    // checked={formFlightData.call1 === "Tuan-1"}
-                    // onChange={handleChange}
+          <div>
+            {passengerDetails.child !== 0 ? (
+              <h1 className="mt-4 mb-6 text-xl font-semibold text-black">
+                Penumpang {passengerDetails.child} (Anak)
+              </h1>
+            ) : (
+              ""
+            )}
+            {[...Array(passengerDetails.child)].map((_, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-20 lg:items-start"
+              >
+                <div className="flex flex-col mb-7">
+                  <InputComponent
+                    type="text"
+                    id={`child-Name-${index}`}
+                    name={`child-Name-${index}`}
+                    customStyle={`py-[16px] pl-[20px] pr-[20px]`}
+                    onChange={handleChange}
+                    value={flightData[`child-Name-${index}`] || ""}
+                    placeholder="Nama Lengkap"
+                    required
                   />
-                  <label
-                    htmlFor="Tuan-1"
-                    className="ml-2 sm:ml-3 sm:text-lg text-gray-800 select-none"
-                  >
-                    Tuan
-                  </label>
                 </div>
 
-                <div className="flex items-center mr-3 sm:mr-10">
-                  <input
-                    type="radio"
-                    name="call1"
-                    id="Nyonya-1"
-                    className="w-5 h-5"
-                    // checked={formFlightData.call1 === "Nyonya-1"}
-                    // onChange={handleChange}
-                  />
-                  <label
-                    htmlFor="Nyonya-1"
-                    className="ml-2 sm:ml-3 sm:text-lg text-gray-800 select-none"
-                  >
-                    Nyonya
-                  </label>
-                </div>
+                <div className={`flex items-center ${index === 0 ? "" : "lg:pt-3"} mb-7 md:pl-1`}>
+                  <div className="flex items-center mr-3 sm:mr-10">
+                    <InputRadioComponent
+                      id={`child-Tuan-${index}`}
+                      name={`child-Call-${index}`}
+                      onChange={handleChange}
+                      value="Tuan"
+                      label="Tuan"
+                      required
+                    />
+                  </div>
 
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    name="call1"
-                    id="Nona-1"
-                    className="w-5 h-5"
-                    // checked={formFlightData.call1 === "Nona-1"}
-                    // onChange={handleChange}
-                  />
-                  <label
-                    htmlFor="Nona-1"
-                    className="ml-2 sm:ml-3 sm:text-lg text-gray-800 select-none"
-                  >
-                    Nona
-                  </label>
+                  <div className="flex items-center mr-3 sm:mr-10">
+                    <InputRadioComponent
+                      id={`child-Nyonya-${index}`}
+                      name={`child-Call-${index}`}
+                      onChange={handleChange}
+                      value="Nyonya"
+                      label="Nyonya"
+                      required
+                    />
+                  </div>
+
+                  <div className="flex items-center">
+                    <InputRadioComponent
+                      id={`child-Nona-${index}`}
+                      name={`child-Call-${index}`}
+                      onChange={handleChange}
+                      value="Nona"
+                      label="Nona"
+                      required
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          </div> */}
+            ))}
+          </div>
+
+          <div>
+            {passengerDetails.infant !== 0 ? (
+              <h1 className="mt-4 mb-6 text-xl font-semibold text-black">
+                Penumpang {passengerDetails.infant} (Bayi)
+              </h1>
+            ) : (
+              ""
+            )}
+            {[...Array(passengerDetails.infant)].map((_, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-20 lg:items-start"
+              >
+                <div className="flex flex-col mb-7">
+                  <InputComponent
+                    type="text"
+                    id={`infant-Name-${index}`}
+                    name={`infant-Name-${index}`}
+                    customStyle={`py-[16px] pl-[20px] pr-[20px]`}
+                    onChange={handleChange}
+                    value={flightData[`infant-Name-${index}`] || ""}
+                    placeholder="Nama Lengkap"
+                    required
+                  />
+                </div>
+
+                <div className={`flex items-center ${index === 0 ? "" : "lg:pt-3"} mb-7 md:pl-1`}>
+                  <div className="flex items-center mr-3 sm:mr-10">
+                    <InputRadioComponent
+                      id={`infant-Tuan-${index}`}
+                      name={`infant-Call-${index}`}
+                      onChange={handleChange}
+                      value="Tuan"
+                      label="Tuan"
+                      required
+                    />
+                  </div>
+
+                  <div className="flex items-center mr-3 sm:mr-10">
+                    <InputRadioComponent
+                      id={`infant-Nyonya-${index}`}
+                      name={`infant-Call-${index}`}
+                      onChange={handleChange}
+                      value="Nyonya"
+                      label="Nyonya"
+                      required
+                    />
+                  </div>
+
+                  <div className="flex items-center">
+                    <InputRadioComponent
+                      id={`infant-Nona-${index}`}
+                      name={`infant-Call-${index}`}
+                      onChange={handleChange}
+                      value="Nona"
+                      label="Nona"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </Card>
-      </form>
 
-      {/* <div className="flex w-2/6 mx-auto mt-20">
-        <Button
-          type="primary-dark"
-          width="full"
-          color="primary-dark"
-        >
-          Lanjutkan
-        </Button>
-      </div> */}
+        <div className="flex flex-col md:w-3/6 lg:w-2/6 pb-10 mx-auto mt-16 md:mt-28 gap-y-4">
+          <Button type="primary-dark" width="full" color="primary-dark" disabled={isLoading}>
+            {isLoading ? "Loading ..." : "Lanjutkan"}
+          </Button>
+        </div>
+      </form>
     </>
   );
 };

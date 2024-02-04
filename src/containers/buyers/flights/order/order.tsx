@@ -1,39 +1,30 @@
-import { useState } from "react";
-import { StepperControl } from "./steps/stepperControl";
+import { useEffect } from "react";
 import { Stepper } from "../../../../components/Stepper";
 import { ContainerPage } from "../../../../components/common-page/ContainerPage";
 import { Booking } from "./steps/booking";
 import { Payment } from "./steps/payment";
 import { Eticket } from "./steps/eTicket";
-import { IFlightData, IPaymentData } from "./../flights.types";
-import useActionFlightOrder from "./steps/booking.hooks";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../../config/redux/store";
+import { setCurrentStep } from "../../../../config/redux/action";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../config/redux/store";
 
 function FlightOrder() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
-  const [flightData, setFlightData] = useState<IFlightData>({
-    name: "",
-    name1: "",
-    phoneNumber: "",
-    email: "",
-    call: "",
-    call1: "",
-  });
+  const dispatch = useDispatch<AppDispatch>();
 
-  const [paymentData, setPaymentData] = useState<IPaymentData>({
-    cardNumber: "",
-    cardName: "",
-    cvv: "",
-    expiredDate: "",
-  });
+  useEffect(() => {
+    dispatch(setCurrentStep(1));
+  }, [dispatch]);
 
+  const currentStep = useSelector((state: RootState) => state.currentStepReducer);
   const steps: string[] = ["Pemesanan", "Pembayaran", "E-tiket"];
-
   const displayStep = (step: number) => {
     switch (step) {
       case 1:
-        return <Booking formFlightData={flightData} setFormFlightData={setFlightData} />;
+        return <Booking />;
       case 2:
-        return <Payment formPaymentData={paymentData} setFormPaymentData={setPaymentData} />;
+        return <Payment />;
       case 3:
         return <Eticket />;
       default:
@@ -41,37 +32,14 @@ function FlightOrder() {
     }
   };
 
-  const { handleSubmitFlightOrder } = useActionFlightOrder();
-
-  const handleClick = (direction: "next" | "prev") => {
-    let newStep = currentStep;
-
-    if (direction === "next") {
-      if (newStep === 1) {
-        alert(flightData.name);
-        handleSubmitFlightOrder();
-      } else if (newStep === 2) {
-        alert("Submit Payment");
-      }
-      newStep++;
-    }
-    // else {
-    //   newStep--;
-    // }
-
-    // check if step is within bounds
-    if (newStep > 0 && newStep <= steps.length) {
-      setCurrentStep(newStep);
-    }
-  };
-
-  // console.log(currentStep);
-  // console.log(flightData);
-
   return (
     <>
       <ContainerPage>
-        <div className="hidden sm:block sm:w-3/4 sm:mx-auto sm:mb-20">
+        <div
+          className={`${
+            currentStep === 3 ? "hide-on-print" : ""
+          } hidden sm:block sm:w-3/4 sm:mx-auto sm:mb-20`}
+        >
           {/* Stepper */}
           <Stepper steps={steps} currentStep={currentStep} />
         </div>
@@ -83,7 +51,7 @@ function FlightOrder() {
           </div>
 
           {/* Navigation Control */}
-          <StepperControl handleClick={handleClick} currentStep={currentStep} steps={steps} />
+          {/* <StepperControl currentStep={currentStep} steps={steps} /> */}
         </div>
       </ContainerPage>
     </>

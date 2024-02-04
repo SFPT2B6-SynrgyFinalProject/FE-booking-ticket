@@ -3,7 +3,7 @@ import Logo from "../assets/images/logo.png";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#B1C5FF] shadow">
+    <footer className="bg-[#B1C5FF] shadow hide-on-print">
       <div className="w-full mx-auto p-6 text-center  max-w-screen-xl">
         <div className="mt-10">
           <h1 className="block font-outfit lg:text-3xl text-xl font-medium leading-11 text-white xl:text-center sm:text-center">
