@@ -197,7 +197,7 @@ const SearchBox: React.FC = () => {
           <div className="search-controller flex flex-col md:flex-row justify-end">
             <button
               type="submit"
-              className={`text-white bg-primary-normal max-sm:hidden lg:py-2 px-4 rounded-[10px] mt-4 md:mt-0 flex items-center gap-[10px] ${
+              className={`text-white bg-primary-normal max-sm:hidden lg:py-2 px-4 rounded-[10px] mt-4 md:mt-0 hidden lg:flex items-center gap-[10px] ${
                 !selectedDeparture ||
                 !selectedArrival ||
                 !selectedDepartureDate ||
@@ -220,7 +220,7 @@ const SearchBox: React.FC = () => {
               <Icon icon="mdi:magnify" className="text-white w-6 h-6" />
             </button>
           </div>
-          <div className="search-items grid grid-cols-1 md:grid-cols-11 gap-x-4 md:gap-x-14 gap-y-[13px] mt-6">
+          <div className="search-items grid grid-cols-1 lg:grid-cols-11 md:grid-cols-2 lg:gap-x-5 lg:gap-y-6 md:gap-6 gap-6 mt-0 lg:mt-6">
             <div className="form-group lg:col-span-4">
               <Select
                 placeholder="From"
@@ -337,15 +337,32 @@ const SearchBox: React.FC = () => {
                 name="flight-class"
               />
             </div>
-            <div className="form-group lg:hidden">
-              <button
-                type="submit"
-                className="text-white bg-primary-normal w-full py-3 px-3 rounded-[10px] mt-4 md:mt-0 flex items-center justify-center gap-[10px]"
-              >
-                Search
-                <Icon icon="mdi:magnify" className="text-white w-6 h-6" />
-              </button>
-            </div>
+          </div>
+          <div className="form-group lg:hidden mt-10">
+            <button
+              type="submit"
+              className={`text-white bg-primary-normal w-full py-3 px-3 rounded-[10px] mt-4 md:mt-0 flex items-center justify-center gap-[10px] ${
+                !selectedDeparture ||
+                !selectedArrival ||
+                !selectedDepartureDate ||
+                !selectedArrivalDate ||
+                !selectedFlightClass ||
+                !optionPersonAge.dewasa
+                  ? "cursor-not-allowed opacity-75"
+                  : ""
+              }`}
+              disabled={
+                !selectedDeparture ||
+                !selectedArrival ||
+                !selectedDepartureDate ||
+                !selectedArrivalDate ||
+                !selectedFlightClass ||
+                !optionPersonAge.dewasa
+              }
+            >
+              {isLoadings ? "Tunggu ..." : "Search"}
+              <Icon icon="mdi:magnify" className="text-white w-6 h-6" />
+            </button>
           </div>
         </form>
       </div>

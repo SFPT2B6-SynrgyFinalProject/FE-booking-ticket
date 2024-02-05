@@ -23,7 +23,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="container mt-64 sm:mt-48 sm:mb-16 lg:mb-24">
+      <div className="container mt-72 lg:mt-56 sm:mt-80 md:mt-80 sm:mb-16 lg:mb-24">
         <div className="flex justify-center">
           <h1 className="font-outfit text-3xl font-medium leading-10 tracking-wide">
             Top Destinations
@@ -57,4 +57,3 @@ export default function Home() {
     </div>
   );
 }
-

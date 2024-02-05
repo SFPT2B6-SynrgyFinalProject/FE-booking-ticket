@@ -4,7 +4,8 @@ export type FetchOption = {
   data?: any;
   authToken?: string;
 };
-const API_URL: string = import.meta.env.VITE_API_URL;
+// const API_URL: string = import.meta.env.VITE_API_URL;
+const API_URL: string | undefined = process.env.VITE_API_URL;
 
 export async function fetchInstance({ method, endpoint, data, authToken }: FetchOption) {
   const headers: Record<string, string> = {
