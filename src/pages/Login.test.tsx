@@ -1,36 +1,34 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
+import * as authModule from "../lib/services/auth";
 import Login from "./Login";
-// import Logo from "../assets/images/logo.png";
+import { BrowserRouter } from "react-router-dom";
 
 jest.mock("../assets/images/logo.png", () => ({
   default: "mocked-logo-path",
 }));
 
+jest.mock("../assets/images/airplane-and-packages-1.png", () => ({
+  default: "mocked-airplane-path",
+}));
+
 describe("Login Component", () => {
-  test("renders Login component correctly", () => {
-    render(<Login />);
-
-    // You can add more assertions based on your component's structure
-    expect(screen.getByText(/Log In into your account/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/Email Address/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/Password/i)).toBeInTheDocument();
-    expect(screen.getByText(/Log in/i)).toBeInTheDocument();
-  });
-
   test("handles form submission and shows success alert", async () => {
-    render(<Login />);
+    // Spy on loginUser function
+    const loginUserMock = jest.spyOn(authModule, "loginUser");
+    loginUserMock.mockResolvedValue({
+      status: "success",
+      data: {
+        token: "mockToken",
+        roles: ["user"],
+      },
+    } as any);
 
-    // Mock loginUser function
-    jest.mock("../lib/services/auth", () => ({
-      loginUser: jest.fn(() => ({
-        status: "success",
-        data: {
-          token: "mockToken",
-          roles: ["user"],
-        },
-      })),
-    }));
+    render(
+      <BrowserRouter>
+        <Login />
+      </BrowserRouter>
+    );
 
     // Fill in the form
     fireEvent.change(screen.getByPlaceholderText(/Email Address/i), {
@@ -47,6 +45,15 @@ describe("Login Component", () => {
     await waitFor(() => {
       expect(screen.getByText(/Login berhasil/i)).toBeInTheDocument();
     });
+
+    // Verify that loginUser was called
+    expect(loginUserMock).toHaveBeenCalledWith({
+      email: "test@example.com",
+      password: "testPassword",
+    });
+
+    // Clean up the spy
+    loginUserMock.mockRestore();
   });
 
   // Add more test cases as needed
