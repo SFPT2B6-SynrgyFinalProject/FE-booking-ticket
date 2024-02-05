@@ -19,7 +19,8 @@ import {
   LoginResponseBody,
 } from "../lib/services/auth";
 
-const CLIENT_ID: string = import.meta.env.VITE_CLIENT_ID;
+// const CLIENT_ID: string = import.meta.env.VITE_CLIENT_ID;
+const CLIENT_ID: string | undefined = process.env.VITE_CLIENT_ID;
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
