@@ -7,18 +7,18 @@ export interface IProfileData {
   gender: string | undefined;
   noHp: string | null;
 }
-export type ResetPasswordResponseBody = 
-{
-        data: null,
-        message: string,
-        status: string,
- }
- export type ProfileResponseBody = 
-{
-        data: null,
-        message: string,
-        status: string,
- }
+export type ResetPasswordResponseBody =
+  {
+    data: null,
+    message: string,
+    status: string,
+  }
+export type ProfileResponseBody =
+  {
+    data: null,
+    message: string,
+    status: string,
+  }
 export interface IResetPassword {
   currentPassword: string;
   newPassword: string;
@@ -29,15 +29,15 @@ export async function ResetPassword(form: IResetPassword): Promise<ResetPassword
   return await fetchInstance({
     endpoint: "/api/user/password",
     method: "PUT",
-    authToken:useUserToken(),
+    authToken: useUserToken(),
     data: form,
   })
-};
+}
 export async function editProfile(form: IProfileData): Promise<ProfileResponseBody> {
   return await fetchInstance({
     endpoint: "/api/user",
     method: "PUT",
-    authToken:useUserToken(),
+    authToken: useUserToken(),
     data: form,
   })
-};
+}
