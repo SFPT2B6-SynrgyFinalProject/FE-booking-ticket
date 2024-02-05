@@ -2,11 +2,11 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { INotifications } from '../../../containers/buyers/notifications/notifications.types';
 
 export interface NotificationState {
-    notifications: INotifications[]; // Menyimpan data notifikasi
+    notifications: INotifications[];
 }
 
 const initialState: NotificationState = {
-    notifications: [], // Inisialisasi dengan array kosong
+    notifications: [],
 };
 
 export const notificationReducer = (state = initialState, action: PayloadAction<INotifications[]>) => {
