@@ -14,7 +14,8 @@ interface InputProps {
   value?: string | number;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onIconClick?: () => void;
-  iconPosition?: "left" | "right";
+  required?: boolean;
+  iconPosition?: "left" | "right"; // The icon position
 }
 
 const InputComponent: React.FC<InputProps> = ({
@@ -26,7 +27,8 @@ const InputComponent: React.FC<InputProps> = ({
   id,
   name,
   value,
-  onFocus=()=>{},
+  required,
+  onFocus = () => {},
   onChange = () => {},
   onIconClick = () => {},
   iconPosition = "right",
@@ -56,6 +58,7 @@ const InputComponent: React.FC<InputProps> = ({
         placeholder={placeholder}
         onFocus={onFocus}
         disabled={disabled}
+        required={required}
         className={`${
           customStyle ? customStyle : "py-[20px] pr-[27px]"
         } appearance-none shadow-sm transition duration-200 focus:ring focus:ring-blue-500/60 border rounded-[10px] w-full text-gray-700 border-[#757575] leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline pl-[27px] ${

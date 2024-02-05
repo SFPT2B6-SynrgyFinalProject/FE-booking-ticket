@@ -56,7 +56,7 @@ export default function Navbar() {
     setNavigation((prev) => !prev);
   };
   return (
-    <div className="w-full">
+    <div className="w-full hide-on-print">
       <div
         className={`${
           navigation
