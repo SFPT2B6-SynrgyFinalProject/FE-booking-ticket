@@ -61,6 +61,7 @@ function ResultCard({
   const [isExpanded, setExpanded] = useState(false);
   const getLoading = useSelector((state: RootState) => state.isLoadingReducer);
   const dispatch = useDispatch<AppDispatch>();
+  const navigate: NavigateFunction = useNavigate();
 
   const convertToLocaleStringOfNumber = (num: number) => {
     return num.toLocaleString("id").replace(/\./g, ",");
@@ -102,6 +103,7 @@ function ResultCard({
       passengerDetails,
     };
     dispatch(setGetTicket(payload));
+    navigate("/penerbangan")
   };
 
   return (

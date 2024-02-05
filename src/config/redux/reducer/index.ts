@@ -1,5 +1,7 @@
 import { combineReducers } from "redux";
 import { userReducer } from "./userReducer";
+import { flightOrderReducer } from "./flightOrderReducer";
+import { currentStepReducer } from "./currentStepReducer";
 import { flightClassReducer } from "./flightClassReducer";
 import { airportReducer } from "./airportReducer";
 import { getDataBySearchReducer } from "./getDataBySearchReducer";
@@ -17,4 +19,6 @@ export const reducer = combineReducers({
   isLoadingReducer,
   numberPaginationReducer,
   getTicketReducer,
+  flightOrderReducer,
+  currentStepReducer,
 });

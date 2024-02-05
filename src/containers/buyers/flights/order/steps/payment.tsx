@@ -1,37 +1,52 @@
-import React, { ChangeEvent } from "react";
 import InputComponent from "../../../../../components/Input";
 import { Card } from "../../../../../components/Card";
-import { IPaymentData } from "./../../flights.types";
+import useAction from "./payment.hooks";
+import { rupiahFormatter } from "../../../../../lib/rupiahFormatter";
+import Button from "../../../../../components/Button";
+import Alert from "../../../../../components/Alert";
 
-interface PaymentProps {
-  formPaymentData: IPaymentData;
-  setFormPaymentData: React.Dispatch<React.SetStateAction<IPaymentData>>;
-}
-
-export const Payment: React.FC<PaymentProps> = ({ formPaymentData, setFormPaymentData }) => {
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormPaymentData({ ...formPaymentData, [name]: value });
-  };
-
-  console.log(formPaymentData);
+export const Payment = () => {
+  const {
+    isLoading,
+    paymentData,
+    totalPassengersPrice,
+    totalDiscount,
+    totalTax,
+    grandTotal,
+    handleChange,
+    handleSubmitPayment,
+    adultDetails,
+    childDetails,
+    infantDetails,
+    alert,
+  } = useAction();
 
   return (
     <>
-      <form>
+      {alert && (
+        <div>
+          {alert.type === "success" && (
+            <Alert message={alert.message} type="success" customStyle="fixed" />
+          )}
+          {alert.type === "fail" && (
+            <Alert message={Object.values(alert.data).join("\n")} type="fail" customStyle="fixed" />
+          )}
+        </div>
+      )}
+      <form onSubmit={handleSubmitPayment}>
         <Card title="Metode Pembayaran" customStyle="lg:px-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-40">
             <div className="mb-5 lg:mb-0">
               <div className="flex items-center mb-7">
                 <div className="flex items-center mr-10">
-                  <input type="radio" name="payment" id="creditCard" className="w-5 h-5" />
+                  <input type="radio" name="payment" id="creditCard" className="w-5 h-5" required />
                   <label htmlFor="creditCard" className="ml-3 text-lg text-gray-800 select-none">
-                    Kartu Kreditssssssss
+                    Kartu Kredit
                   </label>
                 </div>
 
                 <div className="flex items-center mr-10">
-                  <input type="radio" name="payment" id="debit" className="w-5 h-5" />
+                  <input type="radio" name="payment" id="debit" className="w-5 h-5" required />
                   <label htmlFor="debit" className="ml-3 text-lg text-gray-800 select-none">
                     Debit
                   </label>
@@ -39,13 +54,14 @@ export const Payment: React.FC<PaymentProps> = ({ formPaymentData, setFormPaymen
               </div>
               <div className="flex flex-col mb-7">
                 <InputComponent
-                  type="text"
+                  type="number"
                   id="cardNumber"
                   name="cardNumber"
                   customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                   onChange={handleChange}
-                  value={formPaymentData["cardNumber"] || ""}
+                  value={paymentData["cardNumber"] || ""}
                   placeholder="Nomor Kartu Kredit"
+                  required
                 />
               </div>
 
@@ -56,8 +72,9 @@ export const Payment: React.FC<PaymentProps> = ({ formPaymentData, setFormPaymen
                   name="cardName"
                   customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                   onChange={handleChange}
-                  value={formPaymentData["cardName"] || ""}
+                  value={paymentData["cardName"] || ""}
                   placeholder="Nama yang Tertera di Kartu Kredit"
+                  required
                 />
               </div>
 
@@ -69,8 +86,9 @@ export const Payment: React.FC<PaymentProps> = ({ formPaymentData, setFormPaymen
                     name="expiredDate"
                     customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                     onChange={handleChange}
-                    value={formPaymentData["expiredDate"] || ""}
+                    value={paymentData["expiredDate"] || ""}
                     placeholder="Masa Berlaku: MM/YY"
+                    required
                   />
                 </div>
                 <div className="flex flex-col mb-7">
@@ -80,8 +98,9 @@ export const Payment: React.FC<PaymentProps> = ({ formPaymentData, setFormPaymen
                     name="cvv"
                     customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                     onChange={handleChange}
-                    value={formPaymentData["cvv"] || ""}
+                    value={paymentData["cvv"] || ""}
                     placeholder="CVV: 3-4 digit kode"
+                    required
                   />
                 </div>
               </div>
@@ -91,22 +110,66 @@ export const Payment: React.FC<PaymentProps> = ({ formPaymentData, setFormPaymen
               <h3 className="mb-8 text-xl font-semibold text-black">Rincian Harga</h3>
               <div className="grid grid-cols-2 gap-x-20">
                 <div className="grid grid-flow-row gap-y-3 sm:gap-y-8">
-                  <span className="font-medium">Harga Dewasa (x1)</span>
-                  <span className="font-medium">Diskon</span>
-                  <span className="font-medium">Pajak</span>
-                  <span className="font-medium">Total</span>
+                  <span className="font-medium text-gray-600">
+                    Harga Dewasa (x{adultDetails.totalCount})
+                  </span>
+                  {childDetails.totalCount === 0 ? (
+                    ""
+                  ) : (
+                    <span className="font-medium text-gray-600">
+                      Harga Anak (x{childDetails.totalCount})
+                    </span>
+                  )}
+                  {infantDetails.totalCount === 0 ? (
+                    ""
+                  ) : (
+                    <span className="font-medium text-gray-600">
+                      Harga Bayi (x{infantDetails.totalCount})
+                    </span>
+                  )}
+                  <span className="font-medium text-gray-600">Subtotal</span>
+                  <span className="font-medium text-gray-600">Diskon</span>
+                  <span className="font-medium text-gray-600">Pajak</span>
+                  <span className="font-semibold">Total Bayar</span>
                 </div>
 
                 <div className="flex flex-col items-end justify-between">
-                  <span className="font-medium">Rp. 720.346 </span>
-                  <span className="font-medium">-Rp. 20.000 </span>
-                  <span className="font-medium">Termasuk</span>
-                  <span className="font-semibold text-green-500">Rp. 700.346 </span>
+                  <span className="font-medium text-gray-600">
+                    {rupiahFormatter(adultDetails.totalPrice)}
+                  </span>
+                  {childDetails.totalCount === 0 ? (
+                    ""
+                  ) : (
+                    <span className="font-medium text-gray-600">
+                      {rupiahFormatter(childDetails.totalPrice)}
+                    </span>
+                  )}
+                  {infantDetails.totalCount === 0 ? (
+                    ""
+                  ) : (
+                    <span className="font-medium text-gray-600">
+                      {rupiahFormatter(infantDetails.totalPrice)}
+                    </span>
+                  )}
+                  <span className="font-medium text-gray-600">
+                    {rupiahFormatter(totalPassengersPrice)}
+                  </span>
+                  <span className="font-medium text-gray-600">
+                    -{rupiahFormatter(totalDiscount)}
+                  </span>
+                  <span className="font-medium text-gray-600">{rupiahFormatter(totalTax)}</span>
+                  <span className="font-semibold text-blue-600">{rupiahFormatter(grandTotal)}</span>
                 </div>
               </div>
             </div>
           </div>
         </Card>
+
+        <div className="flex flex-col md:w-3/6 lg:w-2/6 pb-10 mx-auto mt-16 md:mt-28 gap-y-4">
+          <Button type="primary-dark" width="full" color="primary-dark" disabled={isLoading}>
+            {isLoading ? "Loading ..." : "Lanjutkan Pembayaran"}
+          </Button>
+        </div>
       </form>
     </>
   );

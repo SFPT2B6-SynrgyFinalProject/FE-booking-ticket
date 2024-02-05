@@ -3,9 +3,10 @@ import React from "react";
 interface AlertProps {
   message?: string;
   type: "success" | "fail";
+  customStyle?: string;
 }
 
-const Alert: React.FC<AlertProps> = ({ message, type }) => {
+const Alert: React.FC<AlertProps> = ({ message, type, customStyle }) => {
   let bgColorClass;
 
   switch (type) {
@@ -16,12 +17,14 @@ const Alert: React.FC<AlertProps> = ({ message, type }) => {
       bgColorClass = "bg-red-500 text-md font-medium";
       break;
     default:
-      bgColorClass = "bg-gray-500 text-md font-medium";
+      bgColorClass = "bg-blue-500 text-md font-medium";
   }
 
   return (
     <div
-      className={`absolute whitespace-pre-line px-5 py-3 text-center text-white rounded-md ${bgColorClass} top-5 right-5`}
+      className={`${
+        customStyle ? customStyle : "absolute"
+      } z-50 whitespace-pre-line px-5 py-3 text-center text-white rounded-md ${bgColorClass} top-5 right-5`}
     >
       {message}
     </div>
