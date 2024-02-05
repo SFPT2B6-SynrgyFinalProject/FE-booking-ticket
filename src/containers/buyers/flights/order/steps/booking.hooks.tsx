@@ -4,25 +4,34 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../../config/redux/store";
 import { setCurrentStep, setFlightOrderData } from "../../../../../config/redux/action";
 import { IAlert } from "../../../../../lib/services/auth";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../../config/redux/store";
+import { GetTicketType } from "../../../../../config/redux/reducer/getTicketReducer";
 
 export default function useFlightOrder() {
   const [enabled, setEnabled] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [alert, setAlert] = useState<IAlert | null>(null);
 
-  const flightOrderData = {
-    ticketId: "9805",
-    classId: 1,
-    passengerDetails: {
-      adult: 1,
-      child: 2,
-      infant: 1,
-    },
-  };
+  // const flightOrderData = {
+  //   ticketId: "9805",
+  //   classId: 1,
+  //   passengerDetails: {
+  //     adult: 1,
+  //     child: 2,
+  //     infant: 1,
+  //   },
+  // };
+
+  const getTicketType: GetTicketType = useSelector(
+    (state: RootState) => state.getTicketReducer
+  );
+
+  console.log(getTicketType)
 
   const [flightData, setFlightData] = useState<IFlightData>({
-    ticketId: flightOrderData.ticketId,
-    classId: flightOrderData.classId,
+    ticketId: "",
+    classId: "",
     fullName: "",
     phoneNumber: "",
     email: "",
@@ -91,8 +100,8 @@ export default function useFlightOrder() {
       };
 
       const payload: IFlightOrderRequestBody = {
-        ticketId: flightOrderData.ticketId,
-        classId: flightOrderData.classId,
+        ticketId: getTicketType.ticketId,
+        classId: getTicketType.classId,
         orderer,
         passengerDetails,
       };
@@ -132,7 +141,6 @@ export default function useFlightOrder() {
   };
 
   return {
-    flightOrderData,
     flightData,
     enabled,
     setEnabled,
@@ -140,5 +148,6 @@ export default function useFlightOrder() {
     handleChange,
     handleSubmitFlightOrder,
     alert,
+    getTicketType
   };
 }

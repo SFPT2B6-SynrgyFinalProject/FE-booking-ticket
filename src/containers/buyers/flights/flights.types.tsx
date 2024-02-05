@@ -22,8 +22,8 @@ export interface IPaymentResponseBody {
 }
 
 export interface IFlightData {
-  ticketId: string;
-  classId: number;
+  ticketId: string | number;
+  classId: number | string;
   fullName: string;
   phoneNumber: string;
   email: string;
@@ -32,8 +32,8 @@ export interface IFlightData {
 }
 
 export interface IFlightOrderRequestBody {
-  ticketId: string;
-  classId: number;
+  ticketId: string | number;
+  classId: number | string;
   orderer: {
     fullName: string;
     phoneNumber: string;

@@ -83,7 +83,7 @@ const DownloadTicket: React.FC<DownloadTicketProps> = ({ dataFlightOrder }) => {
     setIsPrint(true);
     document.title = `E-ticket-${new Date().getTime()}`;
     window.print();
-    document.title = "Booking Ticket";
+    document.title = "Wings On";
   };
 
   return (
@@ -201,7 +201,7 @@ const DownloadTicket: React.FC<DownloadTicketProps> = ({ dataFlightOrder }) => {
             <tbody className="text-center text-xs">
               {Array.isArray(adult) && adult?.length > 0 && (
                 <>
-                  {[...Array(adult)].map((passenger, index) => (
+                  {adult.map((passenger, index) => (
                     <tr key={index} className="bg-white border-t border-b-slate-200">
                       <td className="px-6 py-4">{index + 1}</td>
                       <td className="px-6 py-4 text-left">{passenger} (Dewasa)</td>

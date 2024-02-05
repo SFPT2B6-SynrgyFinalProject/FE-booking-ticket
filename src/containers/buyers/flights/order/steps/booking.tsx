@@ -9,7 +9,6 @@ import Button from "../../../../../components/Button";
 
 export const Booking = () => {
   const {
-    flightOrderData,
     flightData,
     enabled,
     setEnabled,
@@ -17,9 +16,10 @@ export const Booking = () => {
     handleChange,
     handleSubmitFlightOrder,
     alert,
+    getTicketType
   } = useAction();
 
-  const { passengerDetails } = flightOrderData;
+  const { passengerDetails } = getTicketType;
 
   return (
     <>
@@ -116,11 +116,16 @@ export const Booking = () => {
           </div>
         </Card>
 
-        <Card title="Detail Penumpang" customStyle="mt-14 md:pt-10">
+        <Card title="Detail Penumpang" customStyle={`${passengerDetails.adult !== 0 ? "block":"hidden"} mt-14 md:pt-10`}>
           <div>
-            <h1 className="mt-4 mb-6 text-xl font-semibold text-black">
-              Penumpang {passengerDetails.adult} (Dewasa)
-            </h1>
+            {passengerDetails.adult !== 0 ? (
+                <h1 className="mt-4 mb-6 text-xl font-semibold text-black">
+                 Penumpang {passengerDetails.adult} (Dewasa)
+                </h1>
+            ) : (
+              ""
+            )}
+            
             {[...Array(passengerDetails.adult)].map((_, index) => (
               <div
                 key={index}
