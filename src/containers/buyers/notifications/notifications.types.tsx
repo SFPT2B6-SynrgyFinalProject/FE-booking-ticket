@@ -1,5 +1,8 @@
 export interface INotifications {
-  id: number;
-  title: string;
-  body: string;
+  id: number,
+  content: string,
+  title: string,
+  createdDatetime: string,
+  imageUrl: string
 }
+
