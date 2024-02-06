@@ -35,26 +35,29 @@ interface OptionPersonAgeType {
   dewasa: number;
 }
 
-const CustomControl: React.FC<
-  ControlProps<Option, boolean, GroupBase<Option>>
-> = ({ children, ...props }) => (
+const CustomControl: React.FC<ControlProps<Option, boolean, GroupBase<Option>>> = ({
+  children,
+  ...props
+}) => (
   <components.Control {...props}>
     <Icon icon="mingcute:flight-takeoff-line" width={24} className="mr-2 text-gray-500" />
     {children}
   </components.Control>
 );
-const CustomControl1: React.FC<
-  ControlProps<Option, boolean, GroupBase<Option>>
-> = ({ children, ...props }) => (
+const CustomControl1: React.FC<ControlProps<Option, boolean, GroupBase<Option>>> = ({
+  children,
+  ...props
+}) => (
   <components.Control {...props}>
     <Icon icon="mingcute:flight-land-line" width={24} className="mr-2 text-gray-500" />
     {children}
   </components.Control>
 );
 
-const CustomControl2: React.FC<
-  ControlProps<Option, boolean, GroupBase<Option>>
-> = ({ children, ...props }) => (
+const CustomControl2: React.FC<ControlProps<Option, boolean, GroupBase<Option>>> = ({
+  children,
+  ...props
+}) => (
   <components.Control {...props}>
     <Icon icon="ph:office-chair-bold" width={24} className="ml-[.7rem] mr-1 text-gray-600/80" />
     {children}
@@ -63,19 +66,12 @@ const CustomControl2: React.FC<
 
 const SearchBox: React.FC = () => {
   // const [isFocused, setIsFocused] = useState(false);
-  const [selectedFlightClass, setSelectedFlightClass] = useState<
-    number | string
-  >(0);
-  const [selectedDeparture, setSelectedDeparture] = useState<number | string>(
-    ""
-  );
+  const [selectedFlightClass, setSelectedFlightClass] = useState<number | string>(0);
+  const [selectedDeparture, setSelectedDeparture] = useState<number | string>("");
   const [selectedArrival, setSelectedArrival] = useState<number | string>("");
-  const [selectedDepartureDate, setSelectedDepartureDate] =
-    useState<string>("");
+  const [selectedDepartureDate, setSelectedDepartureDate] = useState<string>("");
   const [selectedArrivalDate, setSelectedArrivalDate] = useState<string>("");
-  const optionFlightClass = useSelector(
-    (state: RootState) => state.flightClassReducer
-  );
+  const optionFlightClass = useSelector((state: RootState) => state.flightClassReducer);
   const [isLoadings, setIsLoadings] = useState<boolean>(false);
   const optionAirport = useSelector((state: RootState) => state.airportReducer);
   const [optionPersonAge, setOptionPersonAge] = useState<OptionPersonAgeType>({
@@ -86,16 +82,10 @@ const SearchBox: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate: NavigateFunction = useNavigate();
 
-  const handleOptionPersonAge = (
-    type: keyof OptionPersonAgeType,
-    action: "i" | "d"
-  ) => {
+  const handleOptionPersonAge = (type: keyof OptionPersonAgeType, action: "i" | "d") => {
     setOptionPersonAge((prevOptions) => ({
       ...prevOptions,
-      [type]:
-        action === "i"
-          ? prevOptions[type] + 1
-          : Math.max(prevOptions[type] - 1, 0),
+      [type]: action === "i" ? prevOptions[type] + 1 : Math.max(prevOptions[type] - 1, 0),
     }));
   };
 
@@ -191,20 +181,20 @@ const SearchBox: React.FC = () => {
           </>
         ) : null}
         <form
-          className="searchbox-container bg-white font-outfit rounded-[30px] pt-2 lg:pt-[27px] pb-[33px] px-[22px]"
+          className="searchbox-container bg-white font-outfit rounded-[30px] py-6 md:py-7 lg:pt-[27px] lg:pb-[33px] px-[22px]"
           onSubmit={handleSubmit}
         >
           <div className="search-controller flex flex-col md:flex-row justify-end">
             <button
               type="submit"
-              className={`text-white bg-primary-normal max-sm:hidden lg:py-2 px-4 rounded-[10px] mt-4 md:mt-0 flex items-center gap-[10px] ${
+              className={`text-white bg-blue-600 max-sm:hidden lg:py-2 px-4 rounded-[10px] mt-4 md:mt-0 hidden lg:flex items-center gap-[10px] ${
                 !selectedDeparture ||
                 !selectedArrival ||
                 !selectedDepartureDate ||
                 !selectedArrivalDate ||
                 !selectedFlightClass ||
                 !optionPersonAge.dewasa
-                  ? "cursor-not-allowed opacity-75"
+                  ? "!bg-[#d3d3d3] text-white cursor-not-allowed"
                   : ""
               }`}
               disabled={
@@ -216,14 +206,14 @@ const SearchBox: React.FC = () => {
                 !optionPersonAge.dewasa
               }
             >
-              {isLoadings ? "Tunggu ..." : "Search"}
+              {isLoadings ? "Tunggu ..." : "Cari tiket"}
               <Icon icon="mdi:magnify" className="text-white w-6 h-6" />
             </button>
           </div>
-          <div className="search-items grid grid-cols-1 md:grid-cols-11 gap-x-4 md:gap-x-14 gap-y-[13px] mt-6">
+          <div className="search-items grid grid-cols-1 lg:grid-cols-11 md:grid-cols-2 lg:gap-x-5 lg:gap-y-6 md:gap-6 gap-6 mt-0 lg:mt-6">
             <div className="form-group lg:col-span-4">
               <Select
-                placeholder="Pilih kota atau bandara"
+                placeholder="Pilih bandara"
                 components={{ Control: CustomControl }}
                 classNames={{
                   control: () =>
@@ -263,20 +253,20 @@ const SearchBox: React.FC = () => {
             <div className="form-group lg:col-span-4">
               <div className="relative">
                 {/* {!isFocused && ( */}
-                  <Icon
-                    icon="uil:calendar-alt"
-                    width={23}
-                    style={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "20px",
-                      transform: "translateY(-50%)",
-                    }}
-                    className="text-gray-500"
-                  />
+                <Icon
+                  icon="uil:calendar-alt"
+                  width={23}
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "20px",
+                    transform: "translateY(-50%)",
+                  }}
+                  className="text-gray-500"
+                />
                 {/* )} */}
                 <input
-                  placeholder="Tanggal keberangkatan"
+                  placeholder="Tanggal awal"
                   className="bg-white border border-gray-400 text-gray-800 text-[1rem] focus:ring-blue-500 focus:border-blue-500 focus:outline-none focus:border-2 block w-full p-2.5 !h-[55px] pl-[3.7rem] rounded-[10px] placeholder-gray-500/90"
                   type="text"
                   onFocus={(e) => (
@@ -294,28 +284,26 @@ const SearchBox: React.FC = () => {
             <div className="form-group lg:col-span-4">
               <div className="relative">
                 {/* {!isFocused && ( */}
-                  <Icon
-                    icon="uil:calendar-alt"
-                    width={23}
-                    style={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "20px",
-                      transform: "translateY(-50%)",
-                    }}
-                    className="text-gray-500"
-                  />
+                <Icon
+                  icon="uil:calendar-alt"
+                  width={23}
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "20px",
+                    transform: "translateY(-50%)",
+                  }}
+                  className="text-gray-500"
+                />
                 {/* )} */}
                 <input
-                  placeholder="Tanggal kedatangan"
+                  placeholder="Tanggal akhir"
                   className="bg-white border border-gray-400 text-gray-800 text-[1rem] focus:ring-blue-500 focus:border-blue-500 focus:outline-none focus:border-2 block w-full p-2.5 !h-[55px] pl-[3.7rem] rounded-[10px] placeholder-gray-500/90"
                   type="text"
                   onFocus={(e) => (
                     (e.target.type = "date"), (e.target.name = "departure-date-end")
                   )}
-                  onBlur={(e) => (
-                    (e.target.type = "text"), (e.target.name = "departure-date-end")
-                  )}
+                  onBlur={(e) => ((e.target.type = "text"), (e.target.name = "departure-date-end"))}
                   id="departure-date-end"
                   name="departure-date-end"
                   onChange={handleDateChange}
@@ -338,15 +326,32 @@ const SearchBox: React.FC = () => {
                 name="flight-class"
               />
             </div>
-            <div className="form-group lg:hidden">
-              <button
-                type="submit"
-                className="text-white bg-primary-normal w-full py-3 px-3 rounded-[10px] mt-4 md:mt-0 flex items-center justify-center gap-[10px]"
-              >
-                Search
-                <Icon icon="mdi:magnify" className="text-white w-6 h-6" />
-              </button>
-            </div>
+          </div>
+          <div className="form-group lg:hidden mt-10">
+            <button
+              type="submit"
+              className={`text-white bg-primary-normal w-full py-3 px-3 rounded-[10px] mt-4 md:mt-0 flex items-center justify-center gap-[10px] ${
+                !selectedDeparture ||
+                !selectedArrival ||
+                !selectedDepartureDate ||
+                !selectedArrivalDate ||
+                !selectedFlightClass ||
+                !optionPersonAge.dewasa
+                  ? "!bg-[#d3d3d3] text-white cursor-not-allowed"
+                  : ""
+              }`}
+              disabled={
+                !selectedDeparture ||
+                !selectedArrival ||
+                !selectedDepartureDate ||
+                !selectedArrivalDate ||
+                !selectedFlightClass ||
+                !optionPersonAge.dewasa
+              }
+            >
+              {isLoadings ? "Tunggu ..." : "Search"}
+              <Icon icon="mdi:magnify" className="text-white w-6 h-6" />
+            </button>
           </div>
         </form>
       </div>
