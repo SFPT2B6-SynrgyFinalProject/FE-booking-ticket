@@ -29,6 +29,8 @@ export const getTicketReducer = (
       ...state,
       ...action.payload,
     };
+  } else if (action.type === "RESET_GET_TICKET") {
+    return initialState;
   }
   return state;
 };
