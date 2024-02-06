@@ -39,7 +39,14 @@ export const Payment = () => {
             <div className="mb-5 lg:mb-0">
               <div className="flex items-center mb-7">
                 <div className="flex items-center mr-10">
-                  <input type="radio" name="payment" id="creditCard" className="w-5 h-5" required />
+                  <input
+                    type="radio"
+                    name="payment"
+                    id="creditCard"
+                    className="w-5 h-5"
+                    required
+                    checked
+                  />
                   <label htmlFor="creditCard" className="ml-3 text-lg text-gray-800 select-none">
                     Kartu Kredit
                   </label>
@@ -166,7 +173,18 @@ export const Payment = () => {
         </Card>
 
         <div className="flex flex-col md:w-3/6 lg:w-2/6 pb-10 mx-auto mt-16 md:mt-28 gap-y-4">
-          <Button type="primary-dark" width="full" color="primary-dark" disabled={isLoading}>
+          <Button
+            type="primary-dark"
+            width="full"
+            color="primary-dark"
+            disabled={
+              !paymentData.cardNumber ||
+              !paymentData.cardName ||
+              !paymentData.expiredDate ||
+              !paymentData.cvv ||
+              isLoading
+            }
+          >
             {isLoading ? "Loading ..." : "Lanjutkan Pembayaran"}
           </Button>
         </div>

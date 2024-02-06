@@ -6,3 +6,9 @@ export const setGetTicket = (payload: GetTicketType) => {
     payload: payload,
   };
 };
+
+export const resetGetTicket = () => {
+  return {
+    type: "RESET_GET_TICKET",
+  };
+};

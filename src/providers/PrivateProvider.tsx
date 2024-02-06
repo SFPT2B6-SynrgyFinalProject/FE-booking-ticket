@@ -72,7 +72,7 @@ export default function PrivateProvider() {
           <>
             <div
               className={`absolute left-0 right-0 z-[5] ${
-                location.pathname === "/search" ? "top-44" : "top-28 md:top-96"
+                location.pathname === "/search" ? "top-44" : "top-28 md:top-[22rem]"
               }`}
             >
               <SearchBox />

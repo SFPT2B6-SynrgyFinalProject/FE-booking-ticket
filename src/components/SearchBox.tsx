@@ -39,7 +39,7 @@ const CustomControl: React.FC<
   ControlProps<Option, boolean, GroupBase<Option>>
 > = ({ children, ...props }) => (
   <components.Control {...props}>
-    <Icon icon="mingcute:flight-takeoff-line" width={24} className="mr-2" />
+    <Icon icon="mingcute:flight-takeoff-line" width={24} className="mr-2 text-gray-500" />
     {children}
   </components.Control>
 );
@@ -47,7 +47,7 @@ const CustomControl1: React.FC<
   ControlProps<Option, boolean, GroupBase<Option>>
 > = ({ children, ...props }) => (
   <components.Control {...props}>
-    <Icon icon="mingcute:flight-land-line" width={24} className="mr-2" />
+    <Icon icon="mingcute:flight-land-line" width={24} className="mr-2 text-gray-500" />
     {children}
   </components.Control>
 );
@@ -56,13 +56,13 @@ const CustomControl2: React.FC<
   ControlProps<Option, boolean, GroupBase<Option>>
 > = ({ children, ...props }) => (
   <components.Control {...props}>
-    <Icon icon="solar:chair-2-bold" width={24} className="mr-2" />
+    <Icon icon="ph:office-chair-bold" width={24} className="ml-[.7rem] mr-1 text-gray-600/80" />
     {children}
   </components.Control>
 );
 
 const SearchBox: React.FC = () => {
-  const [isFocused, setIsFocused] = useState(false);
+  // const [isFocused, setIsFocused] = useState(false);
   const [selectedFlightClass, setSelectedFlightClass] = useState<
     number | string
   >(0);
@@ -176,7 +176,7 @@ const SearchBox: React.FC = () => {
 
   return (
     <>
-      <div className="container relative">
+      <div className="container relative select-none">
         {isLoadings ? (
           <>
             <section className="absolute rounded-[30px] z-[1] bg-black w-[27.9rem] lg:w-full h-full opacity-10"></section>
@@ -191,7 +191,7 @@ const SearchBox: React.FC = () => {
           </>
         ) : null}
         <form
-          className="searchbox-container bg-white font-outfit rounded-[30px] py-[27px] px-[22px]"
+          className="searchbox-container bg-white font-outfit rounded-[30px] pt-2 lg:pt-[27px] pb-[33px] px-[22px]"
           onSubmit={handleSubmit}
         >
           <div className="search-controller flex flex-col md:flex-row justify-end">
@@ -223,11 +223,11 @@ const SearchBox: React.FC = () => {
           <div className="search-items grid grid-cols-1 md:grid-cols-11 gap-x-4 md:gap-x-14 gap-y-[13px] mt-6">
             <div className="form-group lg:col-span-4">
               <Select
-                placeholder="From"
+                placeholder="Pilih kota atau bandara"
                 components={{ Control: CustomControl }}
                 classNames={{
                   control: () =>
-                    "!bg-white !border !border-gray-400 !text-gray-900 !text-sm !rounded-[10px] !focus:ring-blue-500 !focus:border-blue-500 !w-full px-[18px] h-[55px]",
+                    "!bg-white !border !border-gray-400 !text-gray-900 !text-md !rounded-[10px] !focus:ring-blue-500 !focus:border-blue-500 !w-full px-[18px] h-[55px]",
                 }}
                 options={optionAirport.data.map((airport) => ({
                   value: airport.code,
@@ -239,11 +239,11 @@ const SearchBox: React.FC = () => {
             </div>
             <div className="form-group lg:col-span-4">
               <Select
-                placeholder="To"
+                placeholder="Mau ke mana?"
                 components={{ Control: CustomControl1 }}
                 classNames={{
                   control: () =>
-                    "!bg-white !border !border-gray-400 !text-gray-900 !text-sm !rounded-[10px] !focus:ring-blue-500 !focus:border-blue-500 !w-full px-[18px] h-[55px]",
+                    "!bg-white !border !border-gray-400 !text-gray-900 !text-md !rounded-[10px] !focus:ring-blue-500 !focus:border-blue-500 !w-full px-[18px] h-[55px]",
                 }}
                 // defaultValue={selectedOption2}
                 options={optionAirport.data.map((airport) => ({
@@ -262,28 +262,28 @@ const SearchBox: React.FC = () => {
             </div>
             <div className="form-group lg:col-span-4">
               <div className="relative">
-                {!isFocused && (
+                {/* {!isFocused && ( */}
                   <Icon
-                    icon="fluent:calendar-20-filled"
-                    width={24}
+                    icon="uil:calendar-alt"
+                    width={23}
                     style={{
                       position: "absolute",
                       top: "50%",
                       left: "20px",
                       transform: "translateY(-50%)",
                     }}
+                    className="text-gray-500"
                   />
-                )}
+                {/* )} */}
                 <input
-                  placeholder="Departure Date"
-                  className="bg-white border border-gray-400 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 !h-[55px] pl-14 rounded-[10px]" // Add pl-10 for left padding
-                  type="date"
+                  placeholder="Tanggal keberangkatan"
+                  className="bg-white border border-gray-400 text-gray-800 text-[1rem] focus:ring-blue-500 focus:border-blue-500 focus:outline-none focus:border-2 block w-full p-2.5 !h-[55px] pl-[3.7rem] rounded-[10px] placeholder-gray-500/90"
+                  type="text"
                   onFocus={(e) => (
-                    (e.target.name = "departure-date-start"), setIsFocused(true)
+                    (e.target.type = "date"), (e.target.name = "departure-date-start")
                   )}
                   onBlur={(e) => (
-                    (e.target.name = "departure-date-start"),
-                    setIsFocused(false)
+                    (e.target.type = "text"), (e.target.name = "departure-date-start")
                   )}
                   id="departure-date-start"
                   name="departure-date-start"
@@ -293,27 +293,28 @@ const SearchBox: React.FC = () => {
             </div>
             <div className="form-group lg:col-span-4">
               <div className="relative">
-                {!isFocused && (
+                {/* {!isFocused && ( */}
                   <Icon
-                    icon="fluent:calendar-20-filled"
-                    width={24}
+                    icon="uil:calendar-alt"
+                    width={23}
                     style={{
                       position: "absolute",
                       top: "50%",
                       left: "20px",
                       transform: "translateY(-50%)",
                     }}
+                    className="text-gray-500"
                   />
-                )}
+                {/* )} */}
                 <input
-                  placeholder="Departure Arrival"
-                  className="bg-white border border-gray-400 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 !h-[55px] pl-14 !rounded-[10px]" // Add pl-10 for left padding
-                  type="date"
+                  placeholder="Tanggal kedatangan"
+                  className="bg-white border border-gray-400 text-gray-800 text-[1rem] focus:ring-blue-500 focus:border-blue-500 focus:outline-none focus:border-2 block w-full p-2.5 !h-[55px] pl-[3.7rem] rounded-[10px] placeholder-gray-500/90"
+                  type="text"
                   onFocus={(e) => (
-                    (e.target.name = "departure-date-end"), setIsFocused(true)
+                    (e.target.type = "date"), (e.target.name = "departure-date-end")
                   )}
                   onBlur={(e) => (
-                    (e.target.name = "departure-date-end"), setIsFocused(false)
+                    (e.target.type = "text"), (e.target.name = "departure-date-end")
                   )}
                   id="departure-date-end"
                   name="departure-date-end"
@@ -326,9 +327,9 @@ const SearchBox: React.FC = () => {
                 components={{ Control: CustomControl2 }}
                 classNames={{
                   control: () =>
-                    "!bg-white !border !border-gray-400 !text-gray-900 !text-sm !focus:ring-blue-500 !focus:border-blue-500 !w-full px-2.5 !h-[55px] !rounded-[10px]",
+                    "!bg-white !border !border-gray-400 !text-gray-900 !text-md !focus:ring-blue-500 !focus:border-blue-500 !w-full px-2.5 !h-[55px] !rounded-[10px]",
                 }}
-                placeholder="class"
+                placeholder="Kelas"
                 options={optionFlightClass.data.map((flightClass) => ({
                   value: flightClass.id,
                   label: flightClass.name,
