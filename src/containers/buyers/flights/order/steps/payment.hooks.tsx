@@ -8,10 +8,17 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../../config/redux/store";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../../config/redux/store";
-import { setCurrentStep } from "./../../../../../config/redux/action";
+import { resetGetTicket, setCurrentStep } from "./../../../../../config/redux/action";
 import { IAlert } from "../../../../../lib/services/auth";
 
 export default function usePaymentOrder() {
+  const dispatch = useDispatch<AppDispatch>();
+  const resultData: IFlightOrderResponseBody = useSelector(
+    (state: RootState) => state.flightOrderReducer
+  );
+
+  dispatch(resetGetTicket());
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [alert, setAlert] = useState<IAlert | null>(null);
 
@@ -31,12 +38,6 @@ export default function usePaymentOrder() {
       return () => clearTimeout(timeoutId);
     }
   }, [alert]);
-
-  const dispatch = useDispatch<AppDispatch>();
-
-  const resultData: IFlightOrderResponseBody = useSelector(
-    (state: RootState) => state.flightOrderReducer
-  );
 
   const calculatePassengerDetails = (passengerType: "adult" | "child" | "infant") => {
     const priceDetails = resultData.data.priceDetails.basePriceBreakdown?.[passengerType] || [];
@@ -112,7 +113,7 @@ export default function usePaymentOrder() {
 
       setTimeout(() => {
         dispatch(setCurrentStep(3));
-      }, 2000);
+      }, 1000);
     } catch (error) {
       console.log(error);
 

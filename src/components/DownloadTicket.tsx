@@ -3,6 +3,7 @@ import Button from "./Button";
 import Logo from "./../assets/images/logo.png";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { IFlightOrderResponseBody } from "../containers/buyers/flights/flights.types";
+import { formatTimeHoursMinute, formatDateString } from "../lib";
 const API_URL: string = import.meta.env.VITE_API_URL;
 
 interface DownloadTicketProps {
@@ -12,6 +13,8 @@ interface DownloadTicketProps {
 const DownloadTicket: React.FC<DownloadTicketProps> = ({ dataFlightOrder }) => {
   const [isPrint, setIsPrint] = useState(true);
   const data = dataFlightOrder.data;
+
+  console.log(dataFlightOrder);
 
   const {
     orderId,
@@ -36,48 +39,10 @@ const DownloadTicket: React.FC<DownloadTicketProps> = ({ dataFlightOrder }) => {
     passengerDetails: { adult, child, infant },
   } = data;
 
-  const departureDateTime = new Date(departureDate);
-  const departureHours = departureDateTime.getHours();
-  const departureMinutes = departureDateTime.getMinutes();
-  const formattedDepartureTime = `${String(departureHours).padStart(2, "0")}:${String(
-    departureMinutes
-  ).padStart(2, "0")}`;
-
-  const arrivalDateTime = new Date(arrivalDate);
-  const arrivalHours = arrivalDateTime.getHours();
-  const arrivalMinutes = arrivalDateTime.getMinutes();
-  const formattedArrivalTime = `${String(arrivalHours).padStart(2, "0")}:${String(
-    arrivalMinutes
-  ).padStart(2, "0")}`;
-
-  const formatDateString = (dateTimeString: string): string => {
-    const dateTime = new Date(dateTimeString);
-    const daysOfWeek = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
-    const dayOfWeek = daysOfWeek[dateTime.getUTCDay()];
-    const day = dateTime.getUTCDate();
-    const monthNames = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "Mei",
-      "Jun",
-      "Jul",
-      "Ags",
-      "Sep",
-      "Okt",
-      "Nov",
-      "Des",
-    ];
-    const month = monthNames[dateTime.getUTCMonth()];
-    const year = dateTime.getUTCFullYear();
-
-    return `${dayOfWeek}, ${day} ${month} ${year}`;
-  };
-
   const formattedDepartureDate = formatDateString(departureDate);
   const formattedArrivalDate = formatDateString(arrivalDate);
-  const facility1 = (facility?.find((item: { id: number }) => item.id === 1) || {}).name || "-";
+  const facility1 =
+    (facility?.find((item: { id: number }) => item.id === 1 || item.id === 4) || {}).name || "-";
 
   const handlePrintButtonClick = () => {
     setIsPrint(true);
@@ -88,6 +53,7 @@ const DownloadTicket: React.FC<DownloadTicketProps> = ({ dataFlightOrder }) => {
 
   return (
     <div>
+      {/* <div> */}
       <div className={`${isPrint ? "print-ticket" : ""} hidden`}>
         <div className="fixed top-0 left-14 right-14 pt-9">
           <div className="flex justify-between items-start">
@@ -153,12 +119,12 @@ const DownloadTicket: React.FC<DownloadTicketProps> = ({ dataFlightOrder }) => {
             <div className="absolute w-[9px] aspect-square rounded-full bg-gray-500 -left-[5px] -bottom-1"></div> */}
 
             <div>
-              <h6 className="text-black font-semibold">{formattedDepartureTime}</h6>
+              <h6 className="text-black font-semibold">{formatTimeHoursMinute(departureDate)}</h6>
               <p className="font-medium text-gray-500">{formattedDepartureDate}</p>
             </div>
 
             <div>
-              <h6 className="text-black font-semibold">{formattedArrivalTime}</h6>
+              <h6 className="text-black font-semibold">{formatTimeHoursMinute(arrivalDate)}</h6>
               <p className="font-medium text-gray-500">{formattedArrivalDate}</p>
             </div>
           </div>
