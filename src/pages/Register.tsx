@@ -9,7 +9,7 @@ import Alert from "../components/Alert";
 import { CredentialResponse, GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { registerUser, RegisterRequestBody, IAlert } from "../lib/services/auth";
 
-const CLIENT_ID: string = import.meta.env.VITE_CLIENT_ID;
+const CLIENT_ID: string | undefined = process.env.VITE_CLIENT_ID;
 
 export default function Register() {
   const [email, setEmail] = useState<string>("");
@@ -226,7 +226,7 @@ export default function Register() {
                     name="password"
                     value={password}
                     customStyle="py-[18px] pl-[20px] pr-[20px]"
-                    placeholder="Password"
+                    placeholder="Masukan Password"
                     onChange={handleChange}
                     icon={showPassword ? "mingcute:eye-line" : "mingcute:eye-close-line"}
                     onIconClick={togglePasswordVisibility}
