@@ -13,6 +13,7 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { GetTicketType } from "../config/redux/reducer/getTicketReducer";
+import { formatTimeHoursMinute, rupiahFormatter } from "../lib";
 const API_URL: string = import.meta.env.VITE_API_URL;
 
 interface ResultCardType {
@@ -63,22 +64,8 @@ function ResultCard({
   const dispatch = useDispatch<AppDispatch>();
   const navigate: NavigateFunction = useNavigate();
 
-  const convertToLocaleStringOfNumber = (num: number) => {
-    return num.toLocaleString("id").replace(/\./g, ",");
-  };
-
   const handleExpandToggle = () => {
     setExpanded(!isExpanded);
-  };
-
-  const getHour = (date: string) => {
-    const getDate = new Date(date);
-    const hour = getDate.getUTCHours();
-    const minute = getDate.getUTCMinutes();
-    const formattedHour = hour < 10 ? `0${hour.toString()}` : hour.toString();
-    const formattedMinute =
-      minute < 10 ? `0${minute.toString()}` : minute.toString();
-    return `${formattedHour} : ${formattedMinute}`;
   };
 
   const timeFormatterForDetail = (time: string) => {
@@ -103,7 +90,7 @@ function ResultCard({
       passengerDetails,
     };
     dispatch(setGetTicket(payload));
-    navigate("/penerbangan")
+    navigate("/penerbangan");
   };
 
   return (
@@ -145,7 +132,7 @@ function ResultCard({
                 <>
                   <div className="col-span-1 text-center">
                     <h2 className="time text-[22px] text-neutral-800 font-outfit leading-7">
-                      {getHour(departureTime)}
+                      {formatTimeHoursMinute(departureTime)}
                     </h2>
                     <p className="mt-3 text-neutral-800 font-outfit font-semibold">
                       {departureAirportCode}
@@ -180,7 +167,7 @@ function ResultCard({
                 ) : (
                   <>
                     <h2 className="time text-[22px] text-neutral-800 font-outfit leading-7">
-                      {getHour(arrivalTime)}
+                      {formatTimeHoursMinute(arrivalTime)}
                     </h2>
                     <p className="mt-3 text-neutral-800 font-outfit font-semibold">
                       {arrivalAirportCode}
@@ -226,7 +213,7 @@ function ResultCard({
               ) : (
                 <>
                   <span className="text-sm text-neutral-800 font-outfit font-semibold line-through">
-                    {`IDR ${convertToLocaleStringOfNumber(basePricePerPerson)}`}
+                    {`${rupiahFormatter(basePricePerPerson)}`}
                   </span>
                 </>
               )}
@@ -237,9 +224,8 @@ function ResultCard({
               ) : (
                 <>
                   <p className="font-medium text-xl text-secondary-danger font-outfit">
-                    IDR{" "}
-                    {convertToLocaleStringOfNumber(discountedPricePerPerson)}
-                    <span className="text-base text-neutral-800">/ pax</span>
+                    {rupiahFormatter(discountedPricePerPerson)}
+                    <span className="text-base text-neutral-800"> / pax</span>
                   </p>
                 </>
               )}
@@ -301,7 +287,7 @@ function ResultCard({
                           <h6 className="font-sans font-semibold text-neutral-800">
                             {`${timeFormatterForDetail(
                               departureTime
-                            )} ${getHour(departureTime)}`}
+                            )} ${formatTimeHoursMinute(departureTime)}`}
                           </h6>
                         </>
                       )}
@@ -344,9 +330,9 @@ function ResultCard({
                       ) : (
                         <>
                           <h6 className="font-sans font-semibold text-neutral-800">
-                            {`${timeFormatterForDetail(arrivalTime)} ${getHour(
+                            {`${timeFormatterForDetail(
                               arrivalTime
-                            )}`}
+                            )} ${formatTimeHoursMinute(arrivalTime)}`}
                           </h6>
                         </>
                       )}
@@ -395,7 +381,7 @@ function ResultCard({
                     </>
                   ) : (
                     <p>
-                      {convertToLocaleStringOfNumber(
+                      {rupiahFormatter(
                         basePricePerPerson * passengerCountForAdult
                       )}
                     </p>
@@ -418,7 +404,7 @@ function ResultCard({
                       </>
                     ) : (
                       <p>
-                        {convertToLocaleStringOfNumber(
+                        {rupiahFormatter(
                           basePricePerPerson * passengerCountForChild
                         )}
                       </p>
@@ -470,7 +456,7 @@ function ResultCard({
                     </>
                   ) : (
                     <>
-                      <p>-IDR {convertToLocaleStringOfNumber(totalDicount)}</p>
+                      <p>-{rupiahFormatter(totalDicount)}</p>
                     </>
                   )}
                 </div>
@@ -510,7 +496,7 @@ function ResultCard({
                     </>
                   ) : (
                     <>
-                      <p>IDR {convertToLocaleStringOfNumber(totalPrice)} </p>
+                      <p>{rupiahFormatter(totalPrice)} </p>
                     </>
                   )}
                 </div>
