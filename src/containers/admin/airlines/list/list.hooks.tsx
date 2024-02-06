@@ -1,6 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { IAirLines } from "../airlines.types";
+import { fetchInstance } from "../../../../lib/services/core";
+import { useUserToken } from "../../../../lib/services/auth";
+
+
 
 export default function useList() {
   const [open, setOpen] = useState<boolean>(false);
@@ -9,66 +13,19 @@ export default function useList() {
   const [kode, setBandaraTujuan] = useState("");
   const [judul, setJudul] = useState("Tambah Data maskapai");
   const [deleteId, setDeleteId] = useState("");
+  const [data, setData] = useState<IAirLines[]>([]);
 
-  const data = [
-    {
-      id: 1,
-      maskapai: "Garuda Indonesia",
-      kode: "CGK-DPS",
-    },
-    {
-      id: 2,
-      maskapai: "Lion Air",
-      kode: "DPS-SUB",
-    },
-    {
-      id: 3,
-      maskapai: "Citilink",
-      kode: "SUB-CGK",
-    },
-    {
-      id: 4,
-      maskapai: "Batik Air",
-      kode: "CGK-JOG",
-    },
-    {
-      id: 5,
-      maskapai: "Sriwijaya Air",
-      kode: "JOG-DPS",
-    },
-    {
-      id: 6,
-      maskapai: "AirAsia",
-      kode: "DPS-SUB",
-    },
-    {
-      id: 7,
-      maskapai: "Wings Air",
-      kode: "SUB-JOG",
-    },
-    {
-      id: 8,
-      maskapai: "Nam Air",
-      kode: "JOG-CGK",
-    },
-    {
-      id: 9,
-      maskapai: "TransNusa",
-      kode: "CGK-DPS",
-    },
-    {
-      id: 10,
-      maskapai: "Kalstar Aviation",
-      kode: "DPS-SUB",
-    },
-  ];
-
-  const fetchAirLines = async () => {
+  const fetchData = async () => {
     try {
-      // logic fetch data
-      setRecords(data);
+      const response = await fetchInstance({
+        authToken: useUserToken(),
+        endpoint: "/api/admin/airlines?dataPerPage=50&page=1",
+        method: "GET",
+      });
+      setData(response.data["airlines"]);
+      setRecords(response.data["airlines"]); // assuming you want to set records with the fetched data
     } catch (error) {
-      console.log("error");
+      console.log("error:", error);
     }
   };
 
@@ -94,8 +51,8 @@ export default function useList() {
 
   const handleEdit = (id: number): void => {
     setJudul("Ubah Data maskapai");
-    setBandaraAsal(data[id - 1]["maskapai"]);
-    setBandaraTujuan(data[id - 1]["kode"]);
+    setBandaraAsal(data[id - 1]["name"]);
+    setBandaraTujuan(data[id - 1]["code"]);
     setOpen(true);
   };
 
@@ -106,17 +63,17 @@ export default function useList() {
   };
 
   const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newData = data.filter((row: { maskapai: string; kode: string }) => {
+    const newData = data.filter((row: { name: string; code: string }) => {
       return (
-        row.maskapai.toLowerCase().includes(e.target.value.toLowerCase()) ||
-        row.kode.toLowerCase().includes(e.target.value.toLowerCase())
+        row.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
+        row.code.toLowerCase().includes(e.target.value.toLowerCase())
       );
     });
     setRecords(newData);
   };
 
   useEffect(() => {
-    fetchAirLines();
+    fetchData();
   }, []);
 
   return {
@@ -134,3 +91,4 @@ export default function useList() {
     handleChange,
   };
 }
+

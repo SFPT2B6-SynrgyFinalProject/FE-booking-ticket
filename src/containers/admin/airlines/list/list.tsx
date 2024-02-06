@@ -52,13 +52,13 @@ const AirLine: React.FC<TableProps> = () => {
   const columns = [
     {
       name: "Maskapai",
-      selector: (row: IAirLines) => row.maskapai,
+      selector: (row: IAirLines) => row.name,
       width: "35rem",
       sortable: true,
     },
     {
       name: "Kode",
-      selector: (row: IAirLines) => row.kode,
+      selector: (row: IAirLines) => row.code,
       sortable: true,
     },
 
@@ -142,7 +142,7 @@ const AirLine: React.FC<TableProps> = () => {
           size="xs"
           onClick={clickOpen}
         >
-          tambah maskapai <Icon icon="prime:file-import" width={20} />
+          Tambah Maskapai <Icon icon="prime:file-import" width={20} />
         </Button>
         <div className="mt-4 w-full sm:w-fit">
           <InputComponent
