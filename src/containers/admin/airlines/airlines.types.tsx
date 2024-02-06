@@ -1,5 +1,5 @@
 export interface IAirLines {
   id: number;
-  maskapai: string;
-  kode: string;
+  name: string;
+  code: string;
 }

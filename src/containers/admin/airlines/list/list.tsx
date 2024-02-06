@@ -52,13 +52,13 @@ const AirLine: React.FC<TableProps> = () => {
   const columns = [
     {
       name: "Maskapai",
-      selector: (row: IAirLines) => row.maskapai,
+      selector: (row: IAirLines) => row.name,
       width: "35rem",
       sortable: true,
     },
     {
       name: "Kode",
-      selector: (row: IAirLines) => row.kode,
+      selector: (row: IAirLines) => row.code,
       sortable: true,
     },
 
