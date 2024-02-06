@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { BuyerFlightOrder, IFlightData, IFlightOrderRequestBody } from "../../flights.types";
 import { useDispatch } from "react-redux";
@@ -68,8 +69,17 @@ export default function useFlightOrder() {
       }, 2000);
       return () => clearTimeout(timeoutId);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getTicketType.ticketId, flightData, getTicketType.passengerDetails, alert]);
+
+  useEffect(() => {
+    if (enabled) {
+      setFlightData({
+        ...flightData,
+        ["fullName-0"]: flightData.fullName,
+        ["call-0"]: flightData.call,
+      });
+    }
+  }, [enabled]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
