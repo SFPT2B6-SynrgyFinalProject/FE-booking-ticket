@@ -142,7 +142,7 @@ const AirLine: React.FC<TableProps> = () => {
           size="xs"
           onClick={clickOpen}
         >
-          tambah maskapai <Icon icon="prime:file-import" width={20} />
+          Tambah Maskapai <Icon icon="prime:file-import" width={20} />
         </Button>
         <div className="mt-4 w-full sm:w-fit">
           <InputComponent
