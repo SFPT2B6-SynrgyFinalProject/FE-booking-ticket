@@ -95,24 +95,12 @@ const Route: React.FC<TableProps> = () => {
         {judul === "Ubah Data Rute" || judul === "Tambah Data Rute" ? (
           <div className="mt-2">
             <div className="mb-3">
-              <InputComponent
-                placeholder="bandara asal "
-                type="text"
-                id="bandara-asal"
-                name="bandara-asal"
-                value={bandara_asal}
-                onChange={handleChange}
-              />
+              <label htmlFor="">Bandara Asal</label>
+              <input id="bandara-asal" name="bandara-asal" value={bandara_asal} onChange={handleChange} type="text" className="w-full h-[40px] mt-1 border border-[#ddd] rounded-md outline-none px-4 text-sm shadow" />
             </div>
             <div>
-              <InputComponent
-                placeholder="bandara tujuan"
-                type="text"
-                id="bandara-tujuan"
-                name="bandara-tujuan"
-                value={bandara_tujuan}
-                onChange={handleChange}
-              />
+              <label htmlFor="">Bandara Tujuan</label>
+              <input id="bandara-tujuan" name="bandara-tujuan" value={bandara_tujuan} onChange={handleChange} type="text" className="w-full h-[40px] mt-1 border border-[#ddd] rounded-md outline-none px-4 text-sm shadow" />
             </div>
           </div>
         ) : (
@@ -136,19 +124,15 @@ const Route: React.FC<TableProps> = () => {
           </Button>
         </div>
       </FormModal>
-      <div className="flex flex-col md:flex-row md:justify-between items-center">
-        <Button
-          className={`!bg-green-600 py-[11px] text-white px-[14px] sm:px-[35px] md:px-[24px]`}
-          size="xs"
-          onClick={clickOpen}
-        >
-          tambah rute <Icon icon="prime:file-import" width={20} />
-        </Button>
-        <div className="mt-4 w-full sm:w-fit">
+      <div className="flex flex-col md:flex-row md:justify-between items-center border-t border-b border-[#000] border-opacity-25 py-[15px] px-3">
+        <button className="bg-green-600 py-2 px-3 rounded-[10px] text-white font-outfit flex items-center gap-2" onClick={clickOpen}>
+          Tambah Rute <Icon icon="prime:file-import" width={20} />
+        </button>
+        <div className="w-full sm:w-fit">
           <InputComponent
             type="text"
             placeholder="Cari..."
-            customStyle="border border-gray-400/80 px-4 py-[10px] rounded-xl"
+            customStyle="border border-[#000] border-opacity-25 px-4 py-[10px] rounded-[10px] text-base"
             onChange={handleFilter}
           />
         </div>
