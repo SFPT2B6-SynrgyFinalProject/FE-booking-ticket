@@ -1,20 +1,22 @@
-import { PayloadAction } from '@reduxjs/toolkit';
-import { INotifications } from '../../../containers/buyers/notifications/notifications.types';
+import { ADD_NOTIFICATION_ORDER_ID, REMOVE_NOTIFICATION_ORDER_IDS } from '../action/notificationAction';
 
-export interface NotificationState {
-    notifications: INotifications[];
-}
-
-const initialState: NotificationState = {
-    notifications: [],
+const initialState = {
+  orderCount: 0 as number,
 };
 
-export const notificationReducer = (state = initialState, action: PayloadAction<INotifications[]>) => {
-    if (action.type === "GET_NOTIFICATIONS") {
-        return {
-            ...state,
-            notifications: action.payload,
-        };
-    }
-    return state;
+export const notificationReducer = (state = initialState, action: any) => {
+  switch (action.type) {
+    case ADD_NOTIFICATION_ORDER_ID:
+      return {
+        ...state,
+        orderCount: state.orderCount +1,
+      };
+    case REMOVE_NOTIFICATION_ORDER_IDS:
+      return {
+        ...state,
+        orderCount: 0,
+      };
+    default:
+      return state;
+  }
 };
