@@ -11,6 +11,7 @@ export interface IPaymentRequestBody {
   cardName: string;
   cvv: string;
   expiredDate: string;
+  paymentMethod?: string;
 }
 
 export interface IPaymentResponseBody {

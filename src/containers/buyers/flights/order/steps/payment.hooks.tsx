@@ -21,13 +21,15 @@ export default function usePaymentOrder() {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [alert, setAlert] = useState<IAlert | null>(null);
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
 
   const [paymentData, setPaymentData] = useState<IPaymentRequestBody>({
-    orderId: "",
+    orderId: resultData.data.orderId,
     cardNumber: "",
     cardName: "",
     cvv: "",
     expiredDate: "",
+    paymentMethod: "",
   });
 
   useEffect(() => {
@@ -75,7 +77,12 @@ export default function usePaymentOrder() {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setPaymentData({ ...paymentData, [name]: value });
+
+    const updatedPaymentData = { ...paymentData, [name]: value };
+    setPaymentData(updatedPaymentData);
+
+    const anyEmptyValue = Object.values(updatedPaymentData).some((val) => val === "");
+    setIsButtonDisabled(anyEmptyValue);
   };
 
   const handleSubmitPayment = async (e: FormEvent<HTMLFormElement>) => {
@@ -143,5 +150,6 @@ export default function usePaymentOrder() {
     childDetails,
     infantDetails,
     alert,
+    isButtonDisabled,
   };
 }
