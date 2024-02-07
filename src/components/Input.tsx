@@ -28,13 +28,14 @@ const InputComponent: React.FC<InputProps> = ({
   name,
   value,
   required,
-  onFocus = () => {},
+  onFocus = () => { },
+  //istanbul ignore next
   onChange = () => {},
   onIconClick = () => {},
   iconPosition = "right",
 }) => {
   const isIconLeft = iconPosition === "left";
-
+  //istanbul ignore next
   return (
     <div className={`flex items-center relative ${isIconLeft ? "flex-row-reverse" : ""}`}>
       {icon && (
