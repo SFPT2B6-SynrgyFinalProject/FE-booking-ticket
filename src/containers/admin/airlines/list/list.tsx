@@ -35,7 +35,7 @@ const customStyles = {
 
 const AirLine: React.FC<TableProps> = () => {
   const {
-    postData,
+    
     isLoading,
     records,
     open,
