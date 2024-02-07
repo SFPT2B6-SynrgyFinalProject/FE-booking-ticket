@@ -12,6 +12,8 @@ jest.mock("../assets/images/airplane-and-packages-1.png", () => ({
   default: "mocked-airplane-path",
 }));
 
+
+
 describe("Login Component", () => {
   test("handles form submission and shows success alert", async () => {
     // Spy on loginUser function
@@ -23,6 +25,7 @@ describe("Login Component", () => {
         roles: ["user"],
       },
     } as any);
+    
 
     render(
       <BrowserRouter>
@@ -52,9 +55,50 @@ describe("Login Component", () => {
       password: "testPassword",
     });
 
-    // Clean up the spy
     loginUserMock.mockRestore();
   });
-
-  // Add more test cases as needed
 });
+
+describe("Login Component", () => {
+  test("handles form submission and shows error alert", async () => {
+    // Spy on loginUser function
+    const loginUserMock = jest.spyOn(authModule, "loginUser");
+    loginUserMock.mockResolvedValue({
+      status: "fail",
+      data: {
+        email: "You have not registered using this email",
+      },
+    } as any);
+
+    render(
+      <BrowserRouter>
+        <Login />
+      </BrowserRouter>
+    );
+
+    // Fill in the form
+    fireEvent.change(screen.getByPlaceholderText(/Email Address/i), {
+      target: { value: "kudesigned@example.com" },
+    });
+    fireEvent.change(screen.getByPlaceholderText(/Password/i), {
+      target: { value: "kudesigned" },
+    });
+
+    // Submit the form
+    fireEvent.submit(screen.getByRole("button", { name: /Log in/i }));
+
+    // Wait for the success alert
+    await waitFor(() => {
+      expect(screen.getByText(/You have not registered using this email/i)).toBeInTheDocument();
+    });
+
+    // Verify that loginUser was called
+    expect(loginUserMock).toHaveBeenCalledWith({
+      email: "kudesigned@example.com",
+      password: "kudesigned",
+    });
+
+    loginUserMock.mockRestore();
+  });
+});
+

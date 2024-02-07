@@ -74,10 +74,12 @@ export const Stepper: React.FC<StepperProps> = ({ steps, currentStep }) => {
     <div
       key={index}
       className={
+        
         index !== newStep.length - 1
           ? "w-full flex items-center"
           : "flex items-center"
       }
+        data-testid={`step-${index + 1}`} 
     >
       <div className="relative flex flex-col items-center text-blue-600">
         <div

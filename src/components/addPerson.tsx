@@ -123,3 +123,4 @@ const HeaderSearchItem: React.FC<HeaderSearchItemProps> = ({
 };
 
 export default HeaderSearchItem;
+export type { OptionPersonAgeType };

@@ -12,7 +12,7 @@ jest.mock("../assets/images/airplane-and-packages-1.png", () => ({
   default: "mocked-airplane-path",
 }));
 
-describe("Send Email for Reset Password", () => {
+describe("Send Email for Reset Password success", () => {
   test("handles form submission and shows success alert", async () => {
     // Spy on loginUser function
     const ResetEmailPasswordMock = jest.spyOn(SendEmailReset, "SendPasswordResetLink");
@@ -45,6 +45,46 @@ describe("Send Email for Reset Password", () => {
     // Verify that loginUser was called
     expect(ResetEmailPasswordMock).toHaveBeenCalledWith({
       email: "achmadusufalmaruf@gmail.com",
+    });
+
+    // Clean up the spy
+    ResetEmailPasswordMock.mockRestore();
+  });
+
+  // Add more test cases as needed
+});
+
+describe("Send Email for Reset Password error", () => {
+  test("handles form submission and shows error alert", async () => {
+    // Spy on loginUser function
+    const ResetEmailPasswordMock = jest.spyOn(SendEmailReset, "SendPasswordResetLink");
+    ResetEmailPasswordMock.mockResolvedValue({
+      status: "fail",
+      data: {
+        email: "kudesigned@gmail.com"
+      },
+    } as any);
+
+    render(
+      <BrowserRouter>
+        <ForgetPassword />
+      </BrowserRouter>
+    );
+
+    // Fill in the form
+    fireEvent.change(screen.getByPlaceholderText(/Email Address/i), {
+      target: { value: "kudesigned@gmail.com" },
+    });
+
+    // Submit the form
+    fireEvent.submit(screen.getByRole("button", { name: /Reset Password/i }));
+
+    // Wait for the success alert
+  
+
+    // Verify that loginUser was called
+    expect(ResetEmailPasswordMock).toHaveBeenCalledWith({
+      email: "kudesigned@gmail.com",
     });
 
     // Clean up the spy
