@@ -13,24 +13,24 @@ export default function Home() {
           backgroundImage: `url(${gambarbg})`,
         }}
       >
-        <div className="flex justify-center w-full h-full bg-gray-800/40">
+        <div className="flex justify-center w-full h-full bg-gray-500/40">
           <div className="container text-center">
-            <p className="pt-28 text-white text-center font-outfit text-4xl leading-10 tracking-tight">
-              Let's Start Booking Your Tickets and Soar to Your Dream
-              Destinations!
+            <p className="pt-28 text-white text-center font-outfit font-medium text-4xl leading-10 tracking-tight">
+              Let's Start Booking Your Tickets and Soar to Your Dream Destinations!
             </p>
           </div>
         </div>
       </div>
 
-      <div className="container mt-64 sm:mt-48 sm:mb-16 lg:mb-24">
+      {/* <div className="container mt-64 sm:mt-48 sm:mb-16 lg:mt-52 lg:mb-24"> */}
+      <div className="container mt-72 lg:mt-56 sm:mt-80 md:mt-80 sm:mb-16 lg:mb-24">
         <div className="flex justify-center">
-          <h1 className="font-outfit text-3xl font-medium leading-10 tracking-wide">
+          <h1 className="font-outfit text-[26px] sm:text-3xl font-medium leading-10 tracking-wide">
             Top Destinations
           </h1>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-28 mt-20 place-items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-28 mt-16 place-items-center">
           <div className="w-[18rem] h-[17.4rem] mb-10 lg:mb-0">
             <img
               src={gambar3}
@@ -57,4 +57,3 @@ export default function Home() {
     </div>
   );
 }
-

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { BuyerFlightOrder, IFlightData, IFlightOrderRequestBody } from "../../flights.types";
 import { useDispatch } from "react-redux";
@@ -9,25 +10,13 @@ import { RootState } from "../../../../../config/redux/store";
 import { GetTicketType } from "../../../../../config/redux/reducer/getTicketReducer";
 
 export default function useFlightOrder() {
+  const dispatch = useDispatch<AppDispatch>();
+  const getTicketType: GetTicketType = useSelector((state: RootState) => state.getTicketReducer);
+
   const [enabled, setEnabled] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [alert, setAlert] = useState<IAlert | null>(null);
-
-  // const flightOrderData = {
-  //   ticketId: "9805",
-  //   classId: 1,
-  //   passengerDetails: {
-  //     adult: 1,
-  //     child: 2,
-  //     infant: 1,
-  //   },
-  // };
-
-  const getTicketType: GetTicketType = useSelector(
-    (state: RootState) => state.getTicketReducer
-  );
-
-  console.log(getTicketType)
+  const [disableBtn, setDisableBtn] = useState<boolean>(true);
 
   const [flightData, setFlightData] = useState<IFlightData>({
     ticketId: "",
@@ -38,19 +27,63 @@ export default function useFlightOrder() {
     call: "",
   });
 
+  const checkIfAnyValueIsEmpty = () => {
+    if (
+      !flightData[`fullName`] ||
+      !flightData[`call`] ||
+      !flightData[`phoneNumber`] ||
+      !flightData[`email`]
+    ) {
+      return true;
+    }
+
+    for (let i = 0; i < getTicketType.passengerDetails.adult; i++) {
+      if (!flightData[`fullName-${i}`] || !flightData[`call-${i}`]) {
+        return true;
+      }
+    }
+
+    for (let i = 0; i < getTicketType.passengerDetails.child; i++) {
+      if (!flightData[`child-Name-${i}`] || !flightData[`child-Call-${i}`]) {
+        return true;
+      }
+    }
+
+    for (let i = 0; i < getTicketType.passengerDetails.infant; i++) {
+      if (!flightData[`infant-Name-${i}`] || !flightData[`infant-Call-${i}`]) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
   useEffect(() => {
+    setDisableBtn(
+      checkIfAnyValueIsEmpty() || getTicketType.ticketId === "" || getTicketType.ticketId === 0
+    );
+
     if (alert !== null) {
       const timeoutId = setTimeout(() => {
         setAlert(null);
       }, 2000);
       return () => clearTimeout(timeoutId);
     }
-  }, [alert]);
+  }, [getTicketType.ticketId, flightData, getTicketType.passengerDetails, alert]);
 
-  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    if (enabled) {
+      setFlightData({
+        ...flightData,
+        ["fullName-0"]: flightData.fullName,
+        ["call-0"]: flightData.call,
+      });
+    }
+  }, [enabled]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
     setFlightData({
       ...flightData,
       [name]: value,
@@ -124,7 +157,7 @@ export default function useFlightOrder() {
 
       setTimeout(() => {
         dispatch(setCurrentStep(2));
-      }, 2000);
+      }, 1000);
     } catch (error) {
       console.log(error);
       if (error instanceof Error) {
@@ -148,6 +181,7 @@ export default function useFlightOrder() {
     handleChange,
     handleSubmitFlightOrder,
     alert,
-    getTicketType
+    getTicketType,
+    disableBtn,
   };
 }

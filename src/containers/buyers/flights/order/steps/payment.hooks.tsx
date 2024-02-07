@@ -8,20 +8,29 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../../config/redux/store";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../../config/redux/store";
-import { addNotificationOrderId, setCurrentStep } from "./../../../../../config/redux/action";
+import { resetGetTicket, addNotificationOrderId, setCurrentStep } from "./../../../../../config/redux/action";
 import { IAlert } from "../../../../../lib/services/auth";
 
 export default function usePaymentOrder() {
+  const dispatch = useDispatch<AppDispatch>();
+  const resultData: IFlightOrderResponseBody = useSelector(
+    (state: RootState) => state.flightOrderReducer
+  );
+
+  dispatch(resetGetTicket());
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [alert, setAlert] = useState<IAlert | null>(null);
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
   const notifications = useSelector((state: RootState) => state.notificationReducer);
 
   const [paymentData, setPaymentData] = useState<IPaymentRequestBody>({
-    orderId: "",
+    orderId: resultData.data.orderId,
     cardNumber: "",
     cardName: "",
     cvv: "",
     expiredDate: "",
+    paymentMethod: "",
   });
 
   useEffect(() => {
@@ -32,12 +41,6 @@ export default function usePaymentOrder() {
       return () => clearTimeout(timeoutId);
     }
   }, [alert]);
-
-  const dispatch = useDispatch<AppDispatch>();
-
-  const resultData: IFlightOrderResponseBody = useSelector(
-    (state: RootState) => state.flightOrderReducer
-  );
 
   const calculatePassengerDetails = (passengerType: "adult" | "child" | "infant") => {
     const priceDetails = resultData.data.priceDetails.basePriceBreakdown?.[passengerType] || [];
@@ -75,7 +78,12 @@ export default function usePaymentOrder() {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setPaymentData({ ...paymentData, [name]: value });
+
+    const updatedPaymentData = { ...paymentData, [name]: value };
+    setPaymentData(updatedPaymentData);
+
+    const anyEmptyValue = Object.values(updatedPaymentData).some((val) => val === "");
+    setIsButtonDisabled(anyEmptyValue);
   };
 
   const handleSubmitPayment = async (e: FormEvent<HTMLFormElement>) => {
@@ -115,7 +123,7 @@ export default function usePaymentOrder() {
 
       setTimeout(() => {
         dispatch(setCurrentStep(3));
-      }, 2000);
+      }, 1000);
     } catch (error) {
       console.log(error);
 
@@ -149,5 +157,6 @@ export default function usePaymentOrder() {
     childDetails,
     infantDetails,
     alert,
+    isButtonDisabled,
   };
 }

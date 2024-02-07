@@ -55,7 +55,7 @@ export default function ForgetPassword() {
       setAlert({
         type: "success",
         data: {},
-        message: fetchResult.message,
+        message: "Please check your email to reset your password.",
       });
     } catch (error) {
       if (error instanceof Error) {

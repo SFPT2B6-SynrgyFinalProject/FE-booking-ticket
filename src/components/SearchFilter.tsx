@@ -66,6 +66,10 @@ export default function SearchFilter() {
 
   const dispatch = useDispatch<AppDispatch>();
 
+  const getDate = (date: string): Date => {
+    return new Date(date);
+  };
+
   const handleFilteredData = async (
     updateAirline: SelectedAirlineType,
     updateDepartureTime: SelectedTimeType,
@@ -77,45 +81,53 @@ export default function SearchFilter() {
       const getAirlineId = Object.keys(updateAirline)
         .filter((airline) => updateAirline[airline] !== 0)
         .map((airline) => updateAirline[airline]);
-      const getTimeDepartureStart = new Date(resultSearch.departureDateStart);
-      const getTimeDepartureEnd = new Date(resultSearch.departureDateEnd);
-      const getTimeArrivalStart = new Date(resultSearch.departureDateStart);
-      const getTimeArrivalEnd = new Date(resultSearch.departureDateEnd);
+      const getTimeDepartureStart = getDate(resultSearch.departureDateStart);
+      const getTimeDepartureEnd = getDate(resultSearch.departureDateEnd);
+      const getTimeArrivalStart = getDate(resultSearch.departureDateStart);
+      const getTimeArrivalEnd = getDate(resultSearch.departureDateEnd);
 
       if (updateDepartureTime["00:00 - 06:00"]) {
-        getTimeDepartureStart.setUTCHours(0);
-        getTimeDepartureEnd.setUTCHours(6);
+        getTimeDepartureStart.setHours(0);
+        getTimeDepartureEnd.setHours(6);
         getTimeDepartureEnd.setMinutes(0);
+        getTimeDepartureEnd.setDate(getTimeDepartureStart.getDate());
       } else if (updateDepartureTime["06:00 - 12:00"]) {
-        getTimeDepartureStart.setUTCHours(6);
-        getTimeDepartureEnd.setUTCHours(12);
+        getTimeDepartureStart.setHours(6);
+        getTimeDepartureEnd.setHours(12);
         getTimeDepartureEnd.setMinutes(0);
+        getTimeDepartureEnd.setDate(getTimeDepartureStart.getDate());
       } else if (updateDepartureTime["12:00 - 18:00"]) {
-        getTimeDepartureStart.setUTCHours(12);
-        getTimeDepartureEnd.setUTCHours(18);
+        getTimeDepartureStart.setHours(12);
+        getTimeDepartureEnd.setHours(18);
         getTimeDepartureEnd.setMinutes(0);
+        getTimeDepartureEnd.setDate(getTimeDepartureStart.getDate());
       } else if (updateDepartureTime["18:00 - 24:00"]) {
-        getTimeDepartureStart.setUTCHours(18);
-        getTimeDepartureEnd.setUTCHours(24);
-        getTimeDepartureEnd.setMinutes(0);
+        getTimeDepartureStart.setHours(18);
+        getTimeDepartureEnd.setHours(23);
+        getTimeDepartureEnd.setMinutes(59);
+        getTimeDepartureEnd.setDate(getTimeDepartureStart.getDate());
       }
 
       if (updateArrivalTime["00:00 - 06:00"]) {
-        getTimeArrivalStart.setUTCHours(0);
-        getTimeArrivalEnd.setUTCHours(6);
+        getTimeArrivalStart.setHours(0);
+        getTimeArrivalEnd.setHours(6);
         getTimeArrivalEnd.setMinutes(0);
+        getTimeArrivalEnd.setDate(getTimeArrivalStart.getDate());
       } else if (updateArrivalTime["06:00 - 12:00"]) {
-        getTimeArrivalStart.setUTCHours(6);
-        getTimeArrivalEnd.setUTCHours(12);
+        getTimeArrivalStart.setHours(6);
+        getTimeArrivalEnd.setHours(12);
         getTimeArrivalEnd.setMinutes(0);
+        getTimeArrivalEnd.setDate(getTimeArrivalStart.getDate());
       } else if (updateArrivalTime["12:00 - 18:00"]) {
-        getTimeArrivalStart.setUTCHours(12);
-        getTimeArrivalEnd.setUTCHours(18);
+        getTimeArrivalStart.setHours(12);
+        getTimeArrivalEnd.setHours(18);
         getTimeArrivalEnd.setMinutes(0);
+        getTimeArrivalEnd.setDate(getTimeArrivalStart.getDate());
       } else if (updateArrivalTime["18:00 - 24:00"]) {
-        getTimeArrivalStart.setUTCHours(18);
-        getTimeArrivalEnd.setUTCHours(24);
-        getTimeArrivalEnd.setMinutes(0);
+        getTimeArrivalStart.setHours(18);
+        getTimeArrivalEnd.setHours(23);
+        getTimeArrivalEnd.setMinutes(59);
+        getTimeArrivalEnd.setDate(getTimeArrivalStart.getDate());
       }
 
       const sortBy: string[] = [];

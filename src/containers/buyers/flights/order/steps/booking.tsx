@@ -1,4 +1,3 @@
-// import { StepperControl } from "./stepperControl";
 import { Switch } from "@headlessui/react";
 import InputComponent from "../../../../../components/Input";
 import { Card } from "../../../../../components/Card";
@@ -16,7 +15,8 @@ export const Booking = () => {
     handleChange,
     handleSubmitFlightOrder,
     alert,
-    getTicketType
+    getTicketType,
+    disableBtn,
   } = useAction();
 
   const { passengerDetails } = getTicketType;
@@ -116,16 +116,19 @@ export const Booking = () => {
           </div>
         </Card>
 
-        <Card title="Detail Penumpang" customStyle={`${passengerDetails.adult !== 0 ? "block":"hidden"} mt-14 md:pt-10`}>
+        <Card
+          title="Detail Penumpang"
+          customStyle={`${passengerDetails.adult !== 0 ? "block" : "hidden"} mt-14 md:pt-10`}
+        >
           <div>
             {passengerDetails.adult !== 0 ? (
-                <h1 className="mt-4 mb-6 text-xl font-semibold text-black">
-                 Penumpang {passengerDetails.adult} (Dewasa)
-                </h1>
+              <h1 className="mt-4 mb-6 text-xl font-semibold text-black">
+                Penumpang {passengerDetails.adult} (Dewasa)
+              </h1>
             ) : (
               ""
             )}
-            
+
             {[...Array(passengerDetails.adult)].map((_, index) => (
               <div
                 key={index}
@@ -366,7 +369,12 @@ export const Booking = () => {
         </Card>
 
         <div className="flex flex-col md:w-3/6 lg:w-2/6 pb-10 mx-auto mt-16 md:mt-28 gap-y-4">
-          <Button type="primary-dark" width="full" color="primary-dark" disabled={isLoading}>
+          <Button
+            type="primary-dark"
+            width="full"
+            color="primary-dark"
+            disabled={disableBtn || isLoading}
+          >
             {isLoading ? "Loading ..." : "Lanjutkan"}
           </Button>
         </div>
