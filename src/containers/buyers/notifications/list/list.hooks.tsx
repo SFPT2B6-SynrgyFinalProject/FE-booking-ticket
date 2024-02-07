@@ -1,38 +1,28 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
-import { INotifications } from "../notifications.types";
+import { getNotifications } from "../notifications.types";
 
 export default function useList() {
-  const [notifications, setNotifications] = useState<INotifications[]>([]);
-
-  // misal data from api
-  const data = [
-    {
-      id: 1,
-      title: "Transaksi 1",
-      body: "oke berhasil",
-    },
-    {
-      id: 2,
-      title: "Transaksi 2",
-      body: "oke berhasil 2",
-    },
-  ];
-
-  const fetchNotifications = async () => {
-    try {
-      // logic fetch data
-      setNotifications(data);
-    } catch (error) {
-      console.log("error");
-    }
-  };
+  const [notifications, setNotifications] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        setIsLoading(true);
+        const response = await getNotifications();
+        setNotifications(response.data.notification);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     fetchNotifications();
   }, []);
 
   return {
     notifications,
+    isLoading,
   };
 }
