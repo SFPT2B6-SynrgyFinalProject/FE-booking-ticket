@@ -1,37 +1,28 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../config/redux/store";
-import { setNotifications } from "../../../../config/redux/action/notificationAction";
+import { useState, useEffect } from "react";
+import { getNotifications } from "../notifications.types";
 
 export default function useList() {
-  const dispatch = useDispatch();
-  const notifications = useSelector((state: RootState) => state.notificationReducer.notifications);
+  const [notifications, setNotifications] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const token = localStorage.getItem("user_access_token");
-        const response = await fetch("https://be-finpro-ev4x53wgca-uc.a.run.app/api/notifications",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-        const responseData = await response.json();
-        console.log(responseData);
-        dispatch(setNotifications(responseData.data.notification));
+        setIsLoading(true);
+        const response = await getNotifications();
+        setNotifications(response.data.notification);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchNotifications();
-  }, [dispatch]);
+  }, []);
 
   return {
     notifications,
+    isLoading,
   };
 }
