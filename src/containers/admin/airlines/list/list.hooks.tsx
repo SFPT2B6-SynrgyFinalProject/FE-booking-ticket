@@ -14,9 +14,12 @@ export default function useList() {
   const [judul, setJudul] = useState("Tambah Data maskapai");
   const [deleteId, setDeleteId] = useState("");
   const [data, setData] = useState<IAirLines[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [showAddForm, setShowAddForm] = useState(false);
 
   const fetchData = async () => {
     try {
+      setIsLoading(true);
       const response = await fetchInstance({
         authToken: useUserToken(),
         endpoint: "/api/admin/airlines?dataPerPage=50&page=1",
@@ -26,18 +29,47 @@ export default function useList() {
       setRecords(response.data["airlines"]); // assuming you want to set records with the fetched data
     } catch (error) {
       console.log("error:", error);
+    } finally {
+      setIsLoading(false);
     }
+
   };
 
   const clickOpen = (): void => {
+    setJudul("Tambah Data maskapai");
     setOpen(true);
+    setShowAddForm(false); 
   };
 
   const clickClose = (): void => {
+    setShowAddForm(false); 
+    setBandaraAsal(""); // Reset nilai isian form ke nilai awal
+    setBandaraTujuan(""); 
     setOpen(false);
   };
 
+  const postData = async () => {
+  try {
+    setIsLoading(true);
+    const response = await fetchInstance({
+      authToken: useUserToken(),
+      endpoint: "/api/admin/airlines",
+      method: "POST"
+    });
+    console.log("Data berhasil ditambahkan:", response);
+    // Setelah berhasil menambahkan data, Anda mungkin ingin melakukan pengambilan data ulang untuk memperbarui records
+    fetchData();
+  } catch (error) {
+    console.log("Error menambahkan data:", error);
+  } finally {
+    setIsLoading(false);
+    setOpen(false); // Tutup modal setelah menambahkan data
+  }
+};
+
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setJudul("Tambah Data maskapai");
     const { name, value } = event.target;
     switch (name) {
       case "bandara-asal":
@@ -54,12 +86,14 @@ export default function useList() {
     setBandaraAsal(data[id - 1]["name"]);
     setBandaraTujuan(data[id - 1]["code"]);
     setOpen(true);
+    setShowAddForm(false); 
   };
 
   const handleDelete = (id: any): void => {
     setDeleteId(id);
     setJudul("Hapus Data maskapai");
     setOpen(true);
+    setShowAddForm(false);
   };
 
   const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,6 +111,9 @@ export default function useList() {
   }, []);
 
   return {
+    postData,
+    showAddForm,
+    isLoading,
     records,
     open,
     clickOpen,

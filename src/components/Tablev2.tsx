@@ -5,9 +5,10 @@ interface TableProps {
   columns: any;
   data?: any;
   customStyles?: any;
+  isPending?: boolean;
 }
 
-const Tablev2: React.FC<TableProps> = ({ columns, data, customStyles }) => {
+const Tablev2: React.FC<TableProps> = ({ isPending, columns, data, customStyles }) => {
   const newColumns = [
     {
       name: "No",
@@ -28,6 +29,7 @@ const Tablev2: React.FC<TableProps> = ({ columns, data, customStyles }) => {
       <div className="border-gray-300">
         <DataTable
           columns={newColumns}
+          progressPending={isPending}
           data={newData}
           customStyles={customStyles}
           highlightOnHover

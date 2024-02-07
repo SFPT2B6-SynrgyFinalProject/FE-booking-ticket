@@ -35,6 +35,8 @@ const customStyles = {
 
 const AirLine: React.FC<TableProps> = () => {
   const {
+    postData,
+    isLoading,
     records,
     open,
     clickOpen,
@@ -48,6 +50,10 @@ const AirLine: React.FC<TableProps> = () => {
     handleFilter,
     handleChange,
   } = useAction();
+  
+
+
+
 
   const columns = [
     {
@@ -153,7 +159,8 @@ const AirLine: React.FC<TableProps> = () => {
           />
         </div>
       </div>
-      <Tablev2 columns={columns} data={records} customStyles={customStyles} />
+      <Tablev2 isPending={isLoading} columns={columns} data={records} customStyles={customStyles} />
+
     </div>
   );
 };
