@@ -8,7 +8,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../../config/redux/store";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../../config/redux/store";
-import { resetGetTicket, addNotificationOrderId, setCurrentStep } from "./../../../../../config/redux/action";
+import {
+  resetGetTicket,
+  addNotificationOrderId,
+  setCurrentStep,
+} from "./../../../../../config/redux/action";
 import { IAlert } from "../../../../../lib/services/auth";
 
 export default function usePaymentOrder() {
@@ -91,7 +95,7 @@ export default function usePaymentOrder() {
     setIsLoading(true);
 
     setAlert({
-      type: "success",
+      type: "process",
       data: {},
       message: "Pembayaran sedang diproses",
     });
@@ -141,7 +145,7 @@ export default function usePaymentOrder() {
   };
 
   useEffect(() => {
-    localStorage.setItem('orderCount', notifications.orderCount.toString());
+    localStorage.setItem("orderCount", notifications.orderCount.toString());
   }, [notifications.orderCount]);
 
   return {
