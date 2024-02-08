@@ -18,7 +18,7 @@ const Alert: React.FC<AlertProps> = ({ message, type }) => {
       alertIcon = (
         <Icon
           icon={"mingcute:check-circle-line"}
-          className="text-green-500 w-16 h-16 sm:w-20 sm:h-20"
+          className="text-green-500 w-16 h-16 sm:w-16 sm:h-16"
         ></Icon>
       );
       break;
@@ -26,7 +26,7 @@ const Alert: React.FC<AlertProps> = ({ message, type }) => {
       alertIcon = (
         <Icon
           icon={"line-md:close-circle"}
-          className="text-red-500 w-16 h-16 sm:w-20 sm:h-20"
+          className="text-red-500 w-16 h-16 sm:w-16 sm:h-16"
         ></Icon>
       );
       break;
@@ -71,7 +71,7 @@ const Alert: React.FC<AlertProps> = ({ message, type }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white align-middle shadow-xl transition-all px-2 sm:px-5">
+              <Dialog.Panel className="w-full max-w-sm transform overflow-hidden rounded-2xl bg-white align-middle shadow-xl transition-all px-2 sm:px-5">
                 <div className="py-5 sm:py-6 flex justify-center">
                   <Dialog.Title
                     as="h3"
@@ -80,7 +80,7 @@ const Alert: React.FC<AlertProps> = ({ message, type }) => {
                     {alertIcon}
                   </Dialog.Title>
                 </div>
-                <div className="pb-8 sm:pb-9 text-base sm:text-lg text-gray-700 font-semibold">
+                <div className="pb-8 sm:pb-9 text-base sm:text-xl text-gray-700 font-semibold">
                   {message}
                 </div>
               </Dialog.Panel>
