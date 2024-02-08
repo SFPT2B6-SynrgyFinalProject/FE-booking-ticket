@@ -23,6 +23,8 @@ import {
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { getFlightClass } from "../lib/services/flightClass";
 import { getAirport } from "../lib/services/airport";
+import { IAlert } from "../lib/services/auth";
+import Alert from "./Alert";
 
 interface Option {
   value: number | string;
@@ -81,6 +83,7 @@ const SearchBox: React.FC = () => {
   });
   const dispatch = useDispatch<AppDispatch>();
   const navigate: NavigateFunction = useNavigate();
+  const [alert, setAlert] = useState<IAlert | null>(null);
 
   const handleOptionPersonAge = (type: keyof OptionPersonAgeType, action: "i" | "d") => {
     setOptionPersonAge((prevOptions) => ({
@@ -118,6 +121,11 @@ const SearchBox: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     setIsLoadings(true);
+    setAlert({
+      type: "process",
+      data: {},
+      message: "Proses pencarian tiket",
+    });
     dispatch(setIsLoading(true));
     e.preventDefault();
     try {
@@ -169,7 +177,7 @@ const SearchBox: React.FC = () => {
       <div className="container relative select-none">
         {isLoadings ? (
           <>
-            <section className="absolute rounded-[30px] z-[1] bg-black w-[27.9rem] lg:w-full h-full opacity-10"></section>
+            {/* <section className="absolute rounded-[30px] z-[1] bg-black w-[27.9rem] lg:w-full h-full opacity-10"></section>
             <div
               role="status"
               className="absolute z-[2] text-white mt-56 lg:mt-28 text-center left-[47%]"
@@ -177,7 +185,14 @@ const SearchBox: React.FC = () => {
               <div className="animate-spin rounded-full w-10 h-10 bg-gradient-to-tr from-blue-600 to-blue-300">
                 <div className="h-6 w-6 rounded-full bg-gray-100"></div>
               </div>
-            </div>
+            </div> */}
+            {alert && (
+              <div>
+                {alert.type === "process" && (
+                  <Alert message={alert.message} type="process" />
+                )}
+              </div>
+            )}
           </>
         ) : null}
         <form
@@ -266,7 +281,7 @@ const SearchBox: React.FC = () => {
                 />
                 {/* )} */}
                 <input
-                  placeholder="Tanggal awal"
+                  placeholder="Keberangkatan awal"
                   className="bg-white border border-gray-400 text-gray-800 text-[1rem] focus:ring-blue-500 focus:border-blue-500 focus:outline-none focus:border-2 block w-full p-2.5 !h-[55px] pl-[3.7rem] rounded-[10px] placeholder-gray-500/90"
                   type="text"
                   onFocus={(e) => (
@@ -297,7 +312,7 @@ const SearchBox: React.FC = () => {
                 />
                 {/* )} */}
                 <input
-                  placeholder="Tanggal akhir"
+                  placeholder="Keberangkatan akhir"
                   className="bg-white border border-gray-400 text-gray-800 text-[1rem] focus:ring-blue-500 focus:border-blue-500 focus:outline-none focus:border-2 block w-full p-2.5 !h-[55px] pl-[3.7rem] rounded-[10px] placeholder-gray-500/90"
                   type="text"
                   onFocus={(e) => (

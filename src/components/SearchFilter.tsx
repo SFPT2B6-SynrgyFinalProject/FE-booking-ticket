@@ -244,7 +244,7 @@ export default function SearchFilter() {
 
   return (
     <>
-      <div className="search-filter-container lg:col-span-1 bg-white py-[45px] px-[51px] rounded-[30px] h-fit">
+      <div className="search-filter-container mt-[19rem] md:mt-24 lg:mt-0  lg:col-span-1 bg-white py-[45px] px-[51px] rounded-[30px] h-fit">
         <header className="flex justify-between">
           <div className="flex gap-4">
             <Icon
