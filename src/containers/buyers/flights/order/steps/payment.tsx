@@ -26,12 +26,11 @@ export const Payment = () => {
     <>
       {alert && (
         <div>
-          {alert.type === "success" && (
-            <Alert message={alert.message} type="success" customStyle="fixed" />
-          )}
+          {alert.type === "success" && <Alert message={alert.message} type="success" />}
           {alert.type === "fail" && (
-            <Alert message={Object.values(alert.data).join("\n")} type="fail" customStyle="fixed" />
+            <Alert message={Object.values(alert.data).join("\n")} type="fail" />
           )}
+          {alert.type === "process" && <Alert message={alert.message} type="process" />}
         </div>
       )}
       <form onSubmit={handleSubmitPayment}>

@@ -95,7 +95,7 @@ export default function useFlightOrder() {
     setIsLoading(true);
 
     setAlert({
-      type: "success",
+      type: "process",
       data: {},
       message: "Pesanan sedang diproses",
     });
