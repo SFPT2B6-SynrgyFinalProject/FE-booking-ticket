@@ -19,18 +19,18 @@ export const Payment = () => {
     childDetails,
     infantDetails,
     alert,
+    isButtonDisabled,
   } = useAction();
 
   return (
     <>
       {alert && (
         <div>
-          {alert.type === "success" && (
-            <Alert message={alert.message} type="success" customStyle="fixed" />
-          )}
+          {alert.type === "success" && <Alert message={alert.message} type="success" />}
           {alert.type === "fail" && (
-            <Alert message={Object.values(alert.data).join("\n")} type="fail" customStyle="fixed" />
+            <Alert message={Object.values(alert.data).join("\n")} type="fail" />
           )}
+          {alert.type === "process" && <Alert message={alert.message} type="process" />}
         </div>
       )}
       <form onSubmit={handleSubmitPayment}>
@@ -41,11 +41,12 @@ export const Payment = () => {
                 <div className="flex items-center mr-10">
                   <input
                     type="radio"
-                    name="payment"
+                    name="paymentMethod"
                     id="creditCard"
                     className="w-5 h-5"
+                    onChange={handleChange}
+                    value={"creditCard"}
                     required
-                    checked
                   />
                   <label htmlFor="creditCard" className="ml-3 text-lg text-gray-800 select-none">
                     Kartu Kredit
@@ -53,7 +54,15 @@ export const Payment = () => {
                 </div>
 
                 <div className="flex items-center mr-10">
-                  <input type="radio" name="payment" id="debit" className="w-5 h-5" required />
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    id="debit"
+                    className="w-5 h-5"
+                    onChange={handleChange}
+                    value={"debit"}
+                    required
+                  />
                   <label htmlFor="debit" className="ml-3 text-lg text-gray-800 select-none">
                     Debit
                   </label>
@@ -177,13 +186,7 @@ export const Payment = () => {
             type="primary-dark"
             width="full"
             color="primary-dark"
-            disabled={
-              !paymentData.cardNumber ||
-              !paymentData.cardName ||
-              !paymentData.expiredDate ||
-              !paymentData.cvv ||
-              isLoading
-            }
+            disabled={isButtonDisabled || isLoading}
           >
             {isLoading ? "Loading ..." : "Lanjutkan Pembayaran"}
           </Button>

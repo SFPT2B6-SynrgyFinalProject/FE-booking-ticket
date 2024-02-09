@@ -8,7 +8,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../../config/redux/store";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../../config/redux/store";
-import { resetGetTicket, setCurrentStep } from "./../../../../../config/redux/action";
+import {
+  resetGetTicket,
+  addNotificationOrderId,
+  setCurrentStep,
+} from "./../../../../../config/redux/action";
 import { IAlert } from "../../../../../lib/services/auth";
 
 export default function usePaymentOrder() {
@@ -21,13 +25,16 @@ export default function usePaymentOrder() {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [alert, setAlert] = useState<IAlert | null>(null);
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+  const notifications = useSelector((state: RootState) => state.notificationReducer);
 
   const [paymentData, setPaymentData] = useState<IPaymentRequestBody>({
-    orderId: "",
+    orderId: resultData.data.orderId,
     cardNumber: "",
     cardName: "",
     cvv: "",
     expiredDate: "",
+    paymentMethod: "",
   });
 
   useEffect(() => {
@@ -75,7 +82,12 @@ export default function usePaymentOrder() {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setPaymentData({ ...paymentData, [name]: value });
+
+    const updatedPaymentData = { ...paymentData, [name]: value };
+    setPaymentData(updatedPaymentData);
+
+    const anyEmptyValue = Object.values(updatedPaymentData).some((val) => val === "");
+    setIsButtonDisabled(anyEmptyValue);
   };
 
   const handleSubmitPayment = async (e: FormEvent<HTMLFormElement>) => {
@@ -83,7 +95,7 @@ export default function usePaymentOrder() {
     setIsLoading(true);
 
     setAlert({
-      type: "success",
+      type: "process",
       data: {},
       message: "Pembayaran sedang diproses",
     });
@@ -111,6 +123,8 @@ export default function usePaymentOrder() {
         message: fetchResult.message,
       });
 
+      dispatch(addNotificationOrderId());
+
       setTimeout(() => {
         dispatch(setCurrentStep(3));
       }, 1000);
@@ -130,6 +144,10 @@ export default function usePaymentOrder() {
     }
   };
 
+  useEffect(() => {
+    localStorage.setItem("orderCount", notifications.orderCount.toString());
+  }, [notifications.orderCount]);
+
   return {
     isLoading,
     paymentData,
@@ -143,5 +161,6 @@ export default function usePaymentOrder() {
     childDetails,
     infantDetails,
     alert,
+    isButtonDisabled,
   };
 }

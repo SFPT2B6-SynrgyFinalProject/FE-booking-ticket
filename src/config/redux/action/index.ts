@@ -8,3 +8,4 @@ export * from "./resultSearchAction";
 export * from "./isLoadingAction";
 export * from "./numberOfPaginationAction";
 export * from "./getTicketAction";
+export * from "./notificationAction";

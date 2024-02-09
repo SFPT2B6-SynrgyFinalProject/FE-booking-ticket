@@ -3,12 +3,13 @@ import Logo from "../assets/images/logo.png";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Fragment, useEffect, useState } from "react";
 import { RootState } from "../config/redux/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { screenSize } from "../lib/services/screenSize";
 import { Menu, Transition } from "@headlessui/react";
 import { DropdownLink } from "./DropdownLink";
 import { useUserRole } from "../lib/services/auth";
 import OrderList from "./OrderList";
+import { removeNotificationOrderIds } from "../config/redux/action/notificationAction";
 
 export default function Navbar() {
   const location: Location = useLocation();
@@ -18,6 +19,24 @@ export default function Navbar() {
   const { fullName } = userData;
   const { width } = screenSize();
   const userRole = useUserRole();
+
+  // notifications bells-icon handling
+  const [unseenNotificationsCount, setUnseenNotificationsCount] = useState<number>(0);
+  const notifications = useSelector((state: RootState) => state.notificationReducer);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setUnseenNotificationsCount(Number(notifications.orderCount));
+  }, [notifications.orderCount]);
+
+  useEffect(() => {
+    if (location.pathname === "/notifikasi") {
+      dispatch(removeNotificationOrderIds());
+      localStorage.removeItem('orderCount');
+    }
+  }, [location, dispatch]);
+
+  // end of notifications bells-icon handling
 
   useEffect(() => {
     if (width >= 1024) {
@@ -58,11 +77,10 @@ export default function Navbar() {
   return (
     <div className="w-full hide-on-print">
       <div
-        className={`${
-          navigation
-            ? "absolute bg-black opacity-50 lg:opacity-0 bottom-0 top-0 z-10 left-0 right-0"
-            : ""
-        }`}
+        className={`${navigation
+          ? "absolute bg-black opacity-50 lg:opacity-0 bottom-0 top-0 z-10 left-0 right-0"
+          : ""
+          }`}
       ></div>
       <nav className={`bg-white px-8 lg:px-12 py-5 flex shadow items-center justify-between`}>
         <img src={Logo} alt="logo-image" width={160} />
@@ -100,9 +118,8 @@ export default function Navbar() {
                 <>
                   <Menu as={"div"} className="relative">
                     <Menu.Button
-                      className={`${
-                        handleActivePage("/profile") || handleActivePage("/profile/reset")
-                      } flex items-center text-black hover:bg-transparent gap-x-2 pl-10 pr-8`}
+                      className={`${handleActivePage("/profile") || handleActivePage("/profile/reset")
+                        } flex items-center text-black hover:bg-transparent gap-x-2 pl-10 pr-8`}
                     >
                       Admin
                       <Icon icon="tabler:user-circle" width={19} />
@@ -157,9 +174,8 @@ export default function Navbar() {
             <>
               <Menu as={"div"} className="relative hidden lg:block">
                 <Menu.Button
-                  className={`${
-                    handleActivePage("/profile") || handleActivePage("/profile/reset")
-                  } flex items-center text-black hover:bg-transparent gap-x-2`}
+                  className={`${handleActivePage("/profile") || handleActivePage("/profile/reset")
+                    } flex items-center text-black hover:bg-transparent gap-x-2`}
                 >
                   Admin
                   <Icon icon="tabler:user-circle" width={19} />
@@ -260,9 +276,8 @@ export default function Navbar() {
 
                   <Menu as={"div"} className="relative">
                     <Menu.Button
-                      className={`${
-                        handleActivePage("/profile") || handleActivePage("/profile/reset")
-                      } flex items-center text-black hover:bg-transparent gap-x-2`}
+                      className={`${handleActivePage("/profile") || handleActivePage("/profile/reset")
+                        } flex items-center text-black hover:bg-transparent gap-x-2`}
                     >
                       {fullName}
                       <Icon icon="tabler:user-circle" width={19} />
@@ -358,14 +373,6 @@ export default function Navbar() {
                   Pesanan
                 </Link>
 
-                <Link
-                  to={"/notifikasi"}
-                  className={`flex items-center gap-2 ${handleActivePage("/notifikasi")}`}
-                >
-                  <h6>Notifikasi</h6>
-                  <Icon icon="mdi:bell-outline" width={19} />
-                </Link>
-
                 <Link to={"/bantuan"} className={handleActivePage("/bantuan")}>
                   Bantuan
                 </Link>
@@ -374,13 +381,25 @@ export default function Navbar() {
                   Unduh App
                 </Link>
 
+                <Link
+                  to={"/notifikasi"}
+                  className={`flex items-center gap-2 ${handleActivePage("/notifikasi")}`}
+                >
+                  <Icon icon="mdi:bell-outline" width={19} />
+                  <span className="relative">
+                    {(unseenNotificationsCount > 0) ? (
+                      <span className="absolute -top-4 -right-2 bg-red-500 text-xs text-white px-1 py-0.5 rounded-full">
+                        {unseenNotificationsCount}
+                      </span>
+                    ) : <span></span>}
+                  </span>
+                </Link>
+
                 <Menu as={"div"} className="relative">
                   <Menu.Button
-                    className={`${
-                      handleActivePage("/profile") || handleActivePage("/profile/reset")
-                    } flex items-center text-black hover:bg-transparent gap-x-2`}
+                    className={`${handleActivePage("/profile") || handleActivePage("/profile/reset")
+                      } flex items-center text-black hover:bg-transparent gap-x-2`}
                   >
-                    {fullName}
                     <Icon icon="tabler:user-circle" width={19} />
                   </Menu.Button>
 

@@ -38,7 +38,7 @@ export default function useFlightOrder() {
     }
 
     for (let i = 0; i < getTicketType.passengerDetails.adult; i++) {
-      if (i !== 0 && (!flightData[`fullName-${i}`] || !flightData[`call-${i}`])) {
+      if (!flightData[`fullName-${i}`] || !flightData[`call-${i}`]) {
         return true;
       }
     }
@@ -95,7 +95,7 @@ export default function useFlightOrder() {
     setIsLoading(true);
 
     setAlert({
-      type: "success",
+      type: "process",
       data: {},
       message: "Pesanan sedang diproses",
     });

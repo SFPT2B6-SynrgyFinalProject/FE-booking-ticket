@@ -9,6 +9,7 @@ import { resultSearchReducer } from "./resultSearchReducer";
 import { isLoadingReducer } from "./isLoadingReducer";
 import { numberPaginationReducer } from "./numberOfPaginationReducer";
 import { getTicketReducer } from "./getTicketReducer";
+import {notificationReducer} from './notificationReducer';
 
 export const reducer = combineReducers({
   userReducer,
@@ -21,4 +22,5 @@ export const reducer = combineReducers({
   getTicketReducer,
   flightOrderReducer,
   currentStepReducer,
+  notificationReducer
 });
