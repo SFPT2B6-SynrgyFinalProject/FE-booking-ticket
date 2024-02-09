@@ -383,12 +383,12 @@ export default function Navbar() {
 
                 <Link
                   to={"/notifikasi"}
-                  className={`flex items-center gap-2 ${handleActivePage("/notifikasi")}`}
+                  className={`flex items-center ml-1 ${handleActivePage("/notifikasi")}`}
                 >
-                  <Icon icon="mdi:bell-outline" width={19} />
+                  <Icon icon="mdi:bell-outline" width={22} />
                   <span className="relative">
                     {(unseenNotificationsCount > 0) ? (
-                      <span className="absolute -top-4 -right-2 bg-red-500 text-xs text-white px-1 py-0.5 rounded-full">
+                      <span className="absolute w-[18px] font-semibold text-center -top-4 -right-[13px] bg-red-500 text-xs text-white px-1 py-0.5 rounded-full">
                         {unseenNotificationsCount}
                       </span>
                     ) : <span></span>}
@@ -400,7 +400,7 @@ export default function Navbar() {
                     className={`${handleActivePage("/profile") || handleActivePage("/profile/reset")
                       } flex items-center text-black hover:bg-transparent gap-x-2`}
                   >
-                    <Icon icon="tabler:user-circle" width={19} />
+                    <Icon icon="tabler:user-circle" width={23} />
                   </Menu.Button>
 
                   <Transition
