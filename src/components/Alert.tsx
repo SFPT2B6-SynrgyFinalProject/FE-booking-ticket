@@ -2,7 +2,7 @@ import React, { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-interface AlertProps {
+export interface AlertProps {
   type: "success" | "fail" | "process";
   message?: string;
 }
