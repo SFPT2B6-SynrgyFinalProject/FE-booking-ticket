@@ -7,7 +7,6 @@ export default function useList() {
   const location = useLocation();
   const [active, setActive] = useState<number>(1);
   const [logOut, setLogOut] = useState<boolean>(false);
-  const [berhasilLogOut, setBerhasilLogOut] = useState<boolean>(false);
   const navigate: NavigateFunction = useNavigate();
 
   const profiles = useSelector((state: RootState) => state.userReducer);
@@ -23,30 +22,26 @@ export default function useList() {
   const handleLogOut = (event: React.MouseEvent<HTMLAnchorElement>) => {
     const { id } = event.currentTarget as HTMLAnchorElement; // Use currentTarget instead of target
 
-    if (id === 'batal') {
+    if (id === "batal") {
       setLogOut(false);
     } else {
       setLogOut(true);
     }
   };
-  
-  const setPurge=():void=>{
-      localStorage.clear();
-      setBerhasilLogOut(true)
-      setLogOut(false)
-  }
-  const handleRedirect=():void=>{
+
+  const setPurge = (): void => {
+    localStorage.clear();
     navigate("/");
     window.location.reload();
-  }
+    setLogOut(false);
+  };
+
   return {
     active,
     profiles,
-    berhasilLogOut,
     setPurge,
     handleLogOut,
-    handleRedirect,
-    logOut, 
-    close
+    logOut,
+    close,
   };
 }

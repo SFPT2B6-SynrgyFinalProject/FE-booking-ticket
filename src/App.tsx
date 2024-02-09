@@ -15,11 +15,7 @@ import {
 import { Home, Search } from "./pages/public";
 
 import {
-  // Flight,
-  Promo,
   Support,
-  DownloadApp,
-  // refacor
   BuyerNotificationsList,
   BuyerProfileList,
   BuyerProfileData,
@@ -53,10 +49,6 @@ const router = createBrowserRouter([
         element: <BuyerFlightOrder />,
       },
       {
-        path: "/promo",
-        element: <Promo />,
-      },
-      {
         path: "/pesanan",
         element: <BuyerOrderList />,
       },
@@ -71,10 +63,6 @@ const router = createBrowserRouter([
       {
         path: "/bantuan",
         element: <Support />,
-      },
-      {
-        path: "/unduh-app",
-        element: <DownloadApp />,
       },
       {
         path: "/profile",

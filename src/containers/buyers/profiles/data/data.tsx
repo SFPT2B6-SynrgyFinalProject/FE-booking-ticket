@@ -5,22 +5,30 @@ import useAction from "./data.hooks";
 import Alert from "../../../../components/Alert";
 
 export default function ProfileData() {
-  const { disabled, on, off, handleSubmit , fullName,
+  const {
+    disabled,
+    on,
+    off,
+    handleSubmit,
+    fullName,
     gender,
     handleChange,
     email,
     noHp,
     status,
     handleOnSelect,
-    birthDate} = useAction();
+    birthDate,
+  } = useAction();
 
   return (
     <div>
-        {
-    status !== "" ? (
-        status === "data gagal diubah" ? <Alert type="fail" message={status} /> : <Alert type="success" message={status} />
-     ) : null
-    }
+      {status !== "" ? (
+        status === "Data gagal diubah" ? (
+          <Alert type="fail" message={status} />
+        ) : (
+          <Alert type="success" message={status} />
+        )
+      ) : null}
       <div>
         <div className="flex mb-8 items-center">
           <h1 className="text-xl md:text-2xl font-bold text-black">Information Account</h1>
@@ -45,11 +53,23 @@ export default function ProfileData() {
           <>
             <div className="flex flex-col mb-7">
               <InputComponent
+                type="email"
+                id="email"
+                name="email"
+                value={email ? email : ""}
+                customStyle={`py-[16px] pl-[20px] pr-[20px]`}
+                onChange={handleChange}
+                placeholder="example@gmail.com"
+                disabled={true}
+              />
+            </div>
+            <div className="flex flex-col mb-7">
+              <InputComponent
                 type="text"
                 id="fullName"
                 name="fullName"
                 value={fullName ? fullName : ""}
-                 onChange={handleChange}
+                onChange={handleChange}
                 customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                 placeholder="Full Name"
                 disabled={disabled ? true : false}
@@ -64,7 +84,7 @@ export default function ProfileData() {
                 name="tanggalLahir"
                 value={birthDate === null ? "" : birthDate.split("T")[0]}
                 customStyle={`py-[16px] pl-[20px] pr-[20px]`}
-                 onChange={handleChange}
+                onChange={handleChange}
                 placeholder="Tanggal Lahir"
                 disabled={disabled ? true : false}
               />
@@ -89,18 +109,6 @@ export default function ProfileData() {
             </div>
             <div className="flex flex-col mb-7">
               <InputComponent
-                type="email"
-                id="email"
-                name="email"
-                value={email ? email : ""}
-                customStyle={`py-[16px] pl-[20px] pr-[20px]`}
-                 onChange={handleChange}
-                placeholder="example@gmail.com"
-                disabled={true}
-              />
-            </div>
-            <div className="flex flex-col mb-7">
-              <InputComponent
                 type="phone"
                 id="noHp"
                 name="noHp"
@@ -113,10 +121,12 @@ export default function ProfileData() {
             </div>
             {disabled ? null : (
               <div className="flex justify-center sm:justify-end mt-8">
-                <Button className="!px-9 bg-red-600 mr-3 sm:mr-5" onClick={on}>
+                <Button className="!px-9 bg-rose-600 mr-3 sm:mr-5 hover:bg-rose-700" onClick={on}>
                   Batal
                 </Button>
-                <Button className="!px-9">Kirim</Button>
+                <Button type="primary-dark" className="!px-9 rounded-2xl" color="primary-dark">
+                  Kirim
+                </Button>
               </div>
             )}
           </>

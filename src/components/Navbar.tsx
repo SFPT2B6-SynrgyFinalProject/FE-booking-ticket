@@ -32,7 +32,7 @@ export default function Navbar() {
   useEffect(() => {
     if (location.pathname === "/notifikasi") {
       dispatch(removeNotificationOrderIds());
-      localStorage.removeItem('orderCount');
+      localStorage.removeItem("orderCount");
     }
   }, [location, dispatch]);
 
@@ -58,11 +58,9 @@ export default function Navbar() {
     switch (path) {
       case "/":
       case "/penerbangan":
-      case "/promo":
       case "/pesanan":
       case "/notifikasi":
       case "/bantuan":
-      case "/unduh-app":
       case "/profile":
       case "/profile/reset":
         return isCurrentPath ? "text-blue-700" : "hover:text-blue-700";
@@ -74,13 +72,16 @@ export default function Navbar() {
   const handleNavigation = () => {
     setNavigation((prev) => !prev);
   };
+
+  const linkDownloadApp = "https://drive.google.com/uc?id=1k_hkpA0x6w2dFEJbCRzm1nS_tYoN6xXe";
   return (
     <div className="w-full hide-on-print">
       <div
-        className={`${navigation
-          ? "absolute bg-black opacity-50 lg:opacity-0 bottom-0 top-0 z-10 left-0 right-0"
-          : ""
-          }`}
+        className={`${
+          navigation
+            ? "absolute bg-black opacity-50 lg:opacity-0 bottom-0 top-0 z-10 left-0 right-0"
+            : ""
+        }`}
       ></div>
       <nav className={`bg-white px-8 lg:px-12 py-5 flex shadow items-center justify-between`}>
         <img src={Logo} alt="logo-image" width={160} />
@@ -118,8 +119,9 @@ export default function Navbar() {
                 <>
                   <Menu as={"div"} className="relative">
                     <Menu.Button
-                      className={`${handleActivePage("/profile") || handleActivePage("/profile/reset")
-                        } flex items-center text-black hover:bg-transparent gap-x-2 pl-10 pr-8`}
+                      className={`${
+                        handleActivePage("/profile") || handleActivePage("/profile/reset")
+                      } flex items-center text-black hover:bg-transparent gap-x-2 pl-10 pr-8`}
                     >
                       Admin
                       <Icon icon="tabler:user-circle" width={19} />
@@ -140,17 +142,6 @@ export default function Navbar() {
                           "absolute shadow-sm border border-gray-300 top-0 left-0 w-44 mt-8 py-1 overflow-hidden bg-white z-50 rounded-lg ml-9"
                         }
                       >
-                        {/* <DropdownLink customStyle={handleActivePage("/profile")} to="/profile">
-                          Profile
-                        </DropdownLink>
-
-                        <DropdownLink
-                          to="/profile/reset"
-                          customStyle={handleActivePage("/profile/reset")}
-                        >
-                          Ubah Password
-                        </DropdownLink>
-                        <div className="w-full h-px my-1 bg-gray-200" /> */}
                         <span
                           className="block px-4 py-2 text-black hover:text-blue-700 cursor-pointer"
                           onClick={handleLogout}
@@ -174,8 +165,9 @@ export default function Navbar() {
             <>
               <Menu as={"div"} className="relative hidden lg:block">
                 <Menu.Button
-                  className={`${handleActivePage("/profile") || handleActivePage("/profile/reset")
-                    } flex items-center text-black hover:bg-transparent gap-x-2`}
+                  className={`${
+                    handleActivePage("/profile") || handleActivePage("/profile/reset")
+                  } flex items-center text-black hover:bg-transparent gap-x-2`}
                 >
                   Admin
                   <Icon icon="tabler:user-circle" width={19} />
@@ -210,7 +202,28 @@ export default function Navbar() {
         ) : navigation ? (
           <>
             <div className="flex flex-col pl-10 pr-8 py-6 w-4/6 md:w-2/5 text-sm font-medium gap-7 absolute z-20 bg-white right-0 top-0 bottom-0">
-              <div className="flex justify-end">
+              <div className={`flex ${fullName ? "justify-between items-center" : "justify-end"}`}>
+                {fullName ? (
+                  <Link
+                    to={"/notifikasi"}
+                    className={`flex items-center ml-1 ${handleActivePage("/notifikasi")}`}
+                    onClick={handleNavigation}
+                  >
+                    <Icon icon="mdi:bell-outline" width={22} />
+                    <span className="relative">
+                      {unseenNotificationsCount > 0 ? (
+                        <span className="absolute w-[18px] font-semibold text-center -top-4 -right-[13px] bg-red-500 text-xs text-white px-1 py-0.5 rounded-full">
+                          {unseenNotificationsCount}
+                        </span>
+                      ) : (
+                        <span></span>
+                      )}
+                    </span>
+                  </Link>
+                ) : (
+                  ""
+                )}
+
                 <Icon
                   icon={"line-md:close"}
                   width={30}
@@ -234,28 +247,11 @@ export default function Navbar() {
                   </Link>
 
                   <Link
-                    to={"/promo"}
-                    className={handleActivePage("/promo")}
-                    onClick={handleNavigation}
-                  >
-                    Promo
-                  </Link>
-
-                  <Link
                     to={"/pesanan"}
                     className={handleActivePage("/pesanan")}
                     onClick={handleNavigation}
                   >
                     Pesanan
-                  </Link>
-
-                  <Link
-                    to={"/notifikasi"}
-                    className={`flex items-center gap-2 ${handleActivePage("/notifikasi")}`}
-                    onClick={handleNavigation}
-                  >
-                    <h6>Notifikasi</h6>
-                    <Icon icon="mdi:bell-outline" width={19} />
                   </Link>
 
                   <Link
@@ -266,18 +262,20 @@ export default function Navbar() {
                     Bantuan
                   </Link>
 
-                  <Link
-                    to={"/unduh-app"}
-                    className={handleActivePage("/unduh-app")}
-                    onClick={handleNavigation}
+                  <a
+                    href={linkDownloadApp}
+                    target="_blank"
+                    className="hover:text-blue-700"
+                    download
                   >
                     Unduh App
-                  </Link>
+                  </a>
 
                   <Menu as={"div"} className="relative">
                     <Menu.Button
-                      className={`${handleActivePage("/profile") || handleActivePage("/profile/reset")
-                        } flex items-center text-black hover:bg-transparent gap-x-2`}
+                      className={`${
+                        handleActivePage("/profile") || handleActivePage("/profile/reset")
+                      } flex items-center text-black hover:bg-transparent gap-x-2`}
                     >
                       {fullName}
                       <Icon icon="tabler:user-circle" width={19} />
@@ -298,13 +296,18 @@ export default function Navbar() {
                           "absolute shadow-sm border border-gray-300 top-0 left-0 w-44 mt-8 py-1 overflow-hidden bg-white z-50 rounded-lg"
                         }
                       >
-                        <DropdownLink customStyle={handleActivePage("/profile")} to="/profile">
-                          Profile
+                        <DropdownLink
+                          to="/profile"
+                          customStyle={handleActivePage("/profile")}
+                          onClick={handleNavigation}
+                        >
+                          Profiles
                         </DropdownLink>
 
                         <DropdownLink
                           to="/profile/reset"
                           customStyle={handleActivePage("/profile/reset")}
+                          onClick={handleNavigation}
                         >
                           Ubah Password
                         </DropdownLink>
@@ -333,15 +336,16 @@ export default function Navbar() {
                     Bantuan
                   </Link>
 
-                  <Link
-                    to={"/unduh-app"}
-                    className={handleActivePage("/unduh-app")}
-                    onClick={handleNavigation}
+                  <a
+                    href={linkDownloadApp}
+                    target="_blank"
+                    className="hover:text-blue-700"
+                    download
                   >
                     Unduh App
-                  </Link>
+                  </a>
 
-                  <Link to={"/login"} className="font-semibold flex">
+                  <Link to={"/login"} className="font-semibold flex hover:text-blue-700">
                     Log In
                     <Icon icon="tabler:user-circle" width={19} className="ml-2" />
                   </Link>
@@ -365,10 +369,6 @@ export default function Navbar() {
                   Penerbangan
                 </Link>
 
-                <Link to={"/promo"} className={handleActivePage("/promo")}>
-                  Promo
-                </Link>
-
                 <Link to={"/pesanan"} className={handleActivePage("/pesanan")}>
                   Pesanan
                 </Link>
@@ -377,9 +377,9 @@ export default function Navbar() {
                   Bantuan
                 </Link>
 
-                <Link to={"/unduh-app"} className={handleActivePage("/unduh-app")}>
+                <a href={linkDownloadApp} target="_blank" className="hover:text-blue-700" download>
                   Unduh App
-                </Link>
+                </a>
 
                 <Link
                   to={"/notifikasi"}
@@ -387,18 +387,21 @@ export default function Navbar() {
                 >
                   <Icon icon="mdi:bell-outline" width={22} />
                   <span className="relative">
-                    {(unseenNotificationsCount > 0) ? (
+                    {unseenNotificationsCount > 0 ? (
                       <span className="absolute w-[18px] font-semibold text-center -top-4 -right-[13px] bg-red-500 text-xs text-white px-1 py-0.5 rounded-full">
                         {unseenNotificationsCount}
                       </span>
-                    ) : <span></span>}
+                    ) : (
+                      <span></span>
+                    )}
                   </span>
                 </Link>
 
                 <Menu as={"div"} className="relative">
                   <Menu.Button
-                    className={`${handleActivePage("/profile") || handleActivePage("/profile/reset")
-                      } flex items-center text-black hover:bg-transparent gap-x-2`}
+                    className={`${
+                      handleActivePage("/profile") || handleActivePage("/profile/reset")
+                    } flex items-center text-black hover:bg-transparent gap-x-2`}
                   >
                     <Icon icon="tabler:user-circle" width={23} />
                   </Menu.Button>
@@ -449,11 +452,11 @@ export default function Navbar() {
                   Bantuan
                 </Link>
 
-                <Link to={"/unduh-app"} className={handleActivePage("/unduh-app")}>
+                <a href={linkDownloadApp} target="_blank" className="hover:text-blue-700" download>
                   Unduh App
-                </Link>
+                </a>
 
-                <Link to={"/login"} className="pl-4 font-semibold -mr-2 flex">
+                <Link to={"/login"} className="pl-4 font-semibold -mr-2 flex hover:text-blue-700">
                   Log In
                   <Icon icon="tabler:user-circle" width={19} className="ml-2" />
                 </Link>

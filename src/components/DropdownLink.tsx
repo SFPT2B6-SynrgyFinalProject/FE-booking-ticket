@@ -6,9 +6,10 @@ interface DropdownLinkProps {
   to: string;
   customStyle?: string;
   children: string;
+  onClick?: () => void;
 }
 
-export const DropdownLink: React.FC<DropdownLinkProps> = ({ to, customStyle, children }) => {
+export const DropdownLink: React.FC<DropdownLinkProps> = ({ to, customStyle, children, onClick }) => {
   return (
     <Menu.Item>
       <Link
@@ -16,6 +17,7 @@ export const DropdownLink: React.FC<DropdownLinkProps> = ({ to, customStyle, chi
         className={`block px-4 py-2 text-black hover:text-blue-700 ${
           customStyle ? customStyle : ""
         }`}
+        onClick={onClick}
       >
         {children}
       </Link>

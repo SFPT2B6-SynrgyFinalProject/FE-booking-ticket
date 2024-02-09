@@ -20,11 +20,13 @@ const ProfileResetPassword = () => {
   } = useAction();
   return (
     <div className="px-3">
-     {
-    status !== "" ? (
-        status === "password tidak sama atau password baru kurang dari 8 digits" ? <Alert type="fail" message={status} /> : <Alert type="success" message={status} />
-     ) : null
-    }
+      {status !== "" ? (
+        status === "Password lama tidak sama atau password baru kurang dari 8 digit" ? (
+          <Alert type="fail" message={status} />
+        ) : (
+          <Alert type="success" message={status} />
+        )
+      ) : null}
       <h1 className="mb-8 text-xl md:text-2xl font-bold text-black ">Password</h1>
       <h3 className="text-black font-bold text-lg md:text-xl mb-6">Ubah Password</h3>
       <form onSubmit={handleSubmit}>
@@ -40,6 +42,7 @@ const ProfileResetPassword = () => {
             icon={showPassword2 ? "mingcute:eye-line" : "mingcute:eye-close-line"}
             onIconClick={togglePasswordVisibility2}
             iconPosition="right"
+            required
           />
         </div>
         <div className="flex flex-col mb-7">
@@ -54,8 +57,11 @@ const ProfileResetPassword = () => {
             icon={showPassword ? "mingcute:eye-line" : "mingcute:eye-close-line"}
             onIconClick={togglePasswordVisibility}
             iconPosition="right"
+            required
           />
-           {newPassword.length<8 && newPassword.length!=0 && <p className="text-red-500">Password kurang dari 8 digit </p>}
+          {newPassword.length < 8 && newPassword.length != 0 && (
+            <p className="text-red-500">Password kurang dari 8 digit </p>
+          )}
         </div>
 
         <div className="flex flex-col mb-7">
@@ -69,18 +75,20 @@ const ProfileResetPassword = () => {
             icon={showConfirmPassword ? "mingcute:eye-line" : "mingcute:eye-close-line"}
             onIconClick={toggleConfirmPasswordVisibility}
             iconPosition="right"
+            required
             customStyle={
-              newPassword !== confirmPassword 
+              newPassword !== confirmPassword
                 ? "border-red-500 py-[16px] pl-[20px] pr-[20px]"
                 : "py-[16px] pl-[20px] pr-[20px]"
             }
           />
           {newPassword !== confirmPassword && <p className="text-red-500">Password tidak sama</p>}
-          
         </div>
 
         <div className="flex justify-center sm:justify-end mt-8">
-          <Button className="!px-9" >Kirim</Button>
+          <Button type="primary-dark" className="!px-9 rounded-2xl" color="primary-dark">
+            Kirim
+          </Button>
         </div>
       </form>
     </div>
