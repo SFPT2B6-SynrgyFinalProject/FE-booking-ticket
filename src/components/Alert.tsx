@@ -10,7 +10,7 @@ interface AlertProps {
 const Alert: React.FC<AlertProps> = ({ message, type }) => {
   const refDiv = useRef(null);
 
-  console.log(message);
+  // console.log(message);
   let alertIcon;
 
   switch (type) {

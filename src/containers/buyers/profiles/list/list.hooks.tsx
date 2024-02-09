@@ -11,7 +11,6 @@ export default function useList() {
 
   const profiles = useSelector((state: RootState) => state.userReducer);
 
-  // Update active value based on the current route
   useEffect(() => {
     if (location.pathname === "/profile/reset") {
       setActive(2);
@@ -30,7 +29,8 @@ export default function useList() {
   };
 
   const setPurge = (): void => {
-    localStorage.clear();
+    localStorage.removeItem("user_access_token");
+    localStorage.removeItem("user_role");
     navigate("/");
     window.location.reload();
     setLogOut(false);

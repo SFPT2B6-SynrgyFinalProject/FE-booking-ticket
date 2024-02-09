@@ -10,6 +10,8 @@ import { DropdownLink } from "./DropdownLink";
 import { useUserRole } from "../lib/services/auth";
 import OrderList from "./OrderList";
 import { removeNotificationOrderIds } from "../config/redux/action/notificationAction";
+import { FormModal } from "./FormModal";
+import Button from "./Button";
 
 export default function Navbar() {
   const location: Location = useLocation();
@@ -19,6 +21,7 @@ export default function Navbar() {
   const { fullName } = userData;
   const { width } = screenSize();
   const userRole = useUserRole();
+  const [logOut, setLogOut] = useState<boolean>(false);
 
   // notifications bells-icon handling
   const [unseenNotificationsCount, setUnseenNotificationsCount] = useState<number>(0);
@@ -36,21 +39,28 @@ export default function Navbar() {
     }
   }, [location, dispatch]);
 
-  // end of notifications bells-icon handling
-
   useEffect(() => {
     if (width >= 1024) {
       setNavigation(false);
     }
   }, [width]);
 
-  const handleLogout = function () {
-    const isLogout = confirm("Apakah anda yakin ingin logout?");
-    if (isLogout) {
-      localStorage.clear();
-      navigate("/");
-      window.location.reload();
+  const handleLogOut = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    const { id } = event.currentTarget as HTMLAnchorElement; // Use currentTarget instead of target
+
+    if (id === "batal") {
+      setLogOut(false);
+    } else {
+      setLogOut(true);
     }
+  };
+
+  const setPurge = (): void => {
+    localStorage.removeItem("user_access_token");
+    localStorage.removeItem("user_role");
+    navigate("/");
+    window.location.reload();
+    setLogOut(false);
   };
 
   const handleActivePage = (path: string) => {
@@ -60,7 +70,6 @@ export default function Navbar() {
       case "/penerbangan":
       case "/pesanan":
       case "/notifikasi":
-      case "/bantuan":
       case "/profile":
       case "/profile/reset":
         return isCurrentPath ? "text-blue-700" : "hover:text-blue-700";
@@ -144,7 +153,7 @@ export default function Navbar() {
                       >
                         <span
                           className="block px-4 py-2 text-black hover:text-blue-700 cursor-pointer"
-                          onClick={handleLogout}
+                          onClick={handleLogOut}
                         >
                           Logout
                         </span>
@@ -170,7 +179,7 @@ export default function Navbar() {
                   } flex items-center text-black hover:bg-transparent gap-x-2`}
                 >
                   Admin
-                  <Icon icon="tabler:user-circle" width={19} />
+                  <Icon icon="tabler:user-circle" width={23} />
                 </Menu.Button>
 
                 <Transition
@@ -190,7 +199,7 @@ export default function Navbar() {
                   >
                     <span
                       className="block px-4 py-2 text-black hover:text-blue-700 cursor-pointer"
-                      onClick={handleLogout}
+                      onClick={handleLogOut}
                     >
                       Logout
                     </span>
@@ -254,14 +263,6 @@ export default function Navbar() {
                     Pesanan
                   </Link>
 
-                  <Link
-                    to={"/bantuan"}
-                    className={handleActivePage("/bantuan")}
-                    onClick={handleNavigation}
-                  >
-                    Bantuan
-                  </Link>
-
                   <a
                     href={linkDownloadApp}
                     target="_blank"
@@ -314,7 +315,7 @@ export default function Navbar() {
                         <div className="w-full h-px my-1 bg-gray-200" />
                         <span
                           className="block px-4 py-2 text-black hover:text-blue-700 cursor-pointer"
-                          onClick={handleLogout}
+                          onClick={handleLogOut}
                         >
                           Logout
                         </span>
@@ -326,14 +327,6 @@ export default function Navbar() {
                 <>
                   <Link to={"/"} className={handleActivePage("/")} onClick={handleNavigation}>
                     Beranda
-                  </Link>
-
-                  <Link
-                    to={"/bantuan"}
-                    className={handleActivePage("/bantuan")}
-                    onClick={handleNavigation}
-                  >
-                    Bantuan
                   </Link>
 
                   <a
@@ -371,10 +364,6 @@ export default function Navbar() {
 
                 <Link to={"/pesanan"} className={handleActivePage("/pesanan")}>
                   Pesanan
-                </Link>
-
-                <Link to={"/bantuan"} className={handleActivePage("/bantuan")}>
-                  Bantuan
                 </Link>
 
                 <a href={linkDownloadApp} target="_blank" className="hover:text-blue-700" download>
@@ -434,7 +423,7 @@ export default function Navbar() {
                       <div className="w-full h-px my-1 bg-gray-200" />
                       <span
                         className="block px-4 py-2 text-black hover:text-blue-700 cursor-pointer"
-                        onClick={handleLogout}
+                        onClick={handleLogOut}
                       >
                         Logout
                       </span>
@@ -446,10 +435,6 @@ export default function Navbar() {
               <>
                 <Link to={"/"} className={handleActivePage("/")}>
                   Beranda
-                </Link>
-
-                <Link to={"/bantuan"} className={handleActivePage("/bantuan")}>
-                  Bantuan
                 </Link>
 
                 <a href={linkDownloadApp} target="_blank" className="hover:text-blue-700" download>
@@ -469,6 +454,36 @@ export default function Navbar() {
           </div>
         )}
       </nav>
+
+      <>
+        {logOut ? (
+          <FormModal title="" isOpen={true}>
+            <div className="text-center flex flex-col items-center justify-center h-full">
+              <h3 className="font-semibold text-lg sm:text-xl mt-3 mb-6">
+                Apakah Anda yakin ingin logout?
+              </h3>
+
+              <div className="flex gap-4">
+                <>
+                  <a href="#" id="batal" onClick={handleLogOut}>
+                    <Button type="primary-dark" color="primary-dark" className="!px-10">
+                      Tidak
+                    </Button>
+                  </a>
+                  <Button
+                    type="danger"
+                    color="danger"
+                    className="bg-rose-600 mr-3 hover:bg-rose-700"
+                    onClick={setPurge}
+                  >
+                    Ya
+                  </Button>
+                </>
+              </div>
+            </div>
+          </FormModal>
+        ) : null}
+      </>
     </div>
   );
 }
