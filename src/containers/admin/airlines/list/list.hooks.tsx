@@ -1,94 +1,197 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { IAirLines } from "../airlines.types";
 import { fetchInstance } from "../../../../lib/services/core";
-import { useUserToken } from "../../../../lib/services/auth";
+import {  useUserToken } from "../../../../lib/services/auth";
+import { AlertProps } from "../../../../components/Alert";
 
 
 
 export default function useList() {
   const [open, setOpen] = useState<boolean>(false);
   const [records, setRecords] = useState<IAirLines[]>([]);
-  const [maskapai, setBandaraAsal] = useState("");
-  const [kode, setBandaraTujuan] = useState("");
-  const [judul, setJudul] = useState("Tambah Data maskapai");
-  const [deleteId, setDeleteId] = useState("");
-  const [data, setData] = useState<IAirLines[]>([]);
+  const [judul, setJudul] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [originalRecords, setOriginalRecords] = useState<IAirLines[]>([]);
+  const [alert, setAlert] = useState<AlertProps | null>(null);
+
+
+  const [formValues, setFormValues] = useState<IAirLines>({
+    id: 0,
+    name: "",
+    code: "",
+  });
+   useEffect(() => {
+    if (alert !== null) {
+      const timeoutId = setTimeout(() => {
+        setAlert(null);
+      }, 2000);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [alert]);
 
   const fetchData = async () => {
     try {
+      setIsLoading(true);
       const response = await fetchInstance({
         authToken: useUserToken(),
         endpoint: "/api/admin/airlines?dataPerPage=50&page=1",
         method: "GET",
       });
-      setData(response.data["airlines"]);
-      setRecords(response.data["airlines"]); // assuming you want to set records with the fetched data
+
+      const airlines = response.data.airlines;
+      const sortedAirlines = airlines.sort((a: IAirLines, b: IAirLines) => b.id - a.id);
+
+      setRecords(sortedAirlines);
+      setOriginalRecords(airlines);
     } catch (error) {
       console.log("error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const clickOpen = (): void => {
+    setJudul("Tambah Data maskapai");
     setOpen(true);
+    setShowAddForm(false);
   };
 
   const clickClose = (): void => {
+    setShowAddForm(false);
+    setFormValues({ ...formValues, id: 0, name: "", code: "" });
     setOpen(false);
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    switch (name) {
-      case "bandara-asal":
-        setBandaraAsal(value);
-        break;
-      case "bandara-tujuan":
-        setBandaraTujuan(value);
-        break;
-    }
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = e.target.value.toLocaleLowerCase();
+    const newData = originalRecords.filter((row: { name: string; code: string }) => {
+      return (
+        row.name.toLowerCase().includes(searchValue) || row.code.toLowerCase().includes(searchValue)
+      );
+    });
+
+    setRecords(newData);
   };
 
   const handleEdit = (id: number): void => {
     setJudul("Ubah Data maskapai");
-    setBandaraAsal(data[id - 1]["name"]);
-    setBandaraTujuan(data[id - 1]["code"]);
+    const airline = records.find((airline) => airline.id === id);
+    if (airline) {
+      const { id, name, code } = airline;
+      setFormValues({ ...formValues, id, name, code });
+    }
+
     setOpen(true);
+    setShowAddForm(false);
   };
 
-  const handleDelete = (id: any): void => {
-    setDeleteId(id);
-    setJudul("Hapus Data maskapai");
-    setOpen(true);
-  };
-
-  const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newData = data.filter((row: { name: string; code: string }) => {
-      return (
-        row.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
-        row.code.toLowerCase().includes(e.target.value.toLowerCase())
-      );
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormValues({
+      ...formValues,
+      [name]: value,
     });
-    setRecords(newData);
   };
+
+  const postData = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const payload: IAirLines = { ...formValues };
+
+      const response = await fetchInstance({
+        endpoint: "/api/admin/airlines",
+        method: "POST",
+        authToken: useUserToken(),
+        data: payload,
+      });
+
+      // definisikan message
+      console.log(response.message);
+      setAlert({
+        type: "success",
+        message: "Data maskapai berhasil ditambahkan!",
+      });
+      setFormValues({ ...formValues, id: 0, name: "", code: "" });
+      
+      fetchData();
+    } catch (error) {
+      console.log("Error menambahkan data:", error);
+      setAlert({
+        type: "fail",
+        message: "Data maskapai gagal ditambahkan!",
+      });
+    } finally {
+      setIsLoading(false);
+      setOpen(false);
+    }
+  };
+
+  const editData = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const payload: IAirLines = { ...formValues };
+
+      const response = await fetchInstance({
+        endpoint: "/api/admin/airlines",
+        method: "PUT",
+        authToken: useUserToken(),
+        data: payload,
+      });
+
+      // definisikan message
+      console.log(response.message);
+      setAlert({
+        type: "success",
+        message: "Data maskapai berhasil diubah!",
+      });
+      setFormValues({ ...formValues, id: 0, name: "", code: "" });
+
+
+      fetchData();
+    } catch (error) {
+      console.log("Error edit data:", error);
+      setAlert({
+        type: "fail",
+        message: "Data maskapai gagal diubah!",
+      });
+    } finally {
+      setIsLoading(false);
+      setOpen(false);
+    }
+  };
+
+  // const handleDelete = (id: any): void => {
+  //   setDeleteId(id);
+  //   setJudul("Hapus Data maskapai");
+  //   setOpen(true);
+  //   setShowAddForm(false);
+  // };
 
   useEffect(() => {
     fetchData();
+    
   }, []);
 
   return {
+    alert,
+    postData,
+    editData,
+    showAddForm,
+    isLoading,
     records,
     open,
     clickOpen,
     clickClose,
-    maskapai,
-    kode,
     judul,
-    deleteId,
     handleEdit,
-    handleDelete,
-    handleFilter,
+    // handleDelete,
+    handleSearch,
     handleChange,
+    formValues,
   };
 }
-
