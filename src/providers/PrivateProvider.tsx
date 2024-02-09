@@ -14,7 +14,7 @@ export default function PrivateProvider() {
   const userToken = useUserToken();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const location: Location = useLocation();
-  const publicPaths: string[] = ["/", "/search", "/bantuan", "/unduh-app"];
+  const publicPaths: string[] = ["/", "/search"];
   const searchBoxIncludes: string[] = ["/", "/search"];
   const dispatch = useDispatch<AppDispatch>();
   const userRole = useUserRole();

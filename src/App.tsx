@@ -15,7 +15,6 @@ import {
 import { Home, Search } from "./pages/public";
 
 import {
-  Support,
   BuyerNotificationsList,
   BuyerProfileList,
   BuyerProfileData,
@@ -59,10 +58,6 @@ const router = createBrowserRouter([
       {
         path: "/notifikasi",
         element: <BuyerNotificationsList />,
-      },
-      {
-        path: "/bantuan",
-        element: <Support />,
       },
       {
         path: "/profile",

@@ -18,6 +18,7 @@ export default function ProfileData() {
     status,
     handleOnSelect,
     birthDate,
+    isValidBirthdate,
   } = useAction();
 
   return (
@@ -80,14 +81,20 @@ export default function ProfileData() {
             <div className="flex flex-col mb-7">
               <InputComponent
                 type="date"
-                id="tanggalLahir"
-                name="tanggalLahir"
+                id="birthDate"
+                name="birthDate"
                 value={birthDate === null ? "" : birthDate.split("T")[0]}
                 customStyle={`py-[16px] pl-[20px] pr-[20px]`}
                 onChange={handleChange}
                 placeholder="Tanggal Lahir"
                 disabled={disabled ? true : false}
               />
+
+              {!isValidBirthdate && (
+                <p className="text-red-500 text-sm font-medium pt-1">
+                  *Minimal usia 17 tahun dari sekarang.
+                </p>
+              )}
             </div>
             <div className="flex flex-col mb-7">
               <select
