@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ResetPassword, IResetPassword} from "../profiles.types";
+import { ResetPassword, IResetPassword } from "../profiles.types";
 export default function useResetPassword() {
   const [newPassword, setNewPassword] = useState<string>("");
   const [currentPassword, setCurrentPassword] = useState<string>("");
@@ -29,8 +29,8 @@ export default function useResetPassword() {
         setConfirmPassword(value);
         break;
       case "newPassword":
-       setNewPassword(value);
-      
+        setNewPassword(value);
+
         break;
       case "currentPassword":
         setCurrentPassword(value);
@@ -40,25 +40,24 @@ export default function useResetPassword() {
   useEffect(() => {
     if (status !== "") {
       const timeout = setTimeout(() => {
-        setStatus(""); 
+        setStatus("");
       }, 2000);
       return () => clearTimeout(timeout);
     }
   }, [status]);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data:IResetPassword ={newPassword,currentPassword,confirmPassword}
-    const fetch = await ResetPassword(data)
-    if(fetch.status=="fail"){
-    setStatus("password tidak sama atau password baru kurang dari 8 digits");
+    const data: IResetPassword = { newPassword, currentPassword, confirmPassword };
+    const fetch = await ResetPassword(data);
+    if (fetch.status == "fail") {
+      setStatus("Password lama tidak sama atau password baru kurang dari 8 digit");
+    } else {
+      setStatus("Password sukses diubah");
+      setConfirmPassword("");
+      setCurrentPassword("");
+      setNewPassword("");
     }
-    else{
-    setStatus("password sukses diubah"); 
-    setConfirmPassword("");
-    setCurrentPassword("");
-    setNewPassword("");
-    }
-   }
+  };
   return {
     currentPassword,
     newPassword,

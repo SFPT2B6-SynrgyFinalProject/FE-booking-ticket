@@ -4,14 +4,13 @@ import { Card } from "../../../../components/Card";
 import { ContainerPage } from "../../../../components/common-page/ContainerPage";
 import useAction from "./list.hooks";
 import { FormModal } from "../../../../components/FormModal";
-import  Button  from "../../../../components/Button";
+import Button from "../../../../components/Button";
 
 function Profile() {
-  const { active, profiles, handleLogOut , logOut, setPurge,berhasilLogOut,handleRedirect} = useAction();
-console.log(logOut)
+  const { active, profiles, handleLogOut, logOut, setPurge } = useAction();
+
   return (
     <ContainerPage>
-       
       <div className="flex flex-col items-center lg:items-start lg:flex-row">
         {/* Profile Image Section */}
         <Card customStyle="w-full mb-10 h-1/3 lg:w-5/12 lg:!px-6 lg:mr-5 lg:mb-0">
@@ -46,53 +45,47 @@ console.log(logOut)
             </a>
             <a href="#" id="logOut" onClick={handleLogOut}>
               <div className="text-black inline-flex w-full items-center gap-x-10 mt-2">
-              <Icon icon={"icons8:shutdown"} className={active === 3 ? "text-blue-600" : ""}></Icon>
-              <h5 className={active === 3 ? "text-blue-600" : ""}> Log Out </h5>
-            </div>
-          </a>
-
+                <Icon
+                  icon={"icons8:shutdown"}
+                  className={active === 3 ? "text-blue-600" : ""}
+                ></Icon>
+                <h5 className={active === 3 ? "text-blue-600" : ""}> Log Out </h5>
+              </div>
+            </a>
           </div>
         </Card>
-   
+
         {/* Information Account Section */}
         <Card customStyle="w-full">
-        <>
-      {logOut || berhasilLogOut ? (
-        
-        <FormModal title="" isOpen={true}>
-          <div className="text-center flex flex-col items-center justify-center h-full">
+          <>
             {logOut ? (
-              <h3 className="font-bold text-lg mb-4">Apa anda yakin untuk logout</h3>
-            ) : (
-              
-              <h3 className="text-lg font-bold mb-4">
-                <center><Icon icon="uil:check-circle" className="text-green-600" width={100} height={100} /></center>
-                Anda berhasil logout
-              </h3>
-            )}
+              <FormModal title="" isOpen={true}>
+                <div className="text-center flex flex-col items-center justify-center h-full">
+                  <h3 className="font-semibold text-lg sm:text-xl mt-3 mb-6">
+                    Apakah Anda yakin ingin logout?
+                  </h3>
 
-            <div className="flex gap-4">
-              {logOut ? (
-                <>
-                  <Button type="danger" color="danger" onClick={setPurge}>
-                    Ya
-                  </Button>
-                  <a href="#" id="batal" onClick={handleLogOut} >
-                    <Button type="primary" color="primary-normal">
-                      Tidak
-                    </Button>
-                  </a>
-                </>
-              ) : (
-                <Button type="primary" color="primary-normal" onClick={handleRedirect}>
-                  OK
-                </Button>
-              )}
-            </div>
-          </div>
-        </FormModal>
-      ) : null}
-    </>
+                  <div className="flex gap-4">
+                    <>
+                      <a href="#" id="batal" onClick={handleLogOut}>
+                        <Button type="primary-dark" color="primary-dark" className="!px-10">
+                          Tidak
+                        </Button>
+                      </a>
+                      <Button
+                        type="danger"
+                        color="danger"
+                        className="bg-rose-600 mr-3 hover:bg-rose-700"
+                        onClick={setPurge}
+                      >
+                        Ya
+                      </Button>
+                    </>
+                  </div>
+                </div>
+              </FormModal>
+            ) : null}
+          </>
 
           <Outlet></Outlet>
         </Card>
