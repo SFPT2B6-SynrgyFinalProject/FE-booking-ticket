@@ -6,6 +6,8 @@ import InputComponent from "../../../../components/Input";
 import { FormModal } from "../../../../components/FormModal";
 import { IAirLines } from "./../airlines.types";
 import useAction from "./list.hooks";
+import Alert from "../../../../components/Alert";
+
 
 interface TableColumn {
   name: string;
@@ -35,6 +37,7 @@ const customStyles = {
 
 const AirLine: React.FC<TableProps> = () => {
   const {
+    alert,
     isLoading,
     records,
     open,
@@ -49,6 +52,7 @@ const AirLine: React.FC<TableProps> = () => {
     editData,
     formValues,
   } = useAction();
+  
 
   const columns = [
     {
@@ -92,6 +96,10 @@ const AirLine: React.FC<TableProps> = () => {
 
   return (
     <div className="flex-1 px-4 mt-8 md:px-8 md:mt-14">
+       {alert && (
+          <Alert type={alert.type} message={alert.message} />// Display the alert if it exists
+      )}
+      
       <FormModal isOpen={open} title={judul}>
         {/* Ternary 3 kondisi */}
 

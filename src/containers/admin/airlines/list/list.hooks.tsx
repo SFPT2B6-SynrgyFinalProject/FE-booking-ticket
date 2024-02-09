@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { IAirLines } from "../airlines.types";
 import { fetchInstance } from "../../../../lib/services/core";
-import { useUserToken } from "../../../../lib/services/auth";
+import {  useUserToken } from "../../../../lib/services/auth";
+import { AlertProps } from "../../../../components/Alert";
+
+
 
 export default function useList() {
   const [open, setOpen] = useState<boolean>(false);
@@ -10,12 +13,22 @@ export default function useList() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [showAddForm, setShowAddForm] = useState(false);
   const [originalRecords, setOriginalRecords] = useState<IAirLines[]>([]);
+  const [alert, setAlert] = useState<AlertProps | null>(null);
+
 
   const [formValues, setFormValues] = useState<IAirLines>({
     id: 0,
     name: "",
     code: "",
   });
+   useEffect(() => {
+    if (alert !== null) {
+      const timeoutId = setTimeout(() => {
+        setAlert(null);
+      }, 2000);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [alert]);
 
   const fetchData = async () => {
     try {
@@ -97,10 +110,19 @@ export default function useList() {
 
       // definisikan message
       console.log(response.message);
-
+      setAlert({
+        type: "success",
+        message: "Data maskapai berhasil ditambahkan!",
+      });
+      setFormValues({ ...formValues, id: 0, name: "", code: "" });
+      
       fetchData();
     } catch (error) {
       console.log("Error menambahkan data:", error);
+      setAlert({
+        type: "fail",
+        message: "Data maskapai gagal ditambahkan!",
+      });
     } finally {
       setIsLoading(false);
       setOpen(false);
@@ -123,10 +145,20 @@ export default function useList() {
 
       // definisikan message
       console.log(response.message);
+      setAlert({
+        type: "success",
+        message: "Data maskapai berhasil diubah!",
+      });
+      setFormValues({ ...formValues, id: 0, name: "", code: "" });
+
 
       fetchData();
     } catch (error) {
       console.log("Error edit data:", error);
+      setAlert({
+        type: "fail",
+        message: "Data maskapai gagal diubah!",
+      });
     } finally {
       setIsLoading(false);
       setOpen(false);
@@ -142,9 +174,11 @@ export default function useList() {
 
   useEffect(() => {
     fetchData();
+    
   }, []);
 
   return {
+    alert,
     postData,
     editData,
     showAddForm,
