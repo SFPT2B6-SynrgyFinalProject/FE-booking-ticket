@@ -63,7 +63,7 @@ export default function useFlightOrder() {
       checkIfAnyValueIsEmpty() || getTicketType.ticketId === "" || getTicketType.ticketId === 0
     );
 
-    if (alert !== null) {
+    if (alert !== null && alert.type !== "process") {
       const timeoutId = setTimeout(() => {
         setAlert(null);
       }, 2000);

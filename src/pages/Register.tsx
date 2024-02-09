@@ -26,15 +26,12 @@ export default function Register() {
   const navigate: NavigateFunction = useNavigate();
   const [alert, setAlert] = useState<IAlert | null>(null);
   const [clickTanggal, setClickTanggal] = useState<boolean>(false);
+  const [isValidBirthdate, setIsValidBirthdate] = useState<boolean>(true);
 
   useEffect(() => {
-    // istanbul ignore next
     if (alert !== null) {
-        // istanbul ignore next
       const timeoutId = setTimeout(() => {
-        // istanbul ignore next
         setAlert(null);
-        // istanbul ignore next
         if (alert?.type === "success") {
           navigate("/");
         }
@@ -42,17 +39,17 @@ export default function Register() {
       return () => clearTimeout(timeoutId);
     }
   }, [alert, navigate]);
-        // istanbul ignore next
+
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
-        // istanbul ignore next
+
 
   const togglePasswordVisibility1 = () => {
     setShowConfirmPassword((prev) => !prev);
   };
 
-        // istanbul ignore next
+
   const validate = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     if (value === password) {
@@ -65,6 +62,18 @@ export default function Register() {
     setConfirmPassword(value);
   };
 
+  const isValidBirth = (dateString: string): boolean => {
+    const currentDate = new Date();
+    const inputDate = new Date(dateString);
+    const minValidDate = new Date(
+      currentDate.getFullYear() - 17,
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
+    return inputDate < minValidDate;
+  };
+
+  
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     switch (name) {
@@ -78,6 +87,8 @@ export default function Register() {
         setFullName(value);
         break;
       case "tanggalLahir":
+
+        setIsValidBirthdate(isValidBirth(value));
         setTanggalLahir(value);
         break;
     }
@@ -99,7 +110,7 @@ export default function Register() {
         gender: gender,
         birthDate: new Date(tanggalLahir).toISOString(),
       };
-        // istanbul ignore next
+
       if (payload.password.length < 8) {
         throw new Error("Password minimal 8 karakter!");
       }
@@ -108,7 +119,7 @@ export default function Register() {
 
       if (fetchResult.status === "fail" || fetchResult.status === "error") {
         const errorMessages = Object.values(fetchResult.data).map((value) => value);
-        // istanbul ignore next
+
         throw new Error(errorMessages.join("\n"));
       }
 
@@ -118,9 +129,8 @@ export default function Register() {
         message: "Register berhasil, silahkan cek email Anda",
       });
     } catch (error) {
-     // istanbul ignore next
       if (error instanceof Error) {
-        // istanbul ignore next
+
         setAlert({
           type: "fail",
           data: { errorResponse: error.message },
@@ -132,7 +142,7 @@ export default function Register() {
       }, 0);
     }
   };
-        // istanbul ignore next
+
   const handleCredentialResponse = async (credentialResponse: CredentialResponse) => {
     try {
       // console.log(credentialResponse);
@@ -155,9 +165,7 @@ export default function Register() {
         console.log(error.message);
       }
     }
-  };
-
-  // istanbul ignore next  
+  }  
   const handleCredentialResponseError = async () => {
     console.log("Register gagal!");
   };
@@ -269,14 +277,16 @@ export default function Register() {
                     value={tanggalLahir}
                     customStyle="py-[18px] pl-[20px] pr-[20px]"
                     onChange={handleChange}
-                   
                     onFocus={() => setClickTanggal(true)}
-                    
-                    // Toggle clickTanggal to true when the input is focused
-                    onBlur={() => setClickTanggal(false)} // Toggle clickTanggal to false when the input loses focus
+                    onBlur={() => setClickTanggal(false)}
                     placeholder="Tanggal Lahir"
-                  />
+                />
 
+                  {!isValidBirthdate && (
+                    <p className="text-red-500 text-sm font-medium pt-1">
+                      *Minimal usia 17 tahun dari sekarang.
+                    </p>
+                  )}
                  
                 </div>
                 <div className="flex flex-col mb-7">
@@ -307,6 +317,7 @@ export default function Register() {
                     !tanggalLahir ||
                     password !== confirm_password ||
                     !gender ||
+                    !isValidBirthdate ||
                     isLoading
                   }
                 >

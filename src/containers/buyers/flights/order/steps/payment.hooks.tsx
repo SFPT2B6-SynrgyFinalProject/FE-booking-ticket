@@ -26,6 +26,7 @@ export default function usePaymentOrder() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [alert, setAlert] = useState<IAlert | null>(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const notifications = useSelector((state: RootState) => state.notificationReducer);
 
   const [paymentData, setPaymentData] = useState<IPaymentRequestBody>({
@@ -38,7 +39,7 @@ export default function usePaymentOrder() {
   });
 
   useEffect(() => {
-    if (alert !== null) {
+    if (alert !== null && alert.type !== "process") {
       const timeoutId = setTimeout(() => {
         setAlert(null);
       }, 2000);
@@ -67,7 +68,7 @@ export default function usePaymentOrder() {
     const [month, year] = inputDate.split("/").map(Number);
 
     if (isNaN(month) || isNaN(year) || /^(0[1-9]|1[0-2])\/\d{2}$/.test(inputDate) === false) {
-      throw new Error("Format masa berlaku tidak valid. Silahkan gunakan MM/YY.");
+      throw new Error("Masa berlaku tidak valid!");
     }
 
     const startDate = new Date(
@@ -82,12 +83,28 @@ export default function usePaymentOrder() {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    
+    let isValidInputDate = true;
+    let errorMessage = '';
+  
+    if (name === "expiredDate") {
+      try {
+        convertCreditCardDate(value);
+      } catch (error) {
+        if (error instanceof Error) {
+          isValidInputDate = false;
+          errorMessage = error.message;
+        }
+      }
+    }
 
     const updatedPaymentData = { ...paymentData, [name]: value };
     setPaymentData(updatedPaymentData);
 
     const anyEmptyValue = Object.values(updatedPaymentData).some((val) => val === "");
-    setIsButtonDisabled(anyEmptyValue);
+    setIsButtonDisabled(anyEmptyValue || !isValidInputDate);
+
+    setErrorMessage(errorMessage);
   };
 
   const handleSubmitPayment = async (e: FormEvent<HTMLFormElement>) => {
@@ -162,5 +179,6 @@ export default function usePaymentOrder() {
     infantDetails,
     alert,
     isButtonDisabled,
+    errorMessage
   };
 }

@@ -20,6 +20,7 @@ export const Payment = () => {
     infantDetails,
     alert,
     isButtonDisabled,
+    errorMessage
   } = useAction();
 
   return (
@@ -94,7 +95,7 @@ export const Payment = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-4">
                 <div className="flex flex-col mb-7">
                   <InputComponent
                     type="text"
@@ -106,6 +107,7 @@ export const Payment = () => {
                     placeholder="Masa Berlaku: MM/YY"
                     required
                   />
+                  {errorMessage && <span className="text-red-500 text-sm font-medium pt-1">*{errorMessage}</span>}
                 </div>
                 <div className="flex flex-col mb-7">
                   <InputComponent
