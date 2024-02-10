@@ -1,50 +1,38 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
-import { ITransactions } from "../transactions.types";
+import { ITransactions, getTransactions } from "../transactions.types";
 
 export default function useList() {
   const [records, setRecords] = useState<ITransactions[]>([]);
-
-  // ibarat data dari api
-  const data = [
-    {
-      id: 1,
-      orderId: "AJG123",
-      total: "1200000",
-      metode: "COD",
-      tanggal: "12-21-2024",
-      status: "success",
-    },
-    {
-      id: 2,
-      orderId: "AJG123",
-      total: "1200000",
-      metode: "COD",
-      tanggal: "12-21-2024",
-      status: "dibatalkan",
-    },
-  ];
+  const [originalRecords, setOriginalRecords] = useState<ITransactions[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchTransactions = async () => {
     try {
-      // logic fetch data api
-      setRecords(data);
+      setIsLoading(true);
+      const response = await getTransactions();
+      const sortedTransactions = response.data.transactions.sort((a: ITransactions, b: ITransactions) => b.number - a.number);
+
+      setRecords(sortedTransactions);
+      setOriginalRecords(response.data.transactions);
     } catch (error) {
       console.log("error");
+    } finally {
+      setIsLoading(false);
     }
   };
-
   const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newData = data.filter((row: { orderId: string; status: string }) => {
+    const searchValue = e.target.value.toLocaleLowerCase();
+    const newData = originalRecords.filter((row: { orderId: string; status: string }) => {
       return (
-        row.orderId.toLowerCase().includes(e.target.value.toLowerCase()) ||
-        row.status.toLowerCase().includes(e.target.value.toLowerCase())
+        row.orderId.toLowerCase().includes(searchValue) ||
+        row.status.toLowerCase().includes(searchValue)
       );
     });
     setRecords(newData);
   };
 
-  const handleDelete = (id: number): void => {
+  const handleDetail = (id: string): void => {
     console.log(`Deleting record with ID ${id}`);
   };
 
@@ -54,7 +42,8 @@ export default function useList() {
 
   return {
     records,
-    handleDelete,
+    handleDetail,
     handleFilter,
+    isLoading,
   };
 }

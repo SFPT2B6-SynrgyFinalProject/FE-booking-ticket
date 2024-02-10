@@ -33,34 +33,66 @@ const customStyles = {
 };
 
 const Transaction: React.FC<TableProps> = () => {
-  const { records, handleDelete, handleFilter } = useAction();
+  const { records, isLoading, handleDetail, handleFilter } = useAction();
+
+  //convert number to rupiah
+  const convertToRupiah = (angka: string) => {
+    let rupiah = "";
+    const angkarev = angka.toString().split("").reverse().join("");
+    for (let i = 0; i < angkarev.length; i++)
+      if (i % 3 === 0) rupiah += angkarev.substr(i, 3) + ".";
+    return (
+      "Rp. " +
+      rupiah
+        .split("", rupiah.length - 1)
+        .reverse()
+        .join("")
+    );
+  };
+
+  //convert date to DD-MM-YYYY only
+  const convertDate = (date: string) => {
+    const newDate = new Date(date);
+    const day = newDate.getDate();
+    const month = newDate.getMonth() + 1;
+    const year = newDate.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
+  // create convert orderID to Uppercase
+
 
   const columns = [
     {
-      name: "ID Order",
-      selector: (row: ITransactions) => row.orderId,
+      name: "Order ID",
+      selector: (row: ITransactions) => row.orderId.toUpperCase(),
       sortable: true,
+      width: '8rem',
     },
     {
-      name: "Total",
-      selector: (row: ITransactions) => row.total,
+      name: "Total Pembayaran",
+      selector: (row: ITransactions) => convertToRupiah(row.paymentTotal),
       sortable: true,
+      width: '12rem',
     },
     {
-      name: "Metode",
-      selector: (row: ITransactions) => row.metode,
+      name: "Metode Pembayaran",
+      selector: (row: ITransactions) => row.paymentMethod,
       sortable: true,
+      width: '14rem',
     },
     {
-      name: "Tanggal",
-      selector: (row: ITransactions) => row.tanggal,
+      name: "Tanggal Transaksi",
+      selector: (row: ITransactions) => convertDate(row.transactionDate),
       sortable: true,
+      width: '14rem',
     },
     {
       name: "Status",
       selector: (row: ITransactions) => row.status,
       sortable: true,
       cell: (row: ITransactions) => <Badge type="success" message={row.status} />,
+      width: '10rem',
     },
     {
       name: "Aksi",
@@ -69,7 +101,7 @@ const Transaction: React.FC<TableProps> = () => {
       cell: (row: ITransactions) => (
         <div className="flex items-center gap-x-3 py-2">
           <Button
-            onClick={() => handleDelete(row.id)}
+            onClick={() => handleDetail(row.orderId)}
             className={`text-white !bg-green-600 !px-4`}
             size="xs"
           >
@@ -95,7 +127,7 @@ const Transaction: React.FC<TableProps> = () => {
           />
         </div>
       </div>
-      <Tablev2 columns={columns} data={records} customStyles={customStyles} />
+      <Tablev2 isPending={isLoading} columns={columns} data={records} customStyles={customStyles} />
     </div>
   );
 };
