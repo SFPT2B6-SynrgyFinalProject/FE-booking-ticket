@@ -83,6 +83,7 @@ export interface IFlightOrderResponseBody {
       adult?: string[];
       child?: string[];
       infant?: string[];
+      passengerTotal?: number;
     };
     priceDetails: {
       basePriceBreakdown: {

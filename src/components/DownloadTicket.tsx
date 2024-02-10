@@ -14,7 +14,7 @@ const DownloadTicket: React.FC<DownloadTicketProps> = ({ dataFlightOrder }) => {
   const [isPrint, setIsPrint] = useState(true);
   const data = dataFlightOrder.data;
 
-  console.log(dataFlightOrder);
+  // console.log(dataFlightOrder);
 
   const {
     orderId,

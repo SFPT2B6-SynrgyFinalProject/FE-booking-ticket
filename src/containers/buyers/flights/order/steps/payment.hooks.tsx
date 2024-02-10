@@ -26,7 +26,7 @@ export default function usePaymentOrder() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [alert, setAlert] = useState<IAlert | null>(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const notifications = useSelector((state: RootState) => state.notificationReducer);
 
   const [paymentData, setPaymentData] = useState<IPaymentRequestBody>({
@@ -83,10 +83,10 @@ export default function usePaymentOrder() {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    
+
     let isValidInputDate = true;
-    let errorMessage = '';
-  
+    let errorMessage = "";
+
     if (name === "expiredDate") {
       try {
         convertCreditCardDate(value);
@@ -179,6 +179,7 @@ export default function usePaymentOrder() {
     infantDetails,
     alert,
     isButtonDisabled,
-    errorMessage
+    errorMessage,
+    resultData,
   };
 }
