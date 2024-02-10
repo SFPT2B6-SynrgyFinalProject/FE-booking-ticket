@@ -29,8 +29,6 @@ import {
   RoutesList,
   AirLinesList,
   TransactionsList,
-  PromosList,
-  FlightSchedulesList,
   OrdersList,
   AirportsList,
 } from "./pages/admin";
@@ -98,16 +96,8 @@ const router = createBrowserRouter([
         element: <AirLinesList />,
       },
       {
-        path: "/admin/jadwal-penerbangan",
-        element: <FlightSchedulesList />,
-      },
-      {
         path: "/admin/pemesanan",
         element: <OrdersList />,
-      },
-      {
-        path: "/admin/promo",
-        element: <PromosList />,
       },
       {
         path: "/admin/transaksi",
