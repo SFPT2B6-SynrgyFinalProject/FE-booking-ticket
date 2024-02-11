@@ -1,93 +1,63 @@
-import { cleanup, render } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { store } from "../../../../../config/redux/store";
-import { Payment } from "./payment";
-import { useSelector } from "react-redux";
+import usePaymentOrder from "./payment.hooks";
+import { BuyerPaymentOrder } from "./../../flights.types";
+import { FormEvent } from "react";
 
-jest.mock("react-redux", () => ({
-  ...jest.requireActual("react-redux"),
-  useSelector: jest.fn(),
-}));
+jest.mock("./../../flights.types");
 
-const mockUseSelector = useSelector as jest.MockedFunction<typeof useSelector>;
-afterEach(() => {
-  jest.clearAllMocks();
-  cleanup();
-});
-
-test("resultData is set correctly using useSelector", () => {
-  const mockResultData = {
-    data: {
-      orderId: "123456",
-      orderer: {
-        fullName: "John Doe",
-        phoneNumber: "1234567890",
-        email: "john.doe@example.com",
+describe("usePaymentOrder", () => {
+  test("handleSubmitPayment function submits payment successfully", async () => {
+    const mockDispatch = jest.fn();
+    const mockBuyerPaymentOrder = BuyerPaymentOrder as jest.MockedFunction<
+      typeof BuyerPaymentOrder
+    >;
+    const mockFetchResult = {
+      status: "success",
+      data: {
+        orderId: "mockOrderId",
       },
-      facility: [],
-      flightClass: "Ekonomi",
-      flightDetails: {
-        departure: {
-          airportId: 1,
-          airportName: "Airport",
-          dateTime: "2024-02-11T12:00:00Z",
-          city: "City",
-          code: "CODE",
-        },
-        arrival: {
-          airportId: 2,
-          airportName: "Airport 2",
-          dateTime: "2024-02-11T14:00:00Z",
-          city: "City 2",
-          code: "CODE2",
-        },
-        airline: {
-          name: "Airline",
-          iconUrl: "airline-icon.png",
-          airlineId: 123,
-        },
-        flightCode: "FLIGHT123",
-      },
-      passengerDetails: {
-        adult: ["John Doe", "Jane Doe"],
-        child: [],
-        infant: [],
-        passengerTotal: 2,
-      },
-      priceDetails: {
-        basePriceBreakdown: {
-          adult: {
-            passengerCount: 2,
-            price: 200,
-          },
-          child: {
-            passengerCount: 0,
-            price: 0,
-          },
-          infant: {
-            passengerCount: 0,
-            price: 0,
-          },
-        },
-        totalDicount: 0,
-        tax: 20,
-        total: 220,
-      },
-      paymentStatus: "unpaid",
-    },
-    message: "Success",
-    status: "success",
-  };
+      message: "Payment successful",
+    };
+    mockBuyerPaymentOrder.mockResolvedValueOnce(mockFetchResult);
 
-  mockUseSelector.mockReturnValue(mockResultData);
+    const TestComponent = () => {
+      const { handleSubmitPayment, setPaymentData, isLoading, alert } = usePaymentOrder({
+        dispatch: mockDispatch,
+      });
 
-  render(
-    <Provider store={store}>
-      <Payment />
-    </Provider>
-  );
+      const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const paymentData = {
+          orderId: "mockOrderId",
+          cardNumber: "1234567890123456",
+          cardName: "John Doe",
+          cvv: "123",
+          expiredDate: "05/28",
+        };
+        setPaymentData(paymentData);
+        await handleSubmitPayment(e);
+      };
 
-  expect(mockUseSelector).toHaveBeenCalled();
-  expect(mockUseSelector).toHaveBeenCalledWith(expect.any(Function));
-  expect(mockUseSelector.mock.results[0].value).toEqual(mockResultData);
+      return (
+        <form onSubmit={handleSubmit}>
+          <div>{isLoading ? "Loading..." : null}</div>
+          <div>{alert && alert.message}</div>
+          <button type="submit">Submit Payment</button>
+        </form>
+      );
+    };
+
+    const { getByText } = render(
+      <Provider store={store}>
+        <TestComponent />
+      </Provider>
+    );
+
+    expect(getByText("Submit Payment")).toBeInTheDocument;
+    fireEvent.click(getByText("Submit Payment"));
+    expect(getByText("Loading...")).toBeInTheDocument;
+    expect(mockDispatch).toHaveBeenCalledTimes(2);
+  });
 });

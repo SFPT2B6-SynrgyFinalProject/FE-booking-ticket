@@ -7,7 +7,10 @@ import Alert from "../../../../../components/Alert";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { formatDateString, formatTimeHoursMinute } from "../../../../../lib";
 
+import { useDispatch } from "react-redux";
+
 export const Payment = () => {
+  const dispatch = useDispatch();
   const {
     isLoading,
     paymentData,
@@ -24,7 +27,7 @@ export const Payment = () => {
     isButtonDisabled,
     errorMessage,
     resultData,
-  } = useAction();
+  } = useAction({ dispatch });
 
   const API_URL: string | undefined = process.env.VITE_API_URL;
   const data = resultData.data;

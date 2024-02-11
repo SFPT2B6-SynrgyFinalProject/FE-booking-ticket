@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { BuyerFlightOrder, IFlightData, IFlightOrderRequestBody } from "../../flights.types";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../../config/redux/store";
 import { setCurrentStep, setFlightOrderData } from "../../../../../config/redux/action";
 import { IAlert } from "../../../../../lib/services/auth";
@@ -9,8 +9,12 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../../config/redux/store";
 import { GetTicketType } from "../../../../../config/redux/reducer/getTicketReducer";
 
-export default function useFlightOrder() {
-  const dispatch = useDispatch<AppDispatch>();
+interface UseFlightOrderProps {
+  dispatch: AppDispatch;
+}
+
+export default function useFlightOrder({ dispatch }: UseFlightOrderProps) {
+  // const dispatch = useDispatch<AppDispatch>();
   const getTicketType: GetTicketType = useSelector((state: RootState) => state.getTicketReducer);
 
   const [enabled, setEnabled] = useState<boolean>(false);
@@ -183,5 +187,6 @@ export default function useFlightOrder() {
     alert,
     getTicketType,
     disableBtn,
+    checkIfAnyValueIsEmpty,
   };
 }
