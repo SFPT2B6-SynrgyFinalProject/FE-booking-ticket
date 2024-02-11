@@ -28,14 +28,14 @@ export default function useList() {
         setOpen(false)
         setAlert({
           type: "fail",
-          message: "Data bandara gagal diubah!",
+          message: "Data bandara gagal ditambah!",
         });
       
       } else {
         setOpen(false)
         setAlert({
           type: "success",
-          message: "Data bandara berhasil diubah!",
+          message: "Data bandara berhasil ditambah!",
         });
         
       }
@@ -46,6 +46,7 @@ export default function useList() {
     setTimeout(() => {
       setAlert(null)
     }, 3000);
+    fetchAirport();
   }
   const kirim = async () => {
     const data : IAirports={id,cityName,airportName,code};
@@ -71,6 +72,7 @@ export default function useList() {
     setTimeout(() => {
       setAlert(null)
     }, 3000);
+    fetchAirport();
   };
   const fetchAirport = async () => {
     const data = await getAirports()
@@ -130,6 +132,7 @@ export default function useList() {
       } else {
         console.error("Record dengan ID yang diberikan tidak ditemukan.");
       }
+      
   };
 
   const handleDelete = (id: any): void => {
