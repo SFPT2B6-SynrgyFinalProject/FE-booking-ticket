@@ -161,8 +161,14 @@ export default function usePaymentOrder() {
     }
   };
 
+  // useEffect(() => {
+  //   localStorage.setItem("orderCount", notifications.orderCount.toString());
+  // }, [notifications.orderCount]);
+
   useEffect(() => {
-    localStorage.setItem("orderCount", notifications.orderCount.toString());
+    if (notifications.orderCount !== undefined && notifications.orderCount !== null) {
+      localStorage.setItem("orderCount", notifications.orderCount.toString());
+    }
   }, [notifications.orderCount]);
 
   return {

@@ -14,18 +14,18 @@ const Tablev2: React.FC<TableProps> = ({ isPending, columns, data, customStyles 
       name: "No",
       selector: (row: any) => row.index,
       sortable: false,
-      width: '5rem'
+      width: "5rem",
     },
-    ...columns
+    ...columns,
   ];
 
   const newData = data.map((item: any, index: number) => ({
     ...item,
-    index: index + 1
+    index: index + 1,
   }));
 
   return (
-    <div className="grid grid-cols-1 my-8 border border-gray-200 rounded-md md:rounded-xl overflow-hidden">
+    <div className="grid grid-cols-1 my-8 overflow-hidden border border-gray-200 rounded-md md:rounded-xl">
       <div className="border-gray-300">
         <DataTable
           columns={newColumns}
@@ -36,7 +36,7 @@ const Tablev2: React.FC<TableProps> = ({ isPending, columns, data, customStyles 
           pointerOnHover
           pagination
           paginationPerPage={5}
-          paginationRowsPerPageOptions={[5, 10, 15, 20]}
+          paginationRowsPerPageOptions={[5, 10, 15, 20, 50]}
         ></DataTable>
       </div>
     </div>
