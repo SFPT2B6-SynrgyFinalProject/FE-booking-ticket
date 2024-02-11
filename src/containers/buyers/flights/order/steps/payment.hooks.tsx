@@ -6,7 +6,7 @@ import {
 } from "../../flights.types";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../config/redux/store";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../../config/redux/store";
 import {
   resetGetTicket,
@@ -15,8 +15,12 @@ import {
 } from "./../../../../../config/redux/action";
 import { IAlert } from "../../../../../lib/services/auth";
 
-export default function usePaymentOrder() {
-  const dispatch = useDispatch<AppDispatch>();
+interface UsePaymentOrderProps {
+  dispatch: AppDispatch;
+}
+
+export default function usePaymentOrder({ dispatch }: UsePaymentOrderProps) {
+  // const dispatch = useDispatch<AppDispatch>();
   const resultData: IFlightOrderResponseBody = useSelector(
     (state: RootState) => state.flightOrderReducer
   );
@@ -146,7 +150,7 @@ export default function usePaymentOrder() {
         dispatch(setCurrentStep(3));
       }, 1000);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
 
       if (error instanceof Error) {
         setAlert({
@@ -187,5 +191,6 @@ export default function usePaymentOrder() {
     isButtonDisabled,
     errorMessage,
     resultData,
+    setPaymentData,
   };
 }

@@ -2,14 +2,14 @@ import { render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { store } from "../../../../../config/redux/store";
 import { Booking } from "./booking";
-import { useSelector } from "react-redux";
+import useFlightOrder from "./booking.hooks";
 
-jest.mock("react-redux", () => ({
-  ...jest.requireActual("react-redux"),
-  useSelector: jest.fn(),
+jest.mock("./booking.hooks", () => ({
+  __esModule: true,
+  default: jest.fn(),
 }));
 
-const mockUseSelector = useSelector as jest.MockedFunction<typeof useSelector>;
+const mockUseFlightOrder = useFlightOrder as jest.MockedFunction<typeof useFlightOrder>;
 
 test("getTicketType is set correctly using useSelector", () => {
   const mockGetTicketType = {
@@ -22,7 +22,25 @@ test("getTicketType is set correctly using useSelector", () => {
     },
   };
 
-  mockUseSelector.mockReturnValue(mockGetTicketType);
+  mockUseFlightOrder.mockReturnValue({
+    checkIfAnyValueIsEmpty: jest.fn(),
+    handleChange: jest.fn(),
+    handleSubmitFlightOrder: jest.fn(),
+    flightData: {
+      ticketId: "",
+      classId: "",
+      fullName: "",
+      phoneNumber: "",
+      email: "",
+      call: "",
+    },
+    enabled: false,
+    setEnabled: jest.fn(),
+    isLoading: false,
+    alert: null,
+    getTicketType: mockGetTicketType,
+    disableBtn: false,
+  });
 
   render(
     <Provider store={store}>
@@ -30,7 +48,8 @@ test("getTicketType is set correctly using useSelector", () => {
     </Provider>
   );
 
-  expect(mockUseSelector).toHaveBeenCalled();
-  expect(mockUseSelector).toHaveBeenCalledWith(expect.any(Function));
-  expect(mockUseSelector.mock.results[0].value).toEqual(mockGetTicketType);
+  expect(mockUseFlightOrder).toHaveBeenCalled();
+  expect(mockUseFlightOrder.mock.calls[0][0]).toEqual({ dispatch: expect.any(Function) });
 });
+
+// Add other test cases as needed

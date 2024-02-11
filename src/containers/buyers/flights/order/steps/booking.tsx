@@ -5,8 +5,11 @@ import { InputRadioComponent } from "../../../../../components/InputRadio";
 import useAction from "./booking.hooks";
 import Alert from "../../../../../components/Alert";
 import Button from "../../../../../components/Button";
+import { useDispatch } from "react-redux";
 
 export const Booking = () => {
+  const dispatch = useDispatch();
+
   const {
     flightData,
     enabled,
@@ -17,7 +20,7 @@ export const Booking = () => {
     alert,
     getTicketType,
     disableBtn,
-  } = useAction();
+  } = useAction({ dispatch });
 
   const { passengerDetails } = getTicketType;
 
