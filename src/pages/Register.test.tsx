@@ -65,8 +65,7 @@ describe("Register Component", () => {
     // Clean up the spy
     registerUserMock.mockRestore();
   });
-
-  // Add more test cases as needed
+ // Add more test cases as needed
 });
 
 describe("Register Component", () => {
