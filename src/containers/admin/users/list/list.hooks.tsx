@@ -16,10 +16,11 @@ export default function useList() {
 
   const [formValues, setFormValues] = useState<IUsers>({
     id: 0,
-    name: "",
-    nohp: "",
+    fullName: "",
+    phoneNumber: "",
     email: "",
     role: "",
+    roleId: 0,
   });
   useEffect(() => {
     if (alert !== null) {
@@ -61,29 +62,77 @@ export default function useList() {
 
   const clickClose = (): void => {
     setShowAddForm(false);
-    setFormValues({ ...formValues, id: 0, name: "", nohp: "", email: "", role: "" });
+    setFormValues({ ...formValues, id: 0, fullName: "", phoneNumber: "", email: "", role: "", roleId: 0 });
     setOpen(false);
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = e.target.value.toLowerCase();
-    const newData = originalRecords.filter((row: { name?: string; nohp?: string; email?: string; role?: string;}) => {
+    const newData = originalRecords.filter((row: { fullName?: string; phoneNumber?: string; email?: string; role?: string; }) => {
       return (
-        (row.name && row.name.toLowerCase().includes(searchValue)) ||
-        (row.nohp && row.nohp.toLowerCase().includes(searchValue)) ||
+        (row.fullName && row.fullName.toLowerCase().includes(searchValue)) ||
+        (row.phoneNumber && row.phoneNumber.toLowerCase().includes(searchValue)) ||
         (row.email && row.email.toLowerCase().includes(searchValue))
       );
     });
 
     setRecords(newData);
-};
+  };
 
   const handleEdit = (id: number): void => {
     setJudul("Ubah Data User");
     const users = records.find((users) => users.id === id);
     if (users) {
-      const { id, name, nohp, email, role } = users;
-      setFormValues({ ...formValues, id, name, nohp, email, role });
+      const { id, fullName, phoneNumber, email, roleId } = users;
+      setFormValues({ ...formValues, id, fullName, phoneNumber, email, roleId });
+    }
+
+    setOpen(true);
+    setShowAddForm(false);
+  };
+
+  const editData = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const payload: IUsers = { ...formValues };
+
+      const response = await fetchInstance({
+        endpoint: "/api/admin/users",
+        method: "PUT",
+        authToken: useUserToken(),
+        data: payload,
+      });
+
+      // definisikan message
+      console.log(response.message);
+      setAlert({
+        type: "success",
+        message: "Data user berhasil diubah!",
+      });
+      setFormValues({ ...formValues, id: 0, fullName: "", email: "", roleId: 0 });
+
+
+      fetchUsers();
+    } catch (error) {
+      console.log("Error edit data:", error);
+      setAlert({
+        type: "fail",
+        message: "Data user gagal diubah!",
+      });
+    } finally {
+      setIsLoading(false);
+      setOpen(false);
+    }
+  };
+
+  const handleDelete = async (id: number): Promise<void> => {
+    setJudul("Hapus Data User");
+    const users = records.find((users) => users.id === id);
+    if (users) {
+      const { id, fullName, phoneNumber, email, role, roleId } = users;
+      setFormValues({ ...formValues, id, fullName, phoneNumber, email, role, roleId });
     }
 
     setOpen(true);
@@ -118,8 +167,8 @@ export default function useList() {
         type: "success",
         message: "Data user berhasil ditambahkan!",
       });
-      setFormValues({ ...formValues, id: 0, name: "", nohp: "", email: "", role: "" });
-      
+      setFormValues({ ...formValues, id: 0, fullName: "", phoneNumber: "", email: "", roleId: 0 });
+
       fetchUsers();
     } catch (error) {
       console.log("Error menambahkan data:", error);
@@ -133,68 +182,11 @@ export default function useList() {
     }
   };
 
-  const editData = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsLoading(true);
-  
-    try {
-      const payload: IUsers = { ...formValues };
-  
-      const response = await fetchInstance({
-        endpoint: `/api/admin/users/${formValues.id}`, // Include the id in the endpoint
-        method: "PUT",
-        authToken: useUserToken(),
-        data: payload,
-      });
-  
-      // definisikan message
-      console.log(response.message);
-      setAlert({
-        type: "success",
-        message: "Data user berhasil diubah!",
-      });
-      setFormValues({ ...formValues, id: 0, name: "", nohp: "", email: "", role: "" });
-  
-      fetchUsers();
-    } catch (error) {
-      console.log("Error edit data:", error);
-      setAlert({
-        type: "fail",
-        message: "Data user gagal diubah!",
-      });
-    } finally {
-      setIsLoading(false);
-      setOpen(false);
-    }
-  };
-  
 
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  const handleDelete = async (id: number): Promise<void> => {
-    try {
-      await fetchInstance({
-        endpoint: `/api/admin/users/${id}`,
-        method: "DELETE",
-        authToken: useUserToken(),
-      });
-
-      setAlert({
-        type: "success",
-        message: "Data user berhasil dihapus!",
-      });
-
-      fetchUsers();
-    } catch (error) {
-      console.log("Error menghapus data:", error);
-      setAlert({
-        type: "fail",
-        message: "Data user gagal dihapus!",
-      });
-    }
-  };
 
   return {
     alert,

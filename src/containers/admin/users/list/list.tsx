@@ -35,12 +35,11 @@ const customStyles = {
 };
 
 const List: React.FC<TableProps> = () => {
-  const { 
+  const {
     alert,
     isLoading,
     records,
     open,
-    clickOpen,
     clickClose,
     judul,
     handleEdit,
@@ -55,7 +54,7 @@ const List: React.FC<TableProps> = () => {
   const columns = [
     {
       name: "Name",
-      selector: (row: IUsers) => row.name,
+      selector: (row: IUsers) => row.fullName,
       width: "15rem",
       sortable: true,
     },
@@ -67,7 +66,7 @@ const List: React.FC<TableProps> = () => {
     },
     {
       name: "Nomor Telepon",
-      selector: (row: IUsers) => row.nohp,
+      selector: (row: IUsers) => row.phoneNumber,
       sortable: true,
     },
     {
@@ -103,30 +102,11 @@ const List: React.FC<TableProps> = () => {
   ];
 
   return (
-    // <div className="flex-1 px-4 mt-8 md:px-8 md:mt-14">
-    //   <div className="flex flex-col md:flex-row md:justify-between items-center">
-    //     <Button
-    //       className={`!bg-green-600 py-[11px] text-white px-[14px] sm:px-[35px] md:px-[24px]`}
-    //       size="xs"
-    //     >
-    //       Tambah Pengguna <Icon icon="prime:file-import" width={20} />
-    //     </Button>
-    //     <div className="mt-4 w-full sm:w-fit">
-    //       <InputComponent
-    //         type="text"
-    //         placeholder="Cari..."
-    //         customStyle="border border-gray-400/80 px-4 py-[10px] rounded-xl"
-    //         onChange={handleFilter}
-    //       />
-    //     </div>
-    //   </div>
-    //   <Tablev2 columns={columns} data={records} customStyles={customStyles} />
-    // </div>
     <div className="flex-1 px-4 mt-8 md:px-8 md:mt-14">
-       {alert && (
-          <Alert type={alert.type} message={alert.message} />// Display the alert if it exists
+      {alert && (
+        <Alert type={alert.type} message={alert.message} />// Display the alert if it exists
       )}
-      
+
       <FormModal isOpen={open} title={judul}>
         {/* Ternary 3 kondisi */}
 
@@ -148,7 +128,7 @@ const List: React.FC<TableProps> = () => {
                   id="name"
                   name="name"
                   onChange={handleChange}
-                  value={formValues.name}
+                  value={formValues.fullName}
                   required
                 />
               </div>
@@ -156,10 +136,10 @@ const List: React.FC<TableProps> = () => {
                 <InputComponent
                   placeholder="No Telepon"
                   type="text"
-                  id="nohp"
-                  name="nohp"
+                  id="phoneNumber"
+                  name="phoneNumber"
                   onChange={handleChange}
-                  value={formValues.nohp}
+                  value={formValues.phoneNumber}
                   required
                 />
               </div>
@@ -181,7 +161,7 @@ const List: React.FC<TableProps> = () => {
                   id="role"
                   name="role"
                   onChange={handleChange}
-                  value={formValues.role}
+                  value={formValues.id}
                   required
                 />
               </div>
@@ -200,16 +180,13 @@ const List: React.FC<TableProps> = () => {
             </button>
 
             <Button type="primary-dark" className=" rounded-xl" color="primary-dark" size="sm">
-              Simpan
+              {judul === "Hapus Data User" ? "Hapus" : "Simpan"}
             </Button>
           </div>
         </form>
       </FormModal>
 
-      <div className="flex flex-col md:flex-row md:justify-between items-center border-t border-b border-[#000] border-opacity-15 py-[15px] px-3">
-        <button className="bg-green-600 py-2 px-3 rounded-[10px] text-white font-outfit flex items-center gap-2" onClick={clickOpen}>
-          Tambah User <Icon icon="prime:file-import" width={20} />
-        </button>
+      <div className="flex flex-col md:flex-row md:justify-end items-center border-t border-b border-[#000] border-opacity-15 py-[15px] px-3">
         <div className="w-full sm:w-fit">
           <InputComponent
             type="text"
