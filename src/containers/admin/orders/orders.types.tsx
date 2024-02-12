@@ -1,9 +1,9 @@
 export interface IOrders {
-  id: number;
-  order_id: string;
-  username: string;
+  number: number;
+  orderId: string;
+  fullName: string;
   airline: string;
-  destination: string;
-  price: string;
+  flightDestination: string;
+  priceTotal: number;
   status: string;
 }

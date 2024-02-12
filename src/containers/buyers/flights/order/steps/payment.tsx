@@ -7,7 +7,10 @@ import Alert from "../../../../../components/Alert";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { formatDateString, formatTimeHoursMinute } from "../../../../../lib";
 
+import { useDispatch } from "react-redux";
+
 export const Payment = () => {
+  const dispatch = useDispatch();
   const {
     isLoading,
     paymentData,
@@ -24,9 +27,9 @@ export const Payment = () => {
     isButtonDisabled,
     errorMessage,
     resultData,
-  } = useAction();
+  } = useAction({ dispatch });
 
-  const API_URL: string = import.meta.env.VITE_API_URL;
+  const API_URL: string | undefined = process.env.VITE_API_URL;
   const data = resultData.data;
 
   const {
@@ -124,27 +127,29 @@ export const Payment = () => {
             <div>
               <h2 className="pb-2 text-lg font-semibold sm:pb-4 sm:text-xl">Detail Pemesanan</h2>
               <table className="text-sm font-medium text-gray-600 sm:text-base">
-                <tr>
-                  <td className="py-1 pr-8">Booking ID</td>
-                  <td>
-                    : <span className="pl-3">{orderId.toUpperCase()}</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-1 pr-5">Status Pembayaran</td>
-                  <td>
-                    :{" "}
-                    <span className="pl-3 font-semibold text-rose-600">
-                      {paymentStatus.toUpperCase()}
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-1 pr-8">Total Penumpang</td>
-                  <td>
-                    : <span className="pl-3">{data.passengerDetails.passengerTotal} Orang</span>
-                  </td>
-                </tr>
+                <tbody>
+                  <tr>
+                    <td className="py-1 pr-8">Booking ID</td>
+                    <td>
+                      : <span className="pl-3">{orderId.toUpperCase()}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-1 pr-5">Status Pembayaran</td>
+                    <td>
+                      :{" "}
+                      <span className="pl-3 font-semibold text-rose-600">
+                        {paymentStatus.toUpperCase()}
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-1 pr-8">Total Penumpang</td>
+                    <td>
+                      : <span className="pl-3">{data.passengerDetails.passengerTotal} Orang</span>
+                    </td>
+                  </tr>
+                </tbody>
               </table>
             </div>
 
@@ -166,26 +171,28 @@ export const Payment = () => {
               <h2 className="text-lg font-semibold sm:text-xl">Informasi Kontak</h2>
               <div className="pt-2 sm:pt-4">
                 <table className="text-sm font-medium text-gray-600 sm:text-base">
-                  <tr>
-                    <td className="py-1 sm:pr-5">Nama Lengkap</td>
-                    <td>
-                      : <span className="sm:pl-3">{fullName}</span>
-                    </td>
-                  </tr>
+                  <tbody>
+                    <tr>
+                      <td className="py-1 sm:pr-5">Nama Lengkap</td>
+                      <td>
+                        : <span className="sm:pl-3">{fullName}</span>
+                      </td>
+                    </tr>
 
-                  <tr>
-                    <td>Alamat Email</td>
-                    <td className="py-1">
-                      : <span className="sm:pl-3">{email}</span>
-                    </td>
-                  </tr>
+                    <tr>
+                      <td>Alamat Email</td>
+                      <td className="py-1">
+                        : <span className="sm:pl-3">{email}</span>
+                      </td>
+                    </tr>
 
-                  <tr>
-                    <td>Nomor Telepon</td>
-                    <td className="py-1">
-                      : <span className="sm:pl-3">{phoneNumber}</span>
-                    </td>
-                  </tr>
+                    <tr>
+                      <td>Nomor Telepon</td>
+                      <td className="py-1">
+                        : <span className="sm:pl-3">{phoneNumber}</span>
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
             </div>

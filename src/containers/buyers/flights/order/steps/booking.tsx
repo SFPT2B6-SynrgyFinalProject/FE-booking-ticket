@@ -5,8 +5,11 @@ import { InputRadioComponent } from "../../../../../components/InputRadio";
 import useAction from "./booking.hooks";
 import Alert from "../../../../../components/Alert";
 import Button from "../../../../../components/Button";
+import { useDispatch } from "react-redux";
 
 export const Booking = () => {
+  const dispatch = useDispatch();
+
   const {
     flightData,
     enabled,
@@ -17,7 +20,7 @@ export const Booking = () => {
     alert,
     getTicketType,
     disableBtn,
-  } = useAction();
+  } = useAction({ dispatch });
 
   const { passengerDetails } = getTicketType;
 
@@ -156,12 +159,12 @@ export const Booking = () => {
 
                 {index === 0 ? (
                   <>
-                    <div className="flex flex-col items-start xl:ml-32 relative justify-start mb-7">
+                    <div className="relative flex flex-col items-start justify-start xl:ml-32 mb-7">
                       <Switch.Group>
                         <Switch.Label
                           passive
                           as="div"
-                          className="absolute right-0 left-16 lg:right-32 text-md text-gray-800"
+                          className="absolute right-0 text-gray-800 left-16 lg:right-32 text-md"
                         >
                           Sama dengan pemesan
                         </Switch.Label>
@@ -367,7 +370,7 @@ export const Booking = () => {
           </div>
         </Card>
 
-        <div className="flex flex-col md:w-3/6 lg:w-2/6 pb-10 mx-auto mt-16 md:mt-28 gap-y-4">
+        <div className="flex flex-col pb-10 mx-auto mt-16 md:w-3/6 lg:w-2/6 md:mt-28 gap-y-4">
           <Button
             type="primary-dark"
             width="full"
