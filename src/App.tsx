@@ -2,7 +2,6 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import PrivateProvider from "./providers/PrivateProvider";
 import PublicProvider from "./providers/PublicProvider";
 import MyComponent from "./components/Doc";
-import Dashboard from "./layouts/admin/dashboard";
 import {
   Register,
   Login,
@@ -31,6 +30,7 @@ import {
   TransactionsList,
   OrdersList,
   AirportsList,
+  DashboardList,
 } from "./pages/admin";
 
 const router = createBrowserRouter([
@@ -77,7 +77,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/admin",
-        element: <Dashboard />,
+        element: <DashboardList />,
       },
       {
         path: "/admin/pengguna",

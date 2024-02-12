@@ -1,4 +1,10 @@
-import { Link, type Location, useLocation, NavigateFunction, useNavigate } from "react-router-dom";
+import {
+  Link,
+  type Location,
+  useLocation,
+  NavigateFunction,
+  useNavigate,
+} from "react-router-dom";
 import Logo from "../assets/images/logo.png";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Fragment, useEffect, useState } from "react";
@@ -8,10 +14,11 @@ import { screenSize } from "../lib/services/screenSize";
 import { Menu, Transition } from "@headlessui/react";
 import { DropdownLink } from "./DropdownLink";
 import { useUserRole } from "../lib/services/auth";
-import OrderList from "./OrderList";
+import OrderList from "../containers/admin/dashboard/list/OrderList";
 import { removeNotificationOrderIds } from "../config/redux/action/notificationAction";
 import { FormModal } from "./FormModal";
 import Button from "./Button";
+import { useTransaction } from "../containers/admin/dashboard/list/dashboard.hooks";
 
 export default function Navbar() {
   const location: Location = useLocation();
@@ -22,10 +29,18 @@ export default function Navbar() {
   const { width } = screenSize();
   const userRole = useUserRole();
   const [logOut, setLogOut] = useState<boolean>(false);
+  const {
+    detailTransactionToday,
+    detailTransactionYesterday,
+    isLoadingDetailTransaction,
+  } = useTransaction();
 
   // notifications bells-icon handling
-  const [unseenNotificationsCount, setUnseenNotificationsCount] = useState<number>(0);
-  const notifications = useSelector((state: RootState) => state.notificationReducer);
+  const [unseenNotificationsCount, setUnseenNotificationsCount] =
+    useState<number>(0);
+  const notifications = useSelector(
+    (state: RootState) => state.notificationReducer
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -94,7 +109,9 @@ export default function Navbar() {
             : ""
         }`}
       ></div>
-      <nav className={`bg-white px-8 lg:px-12 py-5 flex shadow items-center justify-between`}>
+      <nav
+        className={`bg-white px-8 lg:px-12 py-5 flex shadow items-center justify-between`}
+      >
         <img src={Logo} alt="logo-image" width={160} />
         {navigation ? (
           <>
@@ -131,7 +148,8 @@ export default function Navbar() {
                   <Menu as={"div"} className="relative">
                     <Menu.Button
                       className={`${
-                        handleActivePage("/profile") || handleActivePage("/profile/reset")
+                        handleActivePage("/profile") ||
+                        handleActivePage("/profile/reset")
                       } flex items-center text-black hover:bg-transparent gap-x-2 pl-10 pr-8`}
                     >
                       Admin
@@ -164,8 +182,17 @@ export default function Navbar() {
                   </Menu>
                   {location.pathname === "/admin" ? (
                     <>
-                      <section className="rounded-tl-[3rem] bg-gray-100 pl-10 pr-8 pb-10">
-                        <OrderList />
+                      <section className="rounded-tl-[3rem] pl-10 pr-8 pb-10">
+                        <OrderList
+                          detailTransaction={detailTransactionToday}
+                          day="Hari ini"
+                          isLoading={isLoadingDetailTransaction}
+                        />
+                        <OrderList
+                          detailTransaction={detailTransactionYesterday}
+                          day="Kemarin"
+                          isLoading={isLoadingDetailTransaction}
+                        />
                       </section>
                     </>
                   ) : null}
@@ -177,7 +204,8 @@ export default function Navbar() {
               <Menu as={"div"} className="relative hidden lg:block">
                 <Menu.Button
                   className={`${
-                    handleActivePage("/profile") || handleActivePage("/profile/reset")
+                    handleActivePage("/profile") ||
+                    handleActivePage("/profile/reset")
                   } flex items-center text-black hover:bg-transparent gap-x-2`}
                 >
                   Admin
@@ -218,7 +246,9 @@ export default function Navbar() {
                   <Link
                     id="notifikasi"
                     to={"/notifikasi"}
-                    className={`flex items-center ml-1 ${handleActivePage("/notifikasi")}`}
+                    className={`flex items-center ml-1 ${handleActivePage(
+                      "/notifikasi"
+                    )}`}
                     onClick={handleNavigation}
                   >
                     <Icon icon="mdi:bell-outline" width={22} />
@@ -246,7 +276,11 @@ export default function Navbar() {
 
               {fullName ? (
                 <>
-                  <Link to={"/"} className={handleActivePage("/")} onClick={handleNavigation}>
+                  <Link
+                    to={"/"}
+                    className={handleActivePage("/")}
+                    onClick={handleNavigation}
+                  >
                     Beranda
                   </Link>
 
@@ -279,7 +313,8 @@ export default function Navbar() {
                   <Menu as={"div"} className="relative">
                     <Menu.Button
                       className={`${
-                        handleActivePage("/profile") || handleActivePage("/profile/reset")
+                        handleActivePage("/profile") ||
+                        handleActivePage("/profile/reset")
                       } flex items-center text-black hover:bg-transparent gap-x-2`}
                     >
                       {fullName}
@@ -329,7 +364,11 @@ export default function Navbar() {
                 </>
               ) : (
                 <>
-                  <Link to={"/"} className={handleActivePage("/")} onClick={handleNavigation}>
+                  <Link
+                    to={"/"}
+                    className={handleActivePage("/")}
+                    onClick={handleNavigation}
+                  >
                     Beranda
                   </Link>
 
@@ -344,7 +383,11 @@ export default function Navbar() {
 
                   <Link to={"/login"} className="flex font-semibold hover:text-blue-700">
                     Log In
-                    <Icon icon="tabler:user-circle" width={19} className="ml-2" />
+                    <Icon
+                      icon="tabler:user-circle"
+                      width={19}
+                      className="ml-2"
+                    />
                   </Link>
 
                   <Link to={"/register"} className="font-semibold">
@@ -370,14 +413,21 @@ export default function Navbar() {
                   Pesanan
                 </Link>
 
-                <a href={linkDownloadApp} target="_blank" className="hover:text-blue-700" download>
+                <a
+                  href={linkDownloadApp}
+                  target="_blank"
+                  className="hover:text-blue-700"
+                  download
+                >
                   Unduh App
                 </a>
 
                 <Link
                   id="notifikasi"
                   to={"/notifikasi"}
-                  className={`flex items-center ml-1 ${handleActivePage("/notifikasi")}`}
+                  className={`flex items-center ml-1 ${handleActivePage(
+                    "/notifikasi"
+                  )}`}
                 >
                   <Icon icon="mdi:bell-outline" width={22} />
                   <span className="relative">
@@ -394,7 +444,8 @@ export default function Navbar() {
                 <Menu as={"div"} className="relative">
                   <Menu.Button
                     className={`${
-                      handleActivePage("/profile") || handleActivePage("/profile/reset")
+                      handleActivePage("/profile") ||
+                      handleActivePage("/profile/reset")
                     } flex items-center text-black hover:bg-transparent gap-x-2`}
                   >
                     <Icon icon="tabler:user-circle" width={23} />
@@ -415,7 +466,10 @@ export default function Navbar() {
                         "absolute shadow-sm border border-gray-300 top-0 right-0 w-56 mt-8 py-1 overflow-hidden bg-white z-50 rounded-lg"
                       }
                     >
-                      <DropdownLink customStyle={handleActivePage("/profile")} to="/profile">
+                      <DropdownLink
+                        customStyle={handleActivePage("/profile")}
+                        to="/profile"
+                      >
                         Profile
                       </DropdownLink>
 
@@ -442,7 +496,12 @@ export default function Navbar() {
                   Beranda
                 </Link>
 
-                <a href={linkDownloadApp} target="_blank" className="hover:text-blue-700" download>
+                <a
+                  href={linkDownloadApp}
+                  target="_blank"
+                  className="hover:text-blue-700"
+                  download
+                >
                   Unduh App
                 </a>
 
@@ -451,7 +510,10 @@ export default function Navbar() {
                   <Icon icon="tabler:user-circle" width={19} className="ml-2" />
                 </Link>
 
-                <Link to={"/register"} className="bg-blue-700 text-white px-2 py-[1px] rounded">
+                <Link
+                  to={"/register"}
+                  className="bg-blue-700 text-white px-2 py-[1px] rounded"
+                >
                   Register
                 </Link>
               </>
@@ -471,7 +533,11 @@ export default function Navbar() {
               <div className="flex gap-4">
                 <>
                   <a href="#" id="batal" onClick={handleLogOut}>
-                    <Button type="primary-dark" color="primary-dark" className="!px-10">
+                    <Button
+                      type="primary-dark"
+                      color="primary-dark"
+                      className="!px-10"
+                    >
                       Tidak
                     </Button>
                   </a>
