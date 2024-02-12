@@ -10,16 +10,15 @@ export default function useList() {
   const [cityName,setCityName]=useState<number | string>("");
   const [airportName,setAirportName]=useState<string>("");
   const [judul, setJudul] = useState("Tambah Data Bandara");
-  const [deleteId, setDeleteId] = useState("")
   const [id , setID ] = useState<number>(0)
   const [code, setcode] = useState("");
   const [alert, setAlert] = useState<AlertProps | null>(null);
-  const hapus = async () =>{
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  }
   const tambah = async ()=>{
+    setIsLoading(true);
     
-    let id = records.length++;
+    const id = records.length++;
     const data : IAirports={id,cityName,airportName,code};
     try {
       const fetch = await addAirport(data);
@@ -41,14 +40,17 @@ export default function useList() {
       }
     } catch (error) {
       console.log("error");
+    }finally{
+      setIsLoading(false);
+      setOpen(false);
+      setTimeout(() => {
+        setAlert(null)
+      }, 2000);
+      fetchAirport();
     }
-    setOpen(false);
-    setTimeout(() => {
-      setAlert(null)
-    }, 3000);
-    fetchAirport();
   }
   const kirim = async () => {
+    setIsLoading(true);
     const data : IAirports={id,cityName,airportName,code};
     try {
       const fetch = await editAirport(data);
@@ -67,19 +69,24 @@ export default function useList() {
       }
     } catch (error) {
       console.log("error");
-    } 
-    setOpen(false);
-    setTimeout(() => {
-      setAlert(null)
-    }, 3000);
-    fetchAirport();
+    }finally{
+      setIsLoading(false); 
+      setOpen(false);
+      setTimeout(() => {
+        setAlert(null)
+      }, 2000);
+      fetchAirport();
+    }
   };
   const fetchAirport = async () => {
+    setIsLoading(true);
     const data = await getAirports()
     try {
       setRecords(data.data.airports);
     } catch (error) {
       console.log("error");
+    } finally {
+      setIsLoading(false);
     }
   };
   const optionAirport = useSelector((state: RootState) => state.airportReducer);
@@ -135,11 +142,7 @@ export default function useList() {
       
   };
 
-  const handleDelete = (id: any): void => {
-    setDeleteId(id);
-    setJudul("Hapus Data Bandara");
-    setOpen(true);
-  };
+  
   useEffect(() => {
     fetchAirport();
   }, []);
@@ -154,14 +157,12 @@ export default function useList() {
     code,
     judul,
     optionAirport,
-    deleteId,
     handleEdit,
-    handleDelete,
     handleFilter,
     handleChange,
     alert,
     kirim,
-    hapus,
     tambah,
+    isLoading
   };
 }

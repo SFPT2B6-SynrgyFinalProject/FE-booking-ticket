@@ -82,7 +82,8 @@ export default function Navbar() {
     setNavigation((prev) => !prev);
   };
 
-  const linkDownloadApp = "https://drive.google.com/uc?id=1k_hkpA0x6w2dFEJbCRzm1nS_tYoN6xXe";
+  const linkDownloadApp =
+    "https://drive.google.com/file/d/1lByfFYjNqJ8hmsEflLzRrJNkZhRQWEeW/view?usp=drive_link";
 
   return (
     <div className="w-full hide-on-print">

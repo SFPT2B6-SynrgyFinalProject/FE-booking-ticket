@@ -1,10 +1,9 @@
-// Contoh penggunaan komponen Tablev2 di halaman lain
 import Tablev2 from "../../../../components/Tablev2";
 import Button from "../../../../components/Button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import InputComponent from "../../../../components/Input";
 import { FormModal } from "../../../../components/FormModal";
-import {IAirports}  from "../airports.types";
+import { IAirports } from "../airports.types";
 import useAction from "./list.hooks";
 import Alert from "../../../../components/Alert";
 interface TableColumn {
@@ -44,14 +43,12 @@ const Airport: React.FC<TableProps> = () => {
     tambah,
     cityName,
     code,
-    hapus,
     judul,
     kirim,
-    deleteId,
     handleEdit,
-    handleDelete,
     handleFilter,
     handleChange,
+    isLoading,
   } = useAction();
 
   const columns = [
@@ -72,7 +69,7 @@ const Airport: React.FC<TableProps> = () => {
       center: "true",
       width: "18rem",
       cell: (row: IAirports) => (
-        <div className="flex items-center gap-x-3 py-2">
+        <div className="flex items-center py-2 gap-x-3">
           <Button
             type="primary-dark"
             color="primary-dark"
@@ -82,13 +79,6 @@ const Airport: React.FC<TableProps> = () => {
           >
             Edit <Icon icon="bx:edit" width={18} />
           </Button>
-          <Button
-            onClick={() => handleDelete(row.id)}
-            className={`text-white bg-rose-600 !px-4`}
-            size="xs"
-          >
-            Hapus <Icon icon="ci:trash-empty" width={19} />
-          </Button>
         </div>
       ),
     },
@@ -96,30 +86,50 @@ const Airport: React.FC<TableProps> = () => {
 
   return (
     <div className="flex-1 px-4 mt-8 md:px-8 md:mt-14">
-       {alert && (
-          <Alert type={alert.type} message={alert.message} />// Display the alert if it exists
+      {alert && (
+        <Alert type={alert.type} message={alert.message} /> // Display the alert if it exists
       )}
       <FormModal isOpen={open} title={judul}>
         {judul === "Ubah Data Bandara" || judul === "Tambah Data Bandara" ? (
           <div className="mt-2">
             <div className="mb-3">
               <label htmlFor="">bandara</label>
-              <input id="airportName" name="airportName" value={airportName} onChange={handleChange} type="text" className="w-full h-[40px] mt-1 border border-[#ddd] rounded-md outline-none px-4 text-sm shadow" />
+              <input
+                id="airportName"
+                name="airportName"
+                value={airportName}
+                onChange={handleChange}
+                type="text"
+                className="w-full h-[40px] mt-1 border border-[#ddd] rounded-md outline-none px-4 text-sm shadow"
+              />
             </div>
             <div className="mb-3">
               <label htmlFor="">kode</label>
-              <input id="code" name="code" value={code} onChange={handleChange} type="text" className="w-full h-[40px] mt-1 border border-[#ddd] rounded-md outline-none px-4 text-sm shadow" />
+              <input
+                id="code"
+                name="code"
+                value={code}
+                onChange={handleChange}
+                type="text"
+                className="w-full h-[40px] mt-1 border border-[#ddd] rounded-md outline-none px-4 text-sm shadow"
+              />
             </div>
             <div>
               <label htmlFor="">kota</label>
-              <input id="cityName" name="cityName" value={cityName} onChange={handleChange} type="text" className="w-full h-[40px] mt-1 border border-[#ddd] rounded-md outline-none px-4 text-sm shadow" />
+              <input
+                id="cityName"
+                name="cityName"
+                value={cityName}
+                onChange={handleChange}
+                type="text"
+                className="w-full h-[40px] mt-1 border border-[#ddd] rounded-md outline-none px-4 text-sm shadow"
+              />
             </div>
           </div>
         ) : (
           <p>Anda Yakin Menghapus Data Ini?</p>
         )}
-        <div className="mt-4 flex gap-x-4 justify-center">
-          <input type="hidden" id="hiddenInput" name="hiddenInput" value={deleteId} />
+        <div className="flex justify-center mt-4 gap-x-4">
           <Button
             type="secondary"
             className="border border-gray-300 hover:bg-gray-100 rounded-xl"
@@ -130,13 +140,22 @@ const Airport: React.FC<TableProps> = () => {
             Close
           </Button>
 
-          <Button type="primary-dark" className=" rounded-xl" onClick={ judul === "Hapus Data Bandara" ? hapus : (judul === "Tambah Data Bandara"  ? tambah : kirim) } color="primary-dark" size="sm">
-            {judul === "Hapus Data Bandara" ? "Hapus" : (judul === "Ubah Data Bandara"  ? "Ubah" : "Simpan")}
+          <Button
+            type="primary-dark"
+            className=" rounded-xl"
+            onClick={judul === "Tambah Data Bandara" ? tambah : kirim}
+            color="primary-dark"
+            size="sm"
+          >
+            {judul === "Ubah Data Bandara" ? "Ubah" : "Simpan"}
           </Button>
         </div>
       </FormModal>
       <div className="flex flex-col md:flex-row md:justify-between items-center border-t border-b border-[#000] border-opacity-25 py-[15px] px-3">
-        <button className="bg-green-600 py-2 px-3 rounded-[10px] text-white font-outfit flex items-center gap-2" onClick={clickOpen}>
+        <button
+          className="bg-green-600 py-2 px-3 rounded-[10px] text-white font-outfit flex items-center gap-2"
+          onClick={clickOpen}
+        >
           Tambah Bandara <Icon icon="prime:file-import" width={20} />
         </button>
         <div className="w-full sm:w-fit">
@@ -148,7 +167,7 @@ const Airport: React.FC<TableProps> = () => {
           />
         </div>
       </div>
-      <Tablev2 columns={columns} data={records} customStyles={customStyles} />
+      <Tablev2 isPending={isLoading} columns={columns} data={records} customStyles={customStyles} />
     </div>
   );
 };
