@@ -50,7 +50,7 @@ const router = createBrowserRouter([
         element: <BuyerOrderList />,
       },
       {
-        path: "/pesanan/riwayat",
+        path: "/pesanan/riwayat/:orderId",
         element: <BuyerOrderHistory />,
       },
       {
