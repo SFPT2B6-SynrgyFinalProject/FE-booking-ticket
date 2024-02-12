@@ -3,7 +3,7 @@ import { rupiahFormatter } from "../../../../lib";
 import { dayTransaction } from "./dashbord.types";
 import Skeleton from "react-loading-skeleton";
 
-export default function OrderList({
+export default function DetailTransaction({
   detailTransaction,
   day,
   isLoading,

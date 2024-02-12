@@ -11,7 +11,6 @@ import Sidebar from "../components/Sidebar";
 import SearchBox from "../components/SearchBox";
 
 export default function PrivateProvider() {
-  const userToken = useUserToken();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const location: Location = useLocation();
   const publicPaths: string[] = ["/", "/search"];
@@ -22,8 +21,11 @@ export default function PrivateProvider() {
     const fetchData = async () => {
       try {
         const payload: UserToken = {
-          token: userToken,
+          token: useUserToken(),
         };
+        if (useUserRole() === "ROLE_ADMIN") {
+          return;
+        }
         const result = await userData(payload);
         dispatch(setUserData(result));
       } catch (error) {
@@ -35,18 +37,18 @@ export default function PrivateProvider() {
       }
     };
 
-    if (userToken) {
+    if (useUserToken()) {
       fetchData();
     }
-  }, [userToken, dispatch]);
+  }, [dispatch]);
 
-  if (!userToken || userToken === undefined) {
+  if (!useUserToken() || useUserToken() === undefined) {
     if (!publicPaths.includes(location.pathname)) {
       return <Navigate to="/login" />;
     }
   }
 
-  if (userToken && isLoading) {
+  if (useUserToken() && isLoading) {
     return (
       <>
         <div className="h-dvh flex items-center justify-center">
