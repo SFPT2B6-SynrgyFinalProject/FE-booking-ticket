@@ -1,11 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
-import { ITransactions, getTransactions } from "../transactions.types";
+import { ITransactions, ITransactionsDetail, getTransactionDetail, getTransactions } from "../transactions.types";
 
 export default function useList() {
   const [records, setRecords] = useState<ITransactions[]>([]);
+  const [open, setOpen] = useState<boolean>(false);
+  const [recordsDetail, setRecordsDetail] = useState<ITransactionsDetail[]>([]);
+  const [judul, setJudul] = useState("");
   const [originalRecords, setOriginalRecords] = useState<ITransactions[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoading2, setIsLoading2] = useState(false);
 
   const fetchTransactions = async () => {
     try {
@@ -32,9 +36,36 @@ export default function useList() {
     setRecords(newData);
   };
 
-  const handleDetail = (id: string): void => {
-    console.log(`Deleting record with ID ${id}`);
+  const clickOpen = async (orderId: any) => {
+    handleDetail(orderId);
+    setOpen(true);
   };
+
+  const clickClose = (): void => {
+    setOpen(false);
+  };
+
+  const handleDetail = async (orderId: any) => {
+    setJudul(`Detail Transaksi - ${orderId.toUpperCase()}`);
+    try {
+      setIsLoading2(true);
+      const response = await getTransactionDetail(orderId);
+      if (response.status === 'success') {
+        setRecordsDetail([response.data]);
+        setOpen(true);
+      }
+      console.log(recordsDetail)
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading2(false);
+    }
+  };
+
+  // const handleDetail = (orderId: string): void => {
+  //   detailFetch(orderId);
+  //   console.log(recordsDetail);
+  // };
 
   useEffect(() => {
     fetchTransactions();
@@ -42,8 +73,14 @@ export default function useList() {
 
   return {
     records,
+    recordsDetail,
+    judul,
     handleDetail,
+    open,
+    clickOpen,
+    clickClose,
     handleFilter,
     isLoading,
+    isLoading2,
   };
 }
