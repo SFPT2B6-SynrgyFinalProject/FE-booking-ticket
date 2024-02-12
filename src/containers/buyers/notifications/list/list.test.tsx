@@ -14,7 +14,6 @@ jest.mock('../notifications.types', () => ({
 describe('Notification List Component', () => {
     test('renders loading spinner when loading data', async () => {
         (getNotifications as jest.Mock).mockResolvedValueOnce({ data: { notification: [] } });
-
         render(<NotificationList />);
         expect(screen.getByRole('status')).toBeInTheDocument();
         expect(screen.queryByText('Tidak ada notifikasi')).toBeNull();

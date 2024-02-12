@@ -131,7 +131,7 @@ export default function ProfileData() {
                 <Button className="!px-9 bg-rose-600 mr-3 sm:mr-5 hover:bg-rose-700" onClick={on}>
                   Batal
                 </Button>
-                <Button type="primary-dark" className="!px-9 rounded-2xl" color="primary-dark">
+                <Button type="primary-dark" name="kirim" className="!px-9 rounded-2xl" color="primary-dark">
                   Kirim
                 </Button>
               </div>
