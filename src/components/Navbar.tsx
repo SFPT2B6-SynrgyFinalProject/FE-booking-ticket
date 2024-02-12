@@ -46,8 +46,8 @@ export default function Navbar() {
   }, [width]);
 
   const handleLogOut = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    setNavigation(false)
     const { id } = event.currentTarget as HTMLAnchorElement; // Use currentTarget instead of target
-
     if (id === "batal") {
       setLogOut(false);
     } else {
