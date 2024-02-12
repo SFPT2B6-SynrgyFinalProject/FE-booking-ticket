@@ -6,3 +6,4 @@ export { default as PromosList } from "./promos";
 export { default as FlightSchedulesList } from "./flightSchedules";
 export { default as OrdersList } from "./orders";
 export { default as AirportsList } from "./airports";
+export { default as DashboardList } from "./dashboard";
