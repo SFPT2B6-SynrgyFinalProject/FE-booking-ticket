@@ -96,8 +96,8 @@ const AirLine: React.FC<TableProps> = () => {
 
   return (
     <div className="flex-1 px-4 mt-8 md:px-8 md:mt-14">
-       {alert && (
-          <Alert type={alert.type} message={alert.message} />// Display the alert if it exists
+      {alert && (
+        <Alert type={alert.type} message={alert.message} />// Display the alert if it exists
       )}
       
       <FormModal isOpen={open} title={judul}>
@@ -115,26 +115,12 @@ const AirLine: React.FC<TableProps> = () => {
           {judul === "Tambah Data maskapai" || judul === "Ubah Data maskapai" ? (
             <div className="mt-2">
               <div className="mb-3">
-                <InputComponent
-                  placeholder="Maskapai "
-                  type="text"
-                  id="name"
-                  name="name"
-                  onChange={handleChange}
-                  value={formValues.name}
-                  required
-                />
+                <label htmlFor="">Nama Maskapai</label>
+                <input id="name" name="name" value={formValues.name} onChange={handleChange} type="text" className="w-full h-[40px] mt-1 border border-[#ddd] rounded-md outline-none px-4 text-sm shadow" />
               </div>
-              <div>
-                <InputComponent
-                  placeholder="Kode"
-                  type="text"
-                  id="code"
-                  name="code"
-                  onChange={handleChange}
-                  value={formValues.code}
-                  required
-                />
+              <div className="mb-3">
+                <label htmlFor="">Kode Maskapai</label>
+                <input id="code" name="code" value={formValues.code} onChange={handleChange} type="text" className="w-full h-[40px] mt-1 border border-[#ddd] rounded-md outline-none px-4 text-sm shadow" />
               </div>
             </div>
           ) : (

@@ -1,4 +1,10 @@
-import { Link, type Location, useLocation, NavigateFunction, useNavigate } from "react-router-dom";
+import {
+  Link,
+  type Location,
+  useLocation,
+  NavigateFunction,
+  useNavigate,
+} from "react-router-dom";
 import Logo from "../assets/images/logo.png";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Fragment, useEffect, useState } from "react";
@@ -8,10 +14,11 @@ import { screenSize } from "../lib/services/screenSize";
 import { Menu, Transition } from "@headlessui/react";
 import { DropdownLink } from "./DropdownLink";
 import { useUserRole } from "../lib/services/auth";
-import OrderList from "./OrderList";
+import OrderList from "../containers/admin/dashboard/list/OrderList";
 import { removeNotificationOrderIds } from "../config/redux/action/notificationAction";
 import { FormModal } from "./FormModal";
 import Button from "./Button";
+import { useTransaction } from "../containers/admin/dashboard/list/dashboard.hooks";
 
 export default function Navbar() {
   const location: Location = useLocation();
@@ -22,10 +29,18 @@ export default function Navbar() {
   const { width } = screenSize();
   const userRole = useUserRole();
   const [logOut, setLogOut] = useState<boolean>(false);
+  const {
+    detailTransactionToday,
+    detailTransactionYesterday,
+    isLoadingDetailTransaction,
+  } = useTransaction();
 
   // notifications bells-icon handling
-  const [unseenNotificationsCount, setUnseenNotificationsCount] = useState<number>(0);
-  const notifications = useSelector((state: RootState) => state.notificationReducer);
+  const [unseenNotificationsCount, setUnseenNotificationsCount] =
+    useState<number>(0);
+  const notifications = useSelector(
+    (state: RootState) => state.notificationReducer
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -46,8 +61,8 @@ export default function Navbar() {
   }, [width]);
 
   const handleLogOut = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    setNavigation(false)
     const { id } = event.currentTarget as HTMLAnchorElement; // Use currentTarget instead of target
-
     if (id === "batal") {
       setLogOut(false);
     } else {
@@ -66,8 +81,8 @@ export default function Navbar() {
   const handleActivePage = (path: string) => {
     const isCurrentPath = location.pathname === path;
     switch (path) {
+      // case "/penerbangan":
       case "/":
-      case "/penerbangan":
       case "/pesanan":
       case "/notifikasi":
       case "/profile":
@@ -82,7 +97,9 @@ export default function Navbar() {
     setNavigation((prev) => !prev);
   };
 
-  const linkDownloadApp = "https://drive.google.com/uc?id=1k_hkpA0x6w2dFEJbCRzm1nS_tYoN6xXe";
+  const linkDownloadApp =
+    "https://drive.google.com/file/d/1lByfFYjNqJ8hmsEflLzRrJNkZhRQWEeW/view?usp=drive_link";
+
   return (
     <div className="w-full hide-on-print">
       <div
@@ -92,14 +109,16 @@ export default function Navbar() {
             : ""
         }`}
       ></div>
-      <nav className={`bg-white px-8 lg:px-12 py-5 flex shadow items-center justify-between`}>
+      <nav
+        className={`bg-white px-8 lg:px-12 py-5 flex shadow items-center justify-between`}
+      >
         <img src={Logo} alt="logo-image" width={160} />
         {navigation ? (
           <>
             <Icon
               icon={"line-md:close"}
               width={30}
-              className="flex lg:hidden cursor-pointer"
+              className="flex cursor-pointer lg:hidden"
               onClick={handleNavigation}
             />
           </>
@@ -108,7 +127,7 @@ export default function Navbar() {
             <Icon
               icon={"heroicons-outline:menu-alt-3"}
               width={30}
-              className="flex lg:hidden cursor-pointer"
+              className="flex cursor-pointer lg:hidden"
               onClick={handleNavigation}
             />
           </>
@@ -116,7 +135,7 @@ export default function Navbar() {
         {userRole === "ROLE_ADMIN" ? (
           navigation ? (
             <>
-              <div className="flex flex-col py-6 sm:pl-10 md:pl-0 w-4/6 md:w-2/5 text-sm font-medium gap-7 absolute z-20 bg-white right-0 top-0 bottom-0">
+              <div className="absolute top-0 bottom-0 right-0 z-20 flex flex-col w-4/6 py-6 text-sm font-medium bg-white sm:pl-10 md:pl-0 md:w-2/5 gap-7">
                 <div className="flex justify-end pr-8">
                   <Icon
                     icon={"line-md:close"}
@@ -129,7 +148,8 @@ export default function Navbar() {
                   <Menu as={"div"} className="relative">
                     <Menu.Button
                       className={`${
-                        handleActivePage("/profile") || handleActivePage("/profile/reset")
+                        handleActivePage("/profile") ||
+                        handleActivePage("/profile/reset")
                       } flex items-center text-black hover:bg-transparent gap-x-2 pl-10 pr-8`}
                     >
                       Admin
@@ -152,7 +172,7 @@ export default function Navbar() {
                         }
                       >
                         <span
-                          className="block px-4 py-2 text-black hover:text-blue-700 cursor-pointer"
+                          className="block px-4 py-2 text-black cursor-pointer hover:text-blue-700"
                           onClick={handleLogOut}
                         >
                           Logout
@@ -162,8 +182,17 @@ export default function Navbar() {
                   </Menu>
                   {location.pathname === "/admin" ? (
                     <>
-                      <section className="rounded-tl-[3rem] bg-gray-100 pl-10 pr-8 pb-10">
-                        <OrderList />
+                      <section className="rounded-tl-[3rem] pl-10 pr-8 pb-10">
+                        <OrderList
+                          detailTransaction={detailTransactionToday}
+                          day="Hari ini"
+                          isLoading={isLoadingDetailTransaction}
+                        />
+                        <OrderList
+                          detailTransaction={detailTransactionYesterday}
+                          day="Kemarin"
+                          isLoading={isLoadingDetailTransaction}
+                        />
                       </section>
                     </>
                   ) : null}
@@ -175,7 +204,8 @@ export default function Navbar() {
               <Menu as={"div"} className="relative hidden lg:block">
                 <Menu.Button
                   className={`${
-                    handleActivePage("/profile") || handleActivePage("/profile/reset")
+                    handleActivePage("/profile") ||
+                    handleActivePage("/profile/reset")
                   } flex items-center text-black hover:bg-transparent gap-x-2`}
                 >
                   Admin
@@ -198,7 +228,7 @@ export default function Navbar() {
                     }
                   >
                     <span
-                      className="block px-4 py-2 text-black hover:text-blue-700 cursor-pointer"
+                      className="block px-4 py-2 text-black cursor-pointer hover:text-blue-700"
                       onClick={handleLogOut}
                     >
                       Logout
@@ -210,12 +240,15 @@ export default function Navbar() {
           )
         ) : navigation ? (
           <>
-            <div className="flex flex-col pl-10 pr-8 py-6 w-4/6 md:w-2/5 text-sm font-medium gap-7 absolute z-20 bg-white right-0 top-0 bottom-0">
+            <div className="absolute top-0 bottom-0 right-0 z-20 flex flex-col w-4/6 py-6 pl-10 pr-8 text-sm font-medium bg-white md:w-2/5 gap-7">
               <div className={`flex ${fullName ? "justify-between items-center" : "justify-end"}`}>
                 {fullName ? (
                   <Link
+                    id="notifikasi"
                     to={"/notifikasi"}
-                    className={`flex items-center ml-1 ${handleActivePage("/notifikasi")}`}
+                    className={`flex items-center ml-1 ${handleActivePage(
+                      "/notifikasi"
+                    )}`}
                     onClick={handleNavigation}
                   >
                     <Icon icon="mdi:bell-outline" width={22} />
@@ -243,19 +276,24 @@ export default function Navbar() {
 
               {fullName ? (
                 <>
-                  <Link to={"/"} className={handleActivePage("/")} onClick={handleNavigation}>
+                  <Link
+                    to={"/"}
+                    className={handleActivePage("/")}
+                    onClick={handleNavigation}
+                  >
                     Beranda
                   </Link>
 
-                  <Link
+                  {/* <Link
                     to={"/penerbangan"}
                     className={handleActivePage("/penerbangan")}
                     onClick={handleNavigation}
                   >
                     Penerbangan
-                  </Link>
+                  </Link> */}
 
                   <Link
+                    id="pesanan"
                     to={"/pesanan"}
                     className={handleActivePage("/pesanan")}
                     onClick={handleNavigation}
@@ -275,7 +313,8 @@ export default function Navbar() {
                   <Menu as={"div"} className="relative">
                     <Menu.Button
                       className={`${
-                        handleActivePage("/profile") || handleActivePage("/profile/reset")
+                        handleActivePage("/profile") ||
+                        handleActivePage("/profile/reset")
                       } flex items-center text-black hover:bg-transparent gap-x-2`}
                     >
                       {fullName}
@@ -314,7 +353,7 @@ export default function Navbar() {
                         </DropdownLink>
                         <div className="w-full h-px my-1 bg-gray-200" />
                         <span
-                          className="block px-4 py-2 text-black hover:text-blue-700 cursor-pointer"
+                          className="block px-4 py-2 text-black cursor-pointer hover:text-blue-700"
                           onClick={handleLogOut}
                         >
                           Logout
@@ -325,7 +364,11 @@ export default function Navbar() {
                 </>
               ) : (
                 <>
-                  <Link to={"/"} className={handleActivePage("/")} onClick={handleNavigation}>
+                  <Link
+                    to={"/"}
+                    className={handleActivePage("/")}
+                    onClick={handleNavigation}
+                  >
                     Beranda
                   </Link>
 
@@ -338,9 +381,13 @@ export default function Navbar() {
                     Unduh App
                   </a>
 
-                  <Link to={"/login"} className="font-semibold flex hover:text-blue-700">
+                  <Link to={"/login"} className="flex font-semibold hover:text-blue-700">
                     Log In
-                    <Icon icon="tabler:user-circle" width={19} className="ml-2" />
+                    <Icon
+                      icon="tabler:user-circle"
+                      width={19}
+                      className="ml-2"
+                    />
                   </Link>
 
                   <Link to={"/register"} className="font-semibold">
@@ -351,28 +398,36 @@ export default function Navbar() {
             </div>
           </>
         ) : (
-          <div className="hidden flex-col items-center text-sm font-medium gap-7 lg:flex-row lg:flex">
+          <div className="flex-col items-center hidden text-sm font-medium gap-7 lg:flex-row lg:flex">
             {fullName ? (
               <>
                 <Link to={"/"} className={handleActivePage("/")}>
                   Beranda
                 </Link>
 
-                <Link to={"/penerbangan"} className={handleActivePage("/penerbangan")}>
+                {/* <Link to={"/penerbangan"} className={handleActivePage("/penerbangan")}>
                   Penerbangan
-                </Link>
+                </Link> */}
 
-                <Link to={"/pesanan"} className={handleActivePage("/pesanan")}>
+                <Link id="pesanan" to={"/pesanan"} className={handleActivePage("/pesanan")}>
                   Pesanan
                 </Link>
 
-                <a href={linkDownloadApp} target="_blank" className="hover:text-blue-700" download>
+                <a
+                  href={linkDownloadApp}
+                  target="_blank"
+                  className="hover:text-blue-700"
+                  download
+                >
                   Unduh App
                 </a>
 
                 <Link
+                  id="notifikasi"
                   to={"/notifikasi"}
-                  className={`flex items-center ml-1 ${handleActivePage("/notifikasi")}`}
+                  className={`flex items-center ml-1 ${handleActivePage(
+                    "/notifikasi"
+                  )}`}
                 >
                   <Icon icon="mdi:bell-outline" width={22} />
                   <span className="relative">
@@ -389,7 +444,8 @@ export default function Navbar() {
                 <Menu as={"div"} className="relative">
                   <Menu.Button
                     className={`${
-                      handleActivePage("/profile") || handleActivePage("/profile/reset")
+                      handleActivePage("/profile") ||
+                      handleActivePage("/profile/reset")
                     } flex items-center text-black hover:bg-transparent gap-x-2`}
                   >
                     <Icon icon="tabler:user-circle" width={23} />
@@ -410,7 +466,10 @@ export default function Navbar() {
                         "absolute shadow-sm border border-gray-300 top-0 right-0 w-56 mt-8 py-1 overflow-hidden bg-white z-50 rounded-lg"
                       }
                     >
-                      <DropdownLink customStyle={handleActivePage("/profile")} to="/profile">
+                      <DropdownLink
+                        customStyle={handleActivePage("/profile")}
+                        to="/profile"
+                      >
                         Profile
                       </DropdownLink>
 
@@ -422,7 +481,7 @@ export default function Navbar() {
                       </DropdownLink>
                       <div className="w-full h-px my-1 bg-gray-200" />
                       <span
-                        className="block px-4 py-2 text-black hover:text-blue-700 cursor-pointer"
+                        className="block px-4 py-2 text-black cursor-pointer hover:text-blue-700"
                         onClick={handleLogOut}
                       >
                         Logout
@@ -437,16 +496,24 @@ export default function Navbar() {
                   Beranda
                 </Link>
 
-                <a href={linkDownloadApp} target="_blank" className="hover:text-blue-700" download>
+                <a
+                  href={linkDownloadApp}
+                  target="_blank"
+                  className="hover:text-blue-700"
+                  download
+                >
                   Unduh App
                 </a>
 
-                <Link to={"/login"} className="pl-4 font-semibold -mr-2 flex hover:text-blue-700">
+                <Link to={"/login"} className="flex pl-4 -mr-2 font-semibold hover:text-blue-700">
                   Log In
                   <Icon icon="tabler:user-circle" width={19} className="ml-2" />
                 </Link>
 
-                <Link to={"/register"} className="bg-blue-700 text-white px-2 py-[1px] rounded">
+                <Link
+                  to={"/register"}
+                  className="bg-blue-700 text-white px-2 py-[1px] rounded"
+                >
                   Register
                 </Link>
               </>
@@ -458,22 +525,26 @@ export default function Navbar() {
       <>
         {logOut ? (
           <FormModal title="" isOpen={true}>
-            <div className="text-center flex flex-col items-center justify-center h-full">
-              <h3 className="font-semibold text-lg sm:text-xl mt-3 mb-6">
+            <div className="flex flex-col items-center justify-center h-full text-center">
+              <h3 className="mt-3 mb-6 text-lg font-semibold sm:text-xl">
                 Apakah Anda yakin ingin logout?
               </h3>
 
               <div className="flex gap-4">
                 <>
                   <a href="#" id="batal" onClick={handleLogOut}>
-                    <Button type="primary-dark" color="primary-dark" className="!px-10">
+                    <Button
+                      type="primary-dark"
+                      color="primary-dark"
+                      className="!px-10"
+                    >
                       Tidak
                     </Button>
                   </a>
                   <Button
                     type="danger"
                     color="danger"
-                    className="bg-rose-600 mr-3 hover:bg-rose-700"
+                    className="mr-3 bg-rose-600 hover:bg-rose-700"
                     onClick={setPurge}
                   >
                     Ya

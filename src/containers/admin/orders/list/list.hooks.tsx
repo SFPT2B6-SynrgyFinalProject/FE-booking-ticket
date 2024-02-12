@@ -1,74 +1,47 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { IOrders } from "../orders.types";
+import { fetchInstance } from "../../../../lib/services/core";
+import { useUserToken } from "../../../../lib/services/userToken";
 
 export default function useList() {
   const [records, setRecords] = useState<IOrders[]>([]);
-
-  // ibarat data from api
-  const data = [
-    {
-      id: 1,
-      order_id: "GI34567",
-      username: "Pengguna",
-      airline: "Garuda Indonesia",
-      destination: "Jakarta - Bali",
-      price: "Rp. 1.000.000",
-      status: "SELESAI",
-    },
-    {
-      id: 2,
-      order_id: "GI34567",
-      username: "Pengguna",
-      airline: "Garuda Indonesia",
-      destination: "Jakarta - Bali",
-      price: "Rp. 1.000.000",
-      status: "SELESAI",
-    },
-    {
-      id: 3,
-      order_id: "GI34567",
-      username: "Pengguna",
-      airline: "Garuda Indonesia",
-      destination: "Jakarta - Bali",
-      price: "Rp. 1.000.000",
-      status: "SELESAI",
-    },
-    {
-      id: 4,
-      order_id: "GI34567",
-      username: "Pengguna",
-      airline: "Garuda Indonesia",
-      destination: "Jakarta - Bali",
-      price: "Rp. 1.000.000",
-      status: "SELESAI",
-    },
-    {
-      id: 5,
-      order_id: "GI34567",
-      username: "Pengguna",
-      airline: "Garuda Indonesia",
-      destination: "Jakarta - Bali",
-      price: "Rp. 1.000.000",
-      status: "DIBATALKAN",
-    },
-  ];
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [originalRecords, setOriginalRecords] = useState<IOrders[]>([]);
 
   const fetchOrders = async () => {
     try {
-      // logic fetch data
-      setRecords(data);
+      setIsLoading(true);
+      const response = await fetchInstance({
+        authToken: useUserToken(),
+        endpoint: "/api/admin/orders?dataPerPage=50&page=1",
+        method: "GET",
+      });
+
+      const orders = response.data.orders;
+
+      setRecords(orders);
+      setOriginalRecords(orders);
     } catch (error) {
-      console.log("error");
+      console.log("error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleEdit = (id: number): void => {
-    console.log(`Editing record with ID ${id}`);
-  };
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = e.target.value.toLocaleLowerCase();
+    const newData = originalRecords.filter(
+      (row: { orderId: string; fullName: string; airline: string; status: string }) => {
+        return (
+          row.orderId.toLowerCase().includes(searchValue) ||
+          row.fullName.toLowerCase().includes(searchValue) ||
+          row.airline.toLowerCase().includes(searchValue) ||
+          row.status.toLowerCase().includes(searchValue)
+        );
+      }
+    );
 
-  const handleDelete = (id: number): void => {
-    console.log(`Deleting record with ID ${id}`);
+    setRecords(newData);
   };
 
   useEffect(() => {
@@ -77,7 +50,7 @@ export default function useList() {
 
   return {
     records,
-    handleEdit,
-    handleDelete,
+    handleSearch,
+    isLoading,
   };
 }
