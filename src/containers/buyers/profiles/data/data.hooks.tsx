@@ -26,6 +26,7 @@ export default function useData() {
     setGender(profileData.gender)
     setNoHp(profileData.noHp)
     setDisabled(true);
+    setIsValidBirthdate(isValidBirth(profileData.birthDate));
     setOpen(false);
   };
   const verifikasi=()=>{
