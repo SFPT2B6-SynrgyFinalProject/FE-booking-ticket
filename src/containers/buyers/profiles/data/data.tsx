@@ -23,10 +23,18 @@ export default function ProfileData() {
     handleOnSelect,
     birthDate,
     isValidBirthdate,
+    alert,
   } = useAction();
 
   return (
     <div>
+          {alert && (
+              <div>
+                {alert.type === "process" && (
+                  <Alert message={alert.message} type="process" />
+                )}
+              </div>
+            )}
       {status !== "" ? (
         status === "Data gagal diubah" ? (
           <Alert type="fail" message={status} />
@@ -129,6 +137,9 @@ export default function ProfileData() {
                 placeholder="Nomor Telepon"
                 disabled={disabled ? true : false}
               />
+              { noHp!=null && noHp.length!=0 &&(noHp.length < 8 || noHp.length > 16) && (
+                 <p className="text-red-500">Nomor hp tidak boleh kurang dari 8 digit atau lebih dari 16 digit </p>
+               )}
             </div>
          
           </>
@@ -138,7 +149,7 @@ export default function ProfileData() {
                 <Button className="!px-9 bg-rose-600 mr-3 sm:mr-5 hover:bg-rose-700" onClick={on}>
                   Batal
                 </Button>
-                <Button type="primary-dark" name="kirim" onClick={verifikasi} className="!px-9 rounded-2xl" color="primary-dark"  disabled={!umurMin||!fullName}>
+                <Button type="primary-dark" name="kirim" onClick={verifikasi} className="!px-9 rounded-2xl" color="primary-dark"  disabled={!umurMin||!fullName||(noHp!=null && noHp.length!=0 && (noHp.length < 8 || noHp.length > 16))}>
                   Simpan
                 </Button>
               </div>
