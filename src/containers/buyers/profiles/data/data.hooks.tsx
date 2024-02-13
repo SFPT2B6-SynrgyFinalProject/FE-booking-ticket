@@ -12,14 +12,26 @@ export default function useData() {
   const [birthDate, setBirthDate] = useState<string>(profileData.birthDate);
   const [status, setStatus] = useState<string>("");
   const [isValidBirthdate, setIsValidBirthdate] = useState<boolean>(true);
-
+  const [open, setOpen] = useState<boolean>(false);
+  const [umurMin, setUmurMin] = useState<boolean>(false);
+ 
   const off = () => {
+
     setDisabled(false);
   };
   const on = () => {
+    setBirthDate(profileData.birthDate)
+    setFullName(profileData.fullName)
+    setEmail(profileData.email)
+    setGender(profileData.gender)
+    setNoHp(profileData.noHp)
     setDisabled(true);
+    setIsValidBirthdate(isValidBirth(profileData.birthDate));
+    setOpen(false);
   };
-
+  const verifikasi=()=>{
+    setOpen(true)
+  }
   const isValidBirth = (dateString: string): boolean => {
     const currentDate = new Date();
     const inputDate = new Date(dateString);
@@ -28,6 +40,12 @@ export default function useData() {
       currentDate.getMonth(),
       currentDate.getDate()
     );
+    if(inputDate<minValidDate){
+      setUmurMin(true)
+    }
+    else{
+      setUmurMin(false)
+    }
     return inputDate < minValidDate;
   };
 
@@ -68,20 +86,20 @@ export default function useData() {
     }
   }, [status]);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const handleSubmit = async () => {
     const isoBirthDate = new Date(birthDate).toISOString();
     const data: IProfileData = { fullName, email, birthDate: isoBirthDate, gender, noHp };
 
     const fetch = await editProfile(data);
-
+   
     if (fetch.status == "fail") {
       setStatus("Data gagal diubah");
     } else {
       setStatus("Data sukses diubah");
-      setDisabled(true);
+ 
     }
+    setOpen(false);
+    setDisabled(true);
   };
 
   return {
@@ -95,6 +113,9 @@ export default function useData() {
     noHp,
     birthDate,
     on,
+    verifikasi,
+    open,
+    umurMin,
     off,
     close,
     handleSubmit,
