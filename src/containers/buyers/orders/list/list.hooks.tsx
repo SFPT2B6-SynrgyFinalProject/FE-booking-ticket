@@ -27,7 +27,7 @@ export default function useList(status: "COMPLETED" | "ONGOING") {
       const response = await fetchInstance({
         method: "GET",
         endpoint: `/api/orders?status=${status}`,
-        authToken: localStorage.getItem("user_access_token"),
+        authToken: localStorage.getItem("user_access_token") ?? "",
       });
       console.log(response);
       setOrders(response.data.orders);
