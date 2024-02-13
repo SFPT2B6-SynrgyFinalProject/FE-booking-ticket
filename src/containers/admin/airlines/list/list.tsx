@@ -143,19 +143,19 @@ const AirLine: React.FC<TableProps> = () => {
         </form>
       </FormModal>
 
-      <div className="flex flex-col md:flex-row md:justify-between items-center">
+      <div className="flex flex-col md:flex-row md:justify-between items-center border-t border-b border-[#000] border-opacity-25 py-[15px] px-3">
         <Button
-          className={`!bg-green-600 py-[11px] text-white px-[14px] sm:px-[35px] md:px-[24px]`}
+          className={`!bg-green-600 py-[0.61rem] text-white px-[14px] sm:px-[35px] md:px-[24px]`}
           size="xs"
           onClick={clickOpen}
         >
-          Tambah Maskapai <Icon icon="prime:file-import" width={20} />
+          Tambah Maskapai <Icon icon="gg:add" width={20} />
         </Button>
-        <div className="mt-4 w-full sm:w-fit">
+        <div className="w-full sm:w-fit mt-3 md:mt-0">
           <InputComponent
             type="text"
             placeholder="Cari..."
-            customStyle="border border-gray-400/80 px-4 py-[10px] rounded-xl"
+            customStyle="border border-gray-400/80 px-4 py-[10px] rounded-xl text-base"
             onChange={handleSearch}
           />
         </div>
