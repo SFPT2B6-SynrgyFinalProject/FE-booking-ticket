@@ -22,13 +22,15 @@ export default function useFlightOrder({ dispatch }: UseFlightOrderProps) {
   const [alert, setAlert] = useState<IAlert | null>(null);
   const [disableBtn, setDisableBtn] = useState<boolean>(true);
 
+  const profileData = useSelector((state: RootState) => state.userReducer);
+
   const [flightData, setFlightData] = useState<IFlightData>({
     ticketId: "",
     classId: "",
-    fullName: "",
-    phoneNumber: "",
-    email: "",
-    call: "",
+    fullName: profileData.fullName || "",
+    phoneNumber: profileData.noHp || "",
+    email: profileData.email ||"",
+    call: profileData.gender === "Laki-laki" ? "Tuan":"Nyonya" || "",
   });
 
   const checkIfAnyValueIsEmpty = () => {

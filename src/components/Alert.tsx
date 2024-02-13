@@ -17,6 +17,7 @@ const Alert: React.FC<AlertProps> = ({ message, type }) => {
     case "success":
       alertIcon = (
         <Icon
+          id="success"
           icon={"mingcute:check-circle-line"}
           className="text-green-500 w-16 h-16 sm:w-16 sm:h-16"
         ></Icon>

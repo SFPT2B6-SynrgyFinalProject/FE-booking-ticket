@@ -240,6 +240,7 @@ const DownloadTicket: React.FC<DownloadTicketProps> = ({ dataFlightOrder }) => {
 
       <div className="flex flex-col md:w-3/6 lg:w-3/12 pb-10 mx-auto mt-16 md:mt-28 gap-y-4">
         <Button
+          id="btnUnduhTiket"
           type="primary-dark"
           width="full"
           color="primary-dark"

@@ -372,6 +372,7 @@ export const Booking = () => {
 
         <div className="flex flex-col pb-10 mx-auto mt-16 md:w-3/6 lg:w-2/6 md:mt-28 gap-y-4">
           <Button
+            id="btnContinueOrder"
             type="primary-dark"
             width="full"
             color="primary-dark"
