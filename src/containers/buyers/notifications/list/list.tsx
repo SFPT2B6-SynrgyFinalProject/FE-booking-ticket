@@ -6,7 +6,7 @@ import useAction from "./list.hooks";
 
 export default function Notification() {
   const { notifications, isLoading } = useAction();
-  console.log(notifications);
+  // console.log(notifications);
 
   const notificationsArray = Array.isArray(notifications) ? notifications : [];
 

@@ -23,12 +23,18 @@ describe("usePaymentOrder", () => {
     mockBuyerPaymentOrder.mockResolvedValueOnce(mockFetchResult);
 
     const TestComponent = () => {
-      const { handleSubmitPayment, setPaymentData, isLoading, alert } = usePaymentOrder({
-        dispatch: mockDispatch,
-      });
+      const { handleSubmitPayment, setPaymentData, isLoading, alert, convertCreditCardDate } =
+        usePaymentOrder({
+          dispatch: mockDispatch,
+        });
 
       const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        const formattedDate = convertCreditCardDate("05/24");
+        expect(formattedDate).toBe("2024-05-31T00:00:00.000Z");
+        expect(() => convertCreditCardDate("valid"));
+
         const paymentData = {
           orderId: "mockOrderId",
           cardNumber: "1234567890123456",
