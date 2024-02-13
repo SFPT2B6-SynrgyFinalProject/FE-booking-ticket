@@ -3,12 +3,16 @@ import Button from "../../../../components/Button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import useAction from "./data.hooks";
 import Alert from "../../../../components/Alert";
+import { FormModal } from "../../../../components/FormModal";
 
 export default function ProfileData() {
   const {
     disabled,
     on,
     off,
+    umurMin,
+    open,
+    verifikasi,
     handleSubmit,
     fullName,
     gender,
@@ -19,10 +23,18 @@ export default function ProfileData() {
     handleOnSelect,
     birthDate,
     isValidBirthdate,
+    alert,
   } = useAction();
 
   return (
     <div>
+          {alert && (
+              <div>
+                {alert.type === "process" && (
+                  <Alert message={alert.message} type="process" />
+                )}
+              </div>
+            )}
       {status !== "" ? (
         status === "Data gagal diubah" ? (
           <Alert type="fail" message={status} />
@@ -50,7 +62,7 @@ export default function ProfileData() {
       </div>
 
       <div>
-        <form onSubmit={handleSubmit}>
+        <form>
           <>
             <div className="flex flex-col mb-7">
               <InputComponent
@@ -125,19 +137,34 @@ export default function ProfileData() {
                 placeholder="Nomor Telepon"
                 disabled={disabled ? true : false}
               />
+              { noHp!=null && noHp.length!=0 &&(noHp.length < 8 || noHp.length > 16) && (
+                 <p className="text-red-500">Nomor hp tidak boleh kurang dari 8 digit atau lebih dari 16 digit </p>
+               )}
             </div>
-            {disabled ? null : (
+         
+          </>
+        </form>
+        {disabled ? null : (
               <div className="flex justify-center sm:justify-end mt-8">
                 <Button className="!px-9 bg-rose-600 mr-3 sm:mr-5 hover:bg-rose-700" onClick={on}>
                   Batal
                 </Button>
-                <Button type="primary-dark" className="!px-9 rounded-2xl" color="primary-dark">
-                  Kirim
+                <Button type="primary-dark" name="kirim" onClick={verifikasi} className="!px-9 rounded-2xl" color="primary-dark"  disabled={!umurMin||!fullName||(noHp!=null && noHp.length!=0 && (noHp.length < 8 || noHp.length > 16))}>
+                  Simpan
                 </Button>
               </div>
             )}
-          </>
-        </form>
+         <FormModal title="Peringatan" isOpen={open}>
+            <h2> Apakah anda yakin untuk mengubah data?</h2>
+        <div className="flex justify-center sm:justify-end mt-8">
+          <Button className="!px-9 bg-rose-600 mr-3 sm:mr-5 hover:bg-rose-700" onClick={on}>
+            Batal
+          </Button>
+          <Button type="primary-dark" name="" onClick={handleSubmit} className="!px-9 rounded-2xl" color="primary-dark">
+                yakin
+          </Button>
+        </div>
+      </FormModal>
       </div>
     </div>
   );

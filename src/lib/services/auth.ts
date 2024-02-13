@@ -1,6 +1,6 @@
 import { fetchInstance } from "./core";
 
-enum Gender {
+export enum Gender {
   "Perempuan",
   "Laki-laki",
 }
@@ -50,9 +50,7 @@ export interface UserRequestGoogle {
   googleToken: string;
 }
 
-export async function registerUser(
-  form: RegisterRequestBody
-): Promise<RegisterResponseBody> {
+export async function registerUser(form: RegisterRequestBody): Promise<RegisterResponseBody> {
   return await fetchInstance({
     endpoint: "/api/register",
     method: "POST",
@@ -60,9 +58,7 @@ export async function registerUser(
   });
 }
 
-export async function loginUser(
-  form: LoginRequestBody
-): Promise<LoginResponseBody> {
+export async function loginUser(form: LoginRequestBody): Promise<LoginResponseBody> {
   return await fetchInstance({
     endpoint: "/api/login",
     method: "POST",
@@ -70,9 +66,7 @@ export async function loginUser(
   });
 }
 
-export async function loginGoogleUser(
-  form: UserRequestGoogle
-): Promise<LoginResponseBody> {
+export async function loginGoogleUser(form: UserRequestGoogle): Promise<LoginResponseBody> {
   return await fetchInstance({
     endpoint: "/api/login/google",
     method: "POST",

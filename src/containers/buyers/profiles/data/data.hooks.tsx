@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../config/redux/store";
 import { IProfileData, editProfile } from "../profiles.types";
+import { IAlert } from "../../../../lib/services/auth";
 export default function useData() {
   const [disabled, setDisabled] = useState<boolean>(true);
   const profileData = useSelector((state: RootState) => state.userReducer);
@@ -12,14 +13,26 @@ export default function useData() {
   const [birthDate, setBirthDate] = useState<string>(profileData.birthDate);
   const [status, setStatus] = useState<string>("");
   const [isValidBirthdate, setIsValidBirthdate] = useState<boolean>(true);
-
+  const [open, setOpen] = useState<boolean>(false);
+  const [umurMin, setUmurMin] = useState<boolean>(true);
+  const [alert, setAlert] = useState<IAlert | null>(null);
   const off = () => {
+
     setDisabled(false);
   };
   const on = () => {
+    setBirthDate(profileData.birthDate)
+    setFullName(profileData.fullName)
+    setEmail(profileData.email)
+    setGender(profileData.gender)
+    setNoHp(profileData.noHp)
     setDisabled(true);
+    setIsValidBirthdate(isValidBirth(profileData.birthDate));
+    setOpen(false);
   };
-
+  const verifikasi=()=>{
+    setOpen(true)
+  }
   const isValidBirth = (dateString: string): boolean => {
     const currentDate = new Date();
     const inputDate = new Date(dateString);
@@ -28,6 +41,12 @@ export default function useData() {
       currentDate.getMonth(),
       currentDate.getDate()
     );
+    if(inputDate<minValidDate){
+      setUmurMin(true)
+    }
+    else{
+      setUmurMin(false)
+    }
     return inputDate < minValidDate;
   };
 
@@ -68,20 +87,40 @@ export default function useData() {
     }
   }, [status]);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const handleSubmit = async () => {
     const isoBirthDate = new Date(birthDate).toISOString();
     const data: IProfileData = { fullName, email, birthDate: isoBirthDate, gender, noHp };
 
     const fetch = await editProfile(data);
-
+   
     if (fetch.status == "fail") {
-      setStatus("Data gagal diubah");
+      setAlert({
+        type: "process",
+        data: {},
+        message: "Proses perubahan data",
+      });
+      setTimeout(() => {
+        setAlert(null);
+      }, 3000);
+      setTimeout(() => {
+        setStatus("Data gagal diubah");
+      }, 3000);
     } else {
-      setStatus("Data sukses diubah");
-      setDisabled(true);
+      setAlert({
+        type: "process",
+        data: {},
+        message: "Proses perubahan data",
+      });
+      setTimeout(() => {
+        setAlert(null);
+      }, 3000);
+      setTimeout(() => {
+        setStatus("Data sukses diubah");
+      }, 3000);
+      
     }
+    setOpen(false);
+    setDisabled(true);
   };
 
   return {
@@ -95,6 +134,10 @@ export default function useData() {
     noHp,
     birthDate,
     on,
+    verifikasi,
+    open,
+    umurMin,
+    alert,
     off,
     close,
     handleSubmit,

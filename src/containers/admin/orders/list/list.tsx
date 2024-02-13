@@ -81,7 +81,7 @@ const Order: React.FC<TableProps> = () => {
           <InputComponent
             type="text"
             placeholder="Cari..."
-            customStyle="border border-[#000] border-opacity-25 px-4 py-[10px] rounded-[10px] text-base"
+            customStyle="border border-gray-400/80 px-4 py-[10px] rounded-xl text-base"
             onChange={handleSearch}
           />
         </div>

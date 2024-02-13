@@ -93,7 +93,7 @@ const Airport: React.FC<TableProps> = () => {
         {judul === "Ubah Data Bandara" || judul === "Tambah Data Bandara" ? (
           <div className="mt-2">
             <div className="mb-3">
-              <label htmlFor="">bandara</label>
+              <label htmlFor="">Bandara</label>
               <input
                 id="airportName"
                 name="airportName"
@@ -104,7 +104,7 @@ const Airport: React.FC<TableProps> = () => {
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="">kode</label>
+              <label htmlFor="">Kode</label>
               <input
                 id="code"
                 name="code"
@@ -115,7 +115,7 @@ const Airport: React.FC<TableProps> = () => {
               />
             </div>
             <div>
-              <label htmlFor="">kota</label>
+              <label htmlFor="">Kota</label>
               <input
                 id="cityName"
                 name="cityName"
@@ -151,18 +151,20 @@ const Airport: React.FC<TableProps> = () => {
           </Button>
         </div>
       </FormModal>
+
       <div className="flex flex-col md:flex-row md:justify-between items-center border-t border-b border-[#000] border-opacity-25 py-[15px] px-3">
-        <button
-          className="bg-green-600 py-2 px-3 rounded-[10px] text-white font-outfit flex items-center gap-2"
+        <Button
+          className={`!bg-green-600 py-[0.61rem] text-white px-[14px] sm:px-[35px] md:px-[24px]`}
+          size="xs"
           onClick={clickOpen}
         >
-          Tambah Bandara <Icon icon="prime:file-import" width={20} />
-        </button>
-        <div className="w-full sm:w-fit">
+          Tambah Bandara <Icon icon="gg:add" width={20} />
+        </Button>
+        <div className="w-full sm:w-fit mt-3 md:mt-0">
           <InputComponent
             type="text"
             placeholder="Cari..."
-            customStyle="border border-[#000] border-opacity-25 px-4 py-[10px] rounded-[10px] text-base"
+            customStyle="border border-gray-400/80 px-4 py-[10px] rounded-xl text-base"
             onChange={handleFilter}
           />
         </div>

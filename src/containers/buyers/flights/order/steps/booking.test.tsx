@@ -13,8 +13,8 @@ const mockUseFlightOrder = useFlightOrder as jest.MockedFunction<typeof useFligh
 
 test("getTicketType is set correctly using useSelector", () => {
   const mockGetTicketType = {
-    ticketId: "1982",
-    classId: "Ekonomi",
+    ticketId: "345345435",
+    classId: "Ekonomi 1",
     passengerDetails: {
       adult: 2,
       child: 1,

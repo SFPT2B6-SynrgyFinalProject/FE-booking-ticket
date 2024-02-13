@@ -14,7 +14,7 @@ import { screenSize } from "../lib/services/screenSize";
 import { Menu, Transition } from "@headlessui/react";
 import { DropdownLink } from "./DropdownLink";
 import { useUserRole } from "../lib/services/auth";
-import OrderList from "../containers/admin/dashboard/list/OrderList";
+import OrderList from "../containers/admin/dashboard/list/detailTransaction";
 import { removeNotificationOrderIds } from "../config/redux/action/notificationAction";
 import { FormModal } from "./FormModal";
 import Button from "./Button";
@@ -98,7 +98,7 @@ export default function Navbar() {
   };
 
   const linkDownloadApp =
-    "https://drive.google.com/file/d/1lByfFYjNqJ8hmsEflLzRrJNkZhRQWEeW/view?usp=drive_link";
+    "https://drive.google.com/file/d/1m7A_6JVa39SepqkMm1BH99dzOcK4XjHW/view?usp=drive_link";
 
   return (
     <div className="w-full hide-on-print">

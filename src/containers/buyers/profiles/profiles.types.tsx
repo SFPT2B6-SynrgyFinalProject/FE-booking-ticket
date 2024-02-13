@@ -3,7 +3,7 @@ import { useUserToken } from "../../../lib/services/auth";
 export interface IProfileData {
   fullName: string;
   email: string;
-  birthDate: string | null; // Update type to Date | null
+  birthDate: string | null | Date; // Update type to Date | null
   gender: string | undefined;
   noHp: string | null;
 }

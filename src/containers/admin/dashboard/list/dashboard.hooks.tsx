@@ -12,8 +12,7 @@ import { useEffect, useState } from "react";
 import { getCurrentDate } from "../../../../lib";
 import { getYestedayDate } from "../../../../lib/currentDate";
 import { Icon } from "@iconify/react/dist/iconify.js";
-
-const useToken = useUserToken();
+import { useUserRole } from "../../../../lib/services/auth";
 
 export const trailingActions = (numb: number) => (
   <TrailingActions>
@@ -26,7 +25,9 @@ export const trailingActions = (numb: number) => (
 );
 
 export const usePopularAirline = () => {
-  const [popularAirline, setPopularAriline] = useState<PopularAirlineType>();
+  const [popularAirline, setPopularAriline] = useState<PopularAirlineType>({
+    airlines: [],
+  });
   const [isLoadingPopularAirline, setIsLoadingPopularAirline] =
     useState<boolean>(false);
   useEffect(() => {
@@ -36,7 +37,7 @@ export const usePopularAirline = () => {
         const result = await fetchInstance({
           endpoint: "/api/admin/airlines?dataPerPage=5&page=1",
           method: "GET",
-          authToken: useToken,
+          authToken: useUserToken(),
         });
         setPopularAriline(result.data);
       } catch (error) {
@@ -49,8 +50,7 @@ export const usePopularAirline = () => {
     };
     getPopularAirline();
   }, []);
-
-  return { popularAirline, isLoadingPopularAirline };
+  return { popularAirline: popularAirline.airlines, isLoadingPopularAirline };
 };
 
 export const useUserActive = () => {
@@ -65,13 +65,13 @@ export const useUserActive = () => {
         const result: UserActive = await fetchInstance({
           endpoint: `/api/admin/users?dataPerPage=${dataPerPage}&page=1`,
           method: "GET",
-          authToken: useToken,
+          authToken: useUserToken(),
         });
         const totalUserActive: number = result.data.lastPage * dataPerPage;
         const results: UserActive = await fetchInstance({
           endpoint: `/api/admin/users?dataPerPage=${totalUserActive}&page=1`,
           method: "GET",
-          authToken: useToken,
+          authToken: useUserToken(),
         });
         setUserActive(results.data.dataInPage.toString());
       } catch (error) {
@@ -100,13 +100,13 @@ export const useTotalOrder = () => {
         const result: Order = await fetchInstance({
           endpoint: `/api/admin/orders?dataPerPage=${dataPerPage}&page=1`,
           method: "GET",
-          authToken: useToken,
+          authToken: useUserToken(),
         });
         const totalNewOrder: number = result.data.lastPage * dataPerPage;
         const results: Order = await fetchInstance({
           endpoint: `/api/admin/transactions?dataPerPage=${totalNewOrder}&page=1`,
           method: "GET",
-          authToken: useToken,
+          authToken: useUserToken(),
         });
         setTotalOrder(results.data.dataInPage.toString());
       } catch (error) {
@@ -145,13 +145,13 @@ export const useTransaction = () => {
         const result: Transaction = await fetchInstance({
           endpoint: `/api/admin/transactions?dataPerPage=${dataPerPage}&page=1`,
           method: "GET",
-          authToken: useToken,
+          authToken: useUserToken(),
         });
         const totalNewOrder: number = result.data.lastPage * dataPerPage;
         const results: Transaction = await fetchInstance({
           endpoint: `/api/admin/transactions?dataPerPage=${totalNewOrder}&page=1`,
           method: "GET",
-          authToken: useToken,
+          authToken: useUserToken(),
         });
         setTotalTransaction(results.data.dataInPage.toString());
         const completedTransaction = results.data.transactions.filter(
@@ -174,7 +174,7 @@ export const useTransaction = () => {
         const result: Transaction = await fetchInstance({
           endpoint: `/api/admin/transactions?dataPerPage=${dataPerPage}&page=1`,
           method: "GET",
-          authToken: useToken,
+          authToken: useUserToken(),
         });
         const todayTransaction = result.data.transactions.filter((data) => {
           return data.transactionDate.includes(getCurrentDate());
@@ -192,8 +192,10 @@ export const useTransaction = () => {
         setIsLoadingDetailTransaction(false);
       }
     };
-    getTotalTransaction();
-    getDetailTransaction();
+    if (useUserToken() && useUserRole() === "ROLE_ADMIN") {
+      getTotalTransaction();
+      getDetailTransaction();
+    }
   }, []);
 
   return {

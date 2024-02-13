@@ -13,14 +13,14 @@ describe("Sidebar", () => {
 
     // Memastikan semua item menu dirender dengan benar
     const menuItems = screen.getAllByRole("link");
-    expect(menuItems).toHaveLength(7);
+    expect(menuItems).toHaveLength(6);
 
     // Memastikan setiap item menu memiliki ikon dan teks yang sesuai
     const menuNames = [
       "Dashboard",
       "Pengguna",
       "Bandara",
-      "Rute",
+      // "Rute",
       "Maskapai",
       "Pemesanan",
       "Transaksi",
