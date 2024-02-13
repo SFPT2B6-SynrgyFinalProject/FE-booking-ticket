@@ -135,10 +135,11 @@ const List: React.FC<TableProps> = () => {
                 <input id="email" name="email" value={formValues.email} onChange={handleChange} type="email" className="w-full h-[40px] mt-1 border border-[#ddd] rounded-md outline-none px-4 text-sm shadow" />
               </div>
               <div className="mb-3">
-                <label htmlFor="roleId">Role</label>
-                <select name="roleId" id="roleId" onChange={handleOnSelect} className="w-full h-[40px] mt-1 border border-[#ddd] rounded-md outline-none px-4 text-sm shadow">
-                  <option value="1">Pembeli</option>
-                  <option value="2">Admin</option>
+                <label htmlFor="role">Role</label>
+                <select name="role" id="role" onChange={handleOnSelect} className="w-full h-[40px] mt-1 border border-[#ddd] rounded-md outline-none px-4 text-sm shadow" required>
+                  <option value="" disabled>Pilih Role</option>
+                  <option value="Pembeli">Pembeli</option>
+                  <option value="Admin">Admin</option>
                 </select>
               </div>
             </div>

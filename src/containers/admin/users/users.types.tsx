@@ -4,5 +4,4 @@ export interface IUsers {
   email: string;
   phoneNumber: string;
   role: string;
-  roleId: number;
 }
