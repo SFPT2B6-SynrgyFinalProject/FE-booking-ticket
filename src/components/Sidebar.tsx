@@ -6,7 +6,7 @@ export default function Sidebar() {
     { name: "Dashboard", icon: <Icon icon="lucide:home" width={22} /> },
     { name: "Pengguna", icon: <Icon icon="heroicons:user-group" width={22} /> },
     { name: "Bandara", icon: <Icon icon="fe:building" width={22} /> },
-    { name: "Rute", icon: <Icon icon="gis:route" width={22} /> },
+    // { name: "Rute", icon: <Icon icon="gis:route" width={22} /> },
     { name: "Maskapai", icon: <Icon icon="ion:airplane-outline" width={22} /> },
     { name: "Pemesanan", icon: <Icon icon="ph:archive" width={22} /> },
     { name: "Transaksi", icon: <Icon icon="la:money-check" width={22} /> },

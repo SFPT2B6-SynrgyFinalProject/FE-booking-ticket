@@ -98,7 +98,7 @@ export default function Navbar() {
   };
 
   const linkDownloadApp =
-    "https://drive.google.com/file/d/1lByfFYjNqJ8hmsEflLzRrJNkZhRQWEeW/view?usp=drive_link";
+    "https://drive.google.com/file/d/1m7A_6JVa39SepqkMm1BH99dzOcK4XjHW/view?usp=drive_link";
 
   return (
     <div className="w-full hide-on-print">

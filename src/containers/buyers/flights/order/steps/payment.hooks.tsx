@@ -192,5 +192,6 @@ export default function usePaymentOrder({ dispatch }: UsePaymentOrderProps) {
     errorMessage,
     resultData,
     setPaymentData,
+    convertCreditCardDate
   };
 }
