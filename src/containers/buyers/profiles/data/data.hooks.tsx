@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../config/redux/store";
 import { IProfileData, editProfile } from "../profiles.types";
+import { IAlert } from "../../../../lib/services/auth";
 export default function useData() {
   const [disabled, setDisabled] = useState<boolean>(true);
   const profileData = useSelector((state: RootState) => state.userReducer);
@@ -13,8 +14,8 @@ export default function useData() {
   const [status, setStatus] = useState<string>("");
   const [isValidBirthdate, setIsValidBirthdate] = useState<boolean>(true);
   const [open, setOpen] = useState<boolean>(false);
-  const [umurMin, setUmurMin] = useState<boolean>(false);
- 
+  const [umurMin, setUmurMin] = useState<boolean>(true);
+  const [alert, setAlert] = useState<IAlert | null>(null);
   const off = () => {
 
     setDisabled(false);
@@ -93,10 +94,30 @@ export default function useData() {
     const fetch = await editProfile(data);
    
     if (fetch.status == "fail") {
-      setStatus("Data gagal diubah");
+      setAlert({
+        type: "process",
+        data: {},
+        message: "Proses perubahan data",
+      });
+      setTimeout(() => {
+        setAlert(null);
+      }, 3000);
+      setTimeout(() => {
+        setStatus("Data gagal diubah");
+      }, 3000);
     } else {
-      setStatus("Data sukses diubah");
- 
+      setAlert({
+        type: "process",
+        data: {},
+        message: "Proses perubahan data",
+      });
+      setTimeout(() => {
+        setAlert(null);
+      }, 3000);
+      setTimeout(() => {
+        setStatus("Data sukses diubah");
+      }, 3000);
+      
     }
     setOpen(false);
     setDisabled(true);
@@ -116,6 +137,7 @@ export default function useData() {
     verifikasi,
     open,
     umurMin,
+    alert,
     off,
     close,
     handleSubmit,

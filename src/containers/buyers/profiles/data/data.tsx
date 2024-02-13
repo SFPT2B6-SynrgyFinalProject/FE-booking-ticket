@@ -23,10 +23,18 @@ export default function ProfileData() {
     handleOnSelect,
     birthDate,
     isValidBirthdate,
+    alert,
   } = useAction();
 
   return (
     <div>
+          {alert && (
+              <div>
+                {alert.type === "process" && (
+                  <Alert message={alert.message} type="process" />
+                )}
+              </div>
+            )}
       {status !== "" ? (
         status === "Data gagal diubah" ? (
           <Alert type="fail" message={status} />
