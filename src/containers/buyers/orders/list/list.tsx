@@ -5,6 +5,30 @@ import { Card } from "../../../../components/Card";
 import { fetchInstance } from "../../../../lib/services/core";
 import { useState, useEffect } from "react";
 import { IOrders } from "../orders.types";
+import Alert from "../../../../components/Alert";
+
+function filterOrdersByDateType(
+  data: IOrders[],
+  type: "ONGOING" | "COMPLETED"
+) {
+  const currentDate = new Date();
+
+  // Memeriksa apakah pesanan berada dalam rentang waktu yang sesuai dengan jenis yang diberikan
+  const filteredOrders = data.filter((order) => {
+    const departureTime = new Date(order.departure.dateTime);
+    console.log(departureTime, currentDate);
+    if (type === "ONGOING") {
+      // Memeriksa pesanan yang waktu keberangkatannya setelah tanggal saat ini
+      return departureTime > currentDate;
+    } else if (type === "COMPLETED") {
+      // Memeriksa pesanan yang waktu keberangkatannya sebelum atau sama dengan tanggal saat ini
+      return departureTime <= currentDate;
+    }
+    return false; // Mengembalikan false jika jenis yang diberikan tidak valid
+  });
+
+  return filteredOrders;
+}
 
 export default function Order() {
   const [status, setStatus] = useState<"COMPLETED" | "ONGOING">("ONGOING");
@@ -15,11 +39,13 @@ export default function Order() {
     setStatus(status);
     const response = await fetchInstance({
       method: "GET",
-      endpoint: `/api/orders?status=${status}`,
+      endpoint: `/api/orders?status=COMPLETED`,
       authToken: localStorage.getItem("user_access_token") ?? "",
     });
     console.log(response);
-    setData(response.data.orders);
+    const showData = filterOrdersByDateType(response.data.orders, status);
+    console.log(showData);
+    setData(showData);
     setLoading(false);
   }
 
@@ -63,38 +89,42 @@ export default function Order() {
             </div>
           </div>
           {isLoading ? (
-            <>Loading</>
+            <>
+              <Alert message="Memuat data" type="process" />
+            </>
           ) : data.length < 1 ? (
             <>No Data</>
           ) : (
-            data.map((riwayat) => (
-              <div className="bg-[#F5F5F5] flex flex-col lg:flex-row items-center border rounded-3xl shadow-xl p-5 mb-5 w-4/5 mx-auto gap-6 lg:gap-14">
-                <figure className="ml-5 mb-14">
-                  <Icon icon="tabler:plane" width={24} color="#3355cc" />
-                </figure>
-                <section className="font-semibold text-sm flex flex-col gap-6 lg:gap-6 grow">
-                  <p>Order id : {riwayat?.orderId ?? "Kosong"}</p>
-                  <div className="flex flex-col lg:flex-row">
-                    <p>{riwayat?.departure?.city ?? "Kosong"}</p>
-                    <p className="mx-5">
-                      <Icon icon="icons8:arrows-long-right" width={20} />
-                    </p>
-                    <p>{riwayat?.arrival?.city ?? "Kosong"}</p>
-                  </div>
-                  <div className="flex flex-col lg:flex-row justify-between">
-                    <p className="p-1 rounded-xl bg-primary-light cursor-pointer w-fit self-end lg:self-start text-gray-500">
-                      {riwayat?.paymentStatus ?? "Kosong"}
-                    </p>
-                    <Link
-                      to={`/pesanan/riwayat/${riwayat?.orderId ?? "ae9f18d"}`}
-                      className="text-primary-bright"
-                    >
-                      Lihat Disini
-                    </Link>
-                  </div>
-                </section>
-              </div>
-            ))
+            data.map((riwayat) => {
+              return (
+                <div className="bg-[#F5F5F5] flex flex-col lg:flex-row items-center border rounded-3xl shadow-xl p-5 mb-5 w-4/5 mx-auto gap-6 lg:gap-14">
+                  <figure className="ml-5 mb-14">
+                    <Icon icon="tabler:plane" width={24} color="#3355cc" />
+                  </figure>
+                  <section className="font-semibold text-sm flex flex-col gap-6 lg:gap-6 grow">
+                    <p>Order id : {riwayat?.orderId ?? "Kosong"}</p>
+                    <div className="flex flex-col lg:flex-row">
+                      <p>{riwayat?.departure?.city ?? "Kosong"}</p>
+                      <p className="mx-5">
+                        <Icon icon="icons8:arrows-long-right" width={20} />
+                      </p>
+                      <p>{riwayat?.arrival?.city ?? "Kosong"}</p>
+                    </div>
+                    <div className="flex flex-col lg:flex-row justify-between">
+                      <p className="p-1 rounded-xl bg-primary-light cursor-pointer w-fit self-end lg:self-start text-gray-500">
+                        {riwayat?.paymentStatus ?? "Kosong"}
+                      </p>
+                      <Link
+                        to={`/pesanan/riwayat/${riwayat?.orderId ?? "ae9f18d"}`}
+                        className="text-primary-bright"
+                      >
+                        Lihat Disini
+                      </Link>
+                    </div>
+                  </section>
+                </div>
+              );
+            })
           )}
         </Card>
       </ContainerPage>
