@@ -13,7 +13,7 @@ export default function useList() {
       setIsLoading(true);
       const response = await fetchInstance({
         authToken: useUserToken(),
-        endpoint: "/api/admin/orders?dataPerPage=150&page=1",
+        endpoint: "/api/admin/orders?dataPerPage=50&page=1",
         method: "GET",
       });
 
