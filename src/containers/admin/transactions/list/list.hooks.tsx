@@ -15,9 +15,9 @@ export default function useList() {
     try {
       setIsLoading(true);
       const response = await getTransactions();
-      const sortedTransactions = response.data.transactions.sort((a: ITransactions, b: ITransactions) => b.number - a.number);
+      // const sortedTransactions = response.data.transactions.sort((a: ITransactions, b: ITransactions) => b.number - a.number);
 
-      setRecords(sortedTransactions);
+      setRecords(response.data.transactions);
       setOriginalRecords(response.data.transactions);
     } catch (error) {
       console.log("error");

@@ -127,20 +127,23 @@ const Transaction: React.FC<TableProps> = () => {
   ];
 
   return (
-    <div className="flex-1 px-8 mt-14">
-      <div className="flex flex-col lg:flex-row justify-between  items-center">
-        <Button className={`!bg-green-600 py-[10px] text-white mb-4`} size="xs">
+    <div className="flex-1 px-4 mt-8 md:px-8 md:mt-14">
+      <div className="flex flex-col md:flex-row md:justify-end items-center border-t border-b border-[#000] border-opacity-25 py-[15px] px-3">
+        {/* <Button className={`!bg-green-600 py-[10px] text-white mb-4`} size="xs">
           Eksport Data Transaksi <Icon icon="prime:file-import" width={20} />
-        </Button>
+        </Button> */}
         <div>
+        <div className="w-full sm:w-fit">
           <InputComponent
             type="text"
             placeholder="Cari..."
-            customStyle="border border-gray-400/80 px-4 py-[10px] rounded-xl"
+            customStyle="border border-gray-400/80 px-4 py-[10px] rounded-xl text-base"
             onChange={handleFilter}
           />
         </div>
+        </div>
       </div>
+      
       <FormModal isOpen={open} title={judul} className={`w-full lg:max-w-2xl max-h-full`}>
         {isLoading2 ? (
           <>
