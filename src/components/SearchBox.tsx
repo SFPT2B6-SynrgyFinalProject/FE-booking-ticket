@@ -201,6 +201,7 @@ const SearchBox: React.FC = () => {
         >
           <div className="search-controller flex flex-col md:flex-row justify-end">
             <button
+              id="btnSearchTicket"
               type="submit"
               className={`text-white bg-blue-600 max-sm:hidden lg:py-2 px-4 rounded-[10px] mt-4 md:mt-0 hidden lg:flex items-center gap-[10px] ${
                 !selectedDeparture ||
@@ -344,6 +345,7 @@ const SearchBox: React.FC = () => {
           </div>
           <div className="form-group lg:hidden mt-10">
             <button
+              id="btnSearchTicket"
               type="submit"
               className={`text-white bg-primary-normal w-full py-3 px-3 rounded-[10px] mt-4 md:mt-0 flex items-center justify-center gap-[10px] ${
                 !selectedDeparture ||

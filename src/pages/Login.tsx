@@ -209,7 +209,7 @@ export default function Login() {
                 <p>
                   <span></span>
                   <span className="text-right" style={{ display: "flex" }}>
-                    <a
+                    <a id="forgetPassword"
                       className="pl-0 text-red-400 hover:underline hover:text-red-900"
                       style={{ marginLeft: "auto" }}
                       href="/forget-password"
@@ -220,6 +220,7 @@ export default function Login() {
                 </p>
 
                 <Button
+                  id="btnLogin"
                   type="primary-dark"
                   width="full"
                   color="primary-dark"
@@ -282,6 +283,7 @@ export default function Login() {
             <p className="mt-5 text-center">
               Need an account?{" "}
               <Link
+                id="register"
                 to={"/register"}
                 className="text-indigo-600 hover:text-indigo-500"
               >

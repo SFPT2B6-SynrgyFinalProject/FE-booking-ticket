@@ -401,7 +401,7 @@ export default function Navbar() {
           <div className="flex-col items-center hidden text-sm font-medium gap-7 lg:flex-row lg:flex">
             {fullName ? (
               <>
-                <Link to={"/"} className={handleActivePage("/")}>
+                <Link id="beranda" to={"/"} className={handleActivePage("/")}>
                   Beranda
                 </Link>
 
@@ -414,6 +414,7 @@ export default function Navbar() {
                 </Link>
 
                 <a
+                  id="unduhApp"
                   href={linkDownloadApp}
                   target="_blank"
                   className="hover:text-blue-700"
@@ -448,7 +449,7 @@ export default function Navbar() {
                       handleActivePage("/profile/reset")
                     } flex items-center text-black hover:bg-transparent gap-x-2`}
                   >
-                    <Icon icon="tabler:user-circle" width={23} />
+                    <Icon id="navProfile" icon="tabler:user-circle" width={23} />
                   </Menu.Button>
 
                   <Transition
@@ -480,7 +481,7 @@ export default function Navbar() {
                         Ubah Password
                       </DropdownLink>
                       <div className="w-full h-px my-1 bg-gray-200" />
-                      <span
+                      <span id="navLogout"
                         className="block px-4 py-2 text-black cursor-pointer hover:text-blue-700"
                         onClick={handleLogOut}
                       >
@@ -492,11 +493,12 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                <Link to={"/"} className={handleActivePage("/")}>
+                <Link id="beranda" to={"/"} className={handleActivePage("/")}>
                   Beranda
                 </Link>
 
                 <a
+                  id="unduhApp"
                   href={linkDownloadApp}
                   target="_blank"
                   className="hover:text-blue-700"
@@ -505,12 +507,13 @@ export default function Navbar() {
                   Unduh App
                 </a>
 
-                <Link to={"/login"} className="flex pl-4 -mr-2 font-semibold hover:text-blue-700">
+                <Link id="login" to={"/login"} className="flex pl-4 -mr-2 font-semibold hover:text-blue-700">
                   Log In
                   <Icon icon="tabler:user-circle" width={19} className="ml-2" />
                 </Link>
 
                 <Link
+                  id="register"
                   to={"/register"}
                   className="bg-blue-700 text-white px-2 py-[1px] rounded"
                 >
@@ -534,6 +537,7 @@ export default function Navbar() {
                 <>
                   <a href="#" id="batal" onClick={handleLogOut}>
                     <Button
+                      id="navLogoutTidak"
                       type="primary-dark"
                       color="primary-dark"
                       className="!px-10"
@@ -542,6 +546,7 @@ export default function Navbar() {
                     </Button>
                   </a>
                   <Button
+                    id="navLogoutYa"
                     type="danger"
                     color="danger"
                     className="mr-3 bg-rose-600 hover:bg-rose-700"

@@ -34,6 +34,7 @@ const CounterOption: React.FC<CounterOptionProps> = ({
         className="px-2 py-1 text-2xl font-semibold text-blue-600"
         onClick={onDecrement}
         type="button"
+        id={label === "dewasa" ? "btnMinAdult" : ""}
       >
         &#x2212;
       </button>
@@ -44,6 +45,7 @@ const CounterOption: React.FC<CounterOptionProps> = ({
         className="px-2 py-1 text-2xl font-semibold text-blue-600"
         onClick={onIncrement}
         type="button"
+        id={label === "dewasa" ? "btnPlusAdult" : ""}
       >
         +
       </button>
@@ -81,6 +83,7 @@ const HeaderSearchItem: React.FC<HeaderSearchItemProps> = ({
         className="text-gray-600"
       />
       <input
+        id="passengerInput"
         type="text"
         placeholder="Passenger"
         className="bg-white border border-gray-400 text-gray-700 font-medium text-sm focus:border-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 !h-[55px] pl-14 rounded-[10px] focus:outline-none"
@@ -110,6 +113,7 @@ const HeaderSearchItem: React.FC<HeaderSearchItemProps> = ({
           />
           <div className="flex items-center justify-end mb-2">
             <button
+              id="btnFinishPassenger"
               onClick={() => setClickPassenger(false)}
               className="px-2 pt-1 text-sm font-medium text-blue-700"
             >

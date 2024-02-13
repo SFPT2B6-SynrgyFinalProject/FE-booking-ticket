@@ -35,7 +35,7 @@ interface ResultCardType {
   totalDicount: number;
   totalPrice: number;
   classId: string | number;
-  ticketId: string | number;
+  ticketId: any;
 }
 
 function ResultCard({
@@ -237,6 +237,7 @@ function ResultCard({
             ) : (
               <>
                 <p
+                  id={ticketId}
                   onClick={handleExpandToggle}
                   className="text-base text-primary-normal font-outfit cursor-pointer"
                 >
@@ -504,6 +505,7 @@ function ResultCard({
             </div>
             <div className="lg:col-span-2 w-full flex justify-end">
               <button
+                id={`btnChoose-${ticketId}`}
                 type="submit"
                 onClick={() =>
                   handleResultTicket({
