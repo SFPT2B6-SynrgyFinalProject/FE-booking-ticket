@@ -46,7 +46,8 @@ const List: React.FC<TableProps> = () => {
     handleDelete,
     handleSearch,
     handleChange,
-    postData,
+    handleOnSelect,
+    deleteData,
     editData,
     formValues,
   } = useAction();
@@ -118,52 +119,27 @@ const List: React.FC<TableProps> = () => {
               : deleteData
           } > */}
 
-        <form onSubmit={judul === "Tambah Data User" ? postData : editData}>
-          {judul === "Tambah Data User" || judul === "Ubah Data User" ? (
+        <form onSubmit={judul === "Ubah Data User" ? editData : deleteData}>
+          {judul === "Ubah Data User" ? (
             <div className="mt-2">
               <div className="mb-3">
-                <InputComponent
-                  placeholder="Name"
-                  type="text"
-                  id="name"
-                  name="name"
-                  onChange={handleChange}
-                  value={formValues.fullName}
-                  required
-                />
+                <label htmlFor="fullName">Nama Lengkap</label>
+                <input id="fullName" name="fullName" value={formValues.fullName} onChange={handleChange} type="text" className="w-full h-[40px] mt-1 border border-[#ddd] rounded-md outline-none px-4 text-sm shadow" />
               </div>
               <div className="mb-3">
-                <InputComponent
-                  placeholder="No Telepon"
-                  type="text"
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  onChange={handleChange}
-                  value={formValues.phoneNumber}
-                  required
-                />
+                <label htmlFor="phoneNumber">No Telepon</label>
+                <input id="phoneNumber" name="phoneNumber" value={formValues.phoneNumber} onChange={handleChange} type="text" className="w-full h-[40px] mt-1 border border-[#ddd] rounded-md outline-none px-4 text-sm shadow" />
               </div>
               <div className="mb-3">
-                <InputComponent
-                  placeholder="Email"
-                  type="text"
-                  id="email"
-                  name="email"
-                  onChange={handleChange}
-                  value={formValues.email}
-                  required
-                />
+                <label htmlFor="email">Email</label>
+                <input id="email" name="email" value={formValues.email} onChange={handleChange} type="email" className="w-full h-[40px] mt-1 border border-[#ddd] rounded-md outline-none px-4 text-sm shadow" />
               </div>
               <div className="mb-3">
-                <InputComponent
-                  placeholder="Role"
-                  type="text"
-                  id="role"
-                  name="role"
-                  onChange={handleChange}
-                  value={formValues.id}
-                  required
-                />
+                <label htmlFor="roleId">Role</label>
+                <select name="roleId" id="roleId" onChange={handleOnSelect} className="w-full h-[40px] mt-1 border border-[#ddd] rounded-md outline-none px-4 text-sm shadow">
+                  <option value="1">Pembeli</option>
+                  <option value="2">Admin</option>
+                </select>
               </div>
             </div>
           ) : (
