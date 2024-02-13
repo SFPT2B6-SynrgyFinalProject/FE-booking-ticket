@@ -39,14 +39,14 @@ export default function Notification() {
             notificationsArray?.map((notification) => (
               <div
                 key={(notification as { id: number }).id}
-                className="bg-[#F5F5F5] flex flex-col lg:flex-row items-center border rounded-3xl shadow-xl p-10 mb-10 w-4/5 mx-auto gap-6 lg:gap-14"
+                className="bg-[#F5F5F5] flex flex-col lg:flex-row items-center border rounded-3xl shadow-xl p-10 mb-10 lg:w-4/5 lg:mx-auto gap-6 lg:gap-14"
               >
-                <figure className="p-2 bg-blue-700 rounded-full">
-                  <Icon icon="carbon:purchase" width={70} className="text-white py-3" />
+                <figure className="p-2 bg-blue-700 rounded-full lg:size-26 flex items-center">
+                  <Icon icon="carbon:purchase" width={60} className="text-white lg:py-2" />
                 </figure>
-                <section className="font-semibold text-sm flex flex-col gap-3 lg:gap-6 grow">
-                  <p>Pembayaran Berhasil</p>
-                  <p>
+                <section className="flex flex-col gap-3 lg:gap-6 grow">
+                  <p className="font-bold text-lg">Pembayaran Berhasil</p>
+                  <p className="font-semibold text-justify">
                     {(notification as { content: string }).content}
                   </p>
                 </section>

@@ -11,7 +11,6 @@ import Sidebar from "../components/Sidebar";
 import SearchBox from "../components/SearchBox";
 
 export default function PrivateProvider() {
-  const userToken = useUserToken();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const location: Location = useLocation();
   const publicPaths: string[] = ["/", "/search"];
@@ -22,8 +21,11 @@ export default function PrivateProvider() {
     const fetchData = async () => {
       try {
         const payload: UserToken = {
-          token: userToken,
+          token: useUserToken(),
         };
+        if (useUserRole() === "ROLE_ADMIN") {
+          return;
+        }
         const result = await userData(payload);
         dispatch(setUserData(result));
       } catch (error) {
@@ -35,21 +37,21 @@ export default function PrivateProvider() {
       }
     };
 
-    if (userToken) {
+    if (useUserToken()) {
       fetchData();
     }
-  }, [userToken, dispatch]);
+  }, [dispatch]);
 
-  if (!userToken || userToken === undefined) {
+  if (!useUserToken() || useUserToken() === undefined) {
     if (!publicPaths.includes(location.pathname)) {
       return <Navigate to="/login" />;
     }
   }
 
-  if (userToken && isLoading) {
+  if (useUserToken() && isLoading) {
     return (
       <>
-        <div className="h-screen flex items-center justify-center">
+        <div className="h-dvh flex items-center justify-center">
           <div role="status">
             <div className="animate-spin rounded-full w-10 h-10 bg-gradient-to-tr from-blue-600 to-blue-300">
               <div className="h-6 w-6 rounded-full bg-gray-100"></div>
@@ -72,7 +74,9 @@ export default function PrivateProvider() {
           <>
             <div
               className={`absolute left-0 right-0 z-[5] ${
-                location.pathname === "/search" ? "top-44" : "top-28 md:top-[22rem]"
+                location.pathname === "/search"
+                  ? "top-44"
+                  : "top-28 md:top-[22rem]"
               }`}
             >
               <SearchBox />
