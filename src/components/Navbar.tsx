@@ -14,11 +14,11 @@ import { screenSize } from "../lib/services/screenSize";
 import { Menu, Transition } from "@headlessui/react";
 import { DropdownLink } from "./DropdownLink";
 import { useUserRole } from "../lib/services/auth";
-import OrderList from "../containers/admin/dashboard/list/detailTransaction";
+import DetailTransaction from "../containers/admin/dashboard/list/detailTransaction";
 import { removeNotificationOrderIds } from "../config/redux/action/notificationAction";
 import { FormModal } from "./FormModal";
 import Button from "./Button";
-import { useTransaction } from "../containers/admin/dashboard/list/dashboard.hooks";
+import { useFilterByOrderId } from "../containers/admin/dashboard/list/dashboard.hooks";
 
 export default function Navbar() {
   const location: Location = useLocation();
@@ -29,11 +29,8 @@ export default function Navbar() {
   const { width } = screenSize();
   const userRole = useUserRole();
   const [logOut, setLogOut] = useState<boolean>(false);
-  const {
-    detailTransactionToday,
-    detailTransactionYesterday,
-    isLoadingDetailTransaction,
-  } = useTransaction();
+  const { detailOrderToday, detailOrderYesterday, isLoadingOrder } =
+    useFilterByOrderId();
 
   // notifications bells-icon handling
   const [unseenNotificationsCount, setUnseenNotificationsCount] =
@@ -61,7 +58,7 @@ export default function Navbar() {
   }, [width]);
 
   const handleLogOut = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    setNavigation(false)
+    setNavigation(false);
     const { id } = event.currentTarget as HTMLAnchorElement; // Use currentTarget instead of target
     if (id === "batal") {
       setLogOut(false);
@@ -183,15 +180,15 @@ export default function Navbar() {
                   {location.pathname === "/admin" ? (
                     <>
                       <section className="rounded-tl-[3rem] pl-10 pr-8 pb-10">
-                        <OrderList
-                          detailTransaction={detailTransactionToday}
+                        <DetailTransaction
+                          detailTransaction={detailOrderToday}
                           day="Hari ini"
-                          isLoading={isLoadingDetailTransaction}
+                          isLoading={isLoadingOrder}
                         />
-                        <OrderList
-                          detailTransaction={detailTransactionYesterday}
+                        <DetailTransaction
+                          detailTransaction={detailOrderYesterday}
                           day="Kemarin"
-                          isLoading={isLoadingDetailTransaction}
+                          isLoading={isLoadingOrder}
                         />
                       </section>
                     </>
@@ -241,7 +238,11 @@ export default function Navbar() {
         ) : navigation ? (
           <>
             <div className="absolute top-0 bottom-0 right-0 z-20 flex flex-col w-4/6 py-6 pl-10 pr-8 text-sm font-medium bg-white md:w-2/5 gap-7">
-              <div className={`flex ${fullName ? "justify-between items-center" : "justify-end"}`}>
+              <div
+                className={`flex ${
+                  fullName ? "justify-between items-center" : "justify-end"
+                }`}
+              >
                 {fullName ? (
                   <Link
                     id="notifikasi"
@@ -381,7 +382,10 @@ export default function Navbar() {
                     Unduh App
                   </a>
 
-                  <Link to={"/login"} className="flex font-semibold hover:text-blue-700">
+                  <Link
+                    to={"/login"}
+                    className="flex font-semibold hover:text-blue-700"
+                  >
                     Log In
                     <Icon
                       icon="tabler:user-circle"
@@ -409,7 +413,11 @@ export default function Navbar() {
                   Penerbangan
                 </Link> */}
 
-                <Link id="pesanan" to={"/pesanan"} className={handleActivePage("/pesanan")}>
+                <Link
+                  id="pesanan"
+                  to={"/pesanan"}
+                  className={handleActivePage("/pesanan")}
+                >
                   Pesanan
                 </Link>
 
@@ -507,7 +515,10 @@ export default function Navbar() {
                   Unduh App
                 </a>
 
-                <Link id="login" to={"/login"} className="flex pl-4 -mr-2 font-semibold hover:text-blue-700">
+                <Link
+                  to={"/login"}
+                  className="flex pl-4 -mr-2 font-semibold hover:text-blue-700"
+                >
                   Log In
                   <Icon icon="tabler:user-circle" width={19} className="ml-2" />
                 </Link>

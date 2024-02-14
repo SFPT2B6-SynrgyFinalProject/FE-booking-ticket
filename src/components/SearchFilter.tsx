@@ -139,8 +139,6 @@ export default function SearchFilter() {
         sortBy.push("duration");
       }
 
-      console.log(sortBy);
-
       const payload: SearchByUser = {
         ...resultSearch,
         departureDateStart: getTimeDepartureStart.toISOString(),
@@ -242,6 +240,73 @@ export default function SearchFilter() {
     });
   };
 
+  const isAnyOptionChecked = () => {
+    const isAirlineChecked = Object.values(selectedAirline).some(
+      (value) => value !== 0
+    );
+
+    const isDepartureTimeChecked = Object.values(selectedDepartureTime).some(
+      (value) => value === true
+    );
+
+    const isArrivalTimeChecked = Object.values(selectedArrivalTime).some(
+      (value) => value === true
+    );
+
+    const isSortByChecked =
+      selectedSortBy.Price === "price" ||
+      selectedSortBy.Duration === "duration";
+
+    return (
+      isAirlineChecked ||
+      isDepartureTimeChecked ||
+      isArrivalTimeChecked ||
+      isSortByChecked
+    );
+  };
+
+  const handleReset = async () => {
+    setSelectedAirline({
+      Garuda: 0,
+      Citilink: 0,
+      Lion: 0,
+      SuperAirJet: 0,
+      Batik: 0,
+    });
+    setSelectedDepartureTime({
+      "00:00 - 06:00": false,
+      "06:00 - 12:00": false,
+      "12:00 - 18:00": false,
+      "18:00 - 24:00": false,
+    });
+    setSelectedArrivalTime({
+      "00:00 - 06:00": false,
+      "06:00 - 12:00": false,
+      "12:00 - 18:00": false,
+      "18:00 - 24:00": false,
+    });
+    setSelectedSortBy({
+      Price: "",
+      Duration: "",
+    });
+    try {
+      dispatch(setIsLoading(true));
+      const payload: SearchByUser = {
+        ...resultSearch,
+      };
+
+      const result = await getFlightTicket(payload);
+      dispatch(setDataBySearch(result));
+      dispatch(setNumberPagination(1));
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error.message);
+      }
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  };
+
   return (
     <>
       <div className="search-filter-container mt-[19rem] md:mt-24 lg:mt-0  lg:col-span-1 bg-white py-[45px] px-[51px] rounded-[30px] h-fit">
@@ -255,7 +320,11 @@ export default function SearchFilter() {
               Filter
             </h3>
           </div>
-          <button className="font-sans text-neutral-800 font-semibold">
+          <button
+            className="font-sans text-neutral-800 font-semibold"
+            onClick={handleReset}
+            disabled={!isAnyOptionChecked()}
+          >
             Reset
           </button>
         </header>
