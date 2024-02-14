@@ -36,11 +36,11 @@ export default function DetailTransaction({
                     {useIcon(val.status === "Selesai" ? "success" : "")}
                   </div>
                   <div className="flex-1">
-                    <div className="text-base font-medium">{val.orderId}</div>
+                    <div className="text-base font-medium">{val.fullName}</div>
                     <div className="text-sm">{val.status}</div>
                   </div>
                   <div className="hidden sm:block text-green-600">
-                    {rupiahFormatter(Number(val.paymentTotal))}
+                    {rupiahFormatter(Number(val.priceTotal))}
                   </div>
                 </div>
               );
