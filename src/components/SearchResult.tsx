@@ -545,10 +545,6 @@ export default function SearchResult() {
     (state: RootState) => state.resultSearchReducer
   );
 
-  // const resultTicket = useSelector(
-  //   (state: RootState) => state.getTicketReducer
-  // ); => for get result ticket
-
   const getLoading = useSelector((state: RootState) => state.isLoadingReducer);
   const getNumberPagination = useSelector(
     (state: RootState) => state.numberPaginationReducer

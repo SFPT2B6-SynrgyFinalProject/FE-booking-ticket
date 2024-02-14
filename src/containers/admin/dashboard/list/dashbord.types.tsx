@@ -33,7 +33,19 @@ export interface Order {
   data: {
     lastPage: number;
     dataInPage: number;
+    orders: DetailOrder[];
   };
+}
+
+export interface DetailOrder {
+  number: number;
+  orderId: string;
+  fullName: string;
+  airline: string;
+  transactionDate: string;
+  status: string;
+  priceTotal: number;
+  flightDestination: string;
 }
 
 export interface Transaction {
@@ -52,7 +64,7 @@ export interface DetailTransaction {
 }
 
 export interface dayTransaction {
-  detailTransaction: DetailTransaction[];
+  detailTransaction: DetailOrder[];
   day: string;
   isLoading: boolean;
 }

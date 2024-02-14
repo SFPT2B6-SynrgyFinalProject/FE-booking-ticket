@@ -37,58 +37,80 @@ interface OptionPersonAgeType {
   dewasa: number;
 }
 
-const CustomControl: React.FC<ControlProps<Option, boolean, GroupBase<Option>>> = ({
-  children,
-  ...props
-}) => (
+const CustomControl: React.FC<
+  ControlProps<Option, boolean, GroupBase<Option>>
+> = ({ children, ...props }) => (
   <components.Control {...props}>
-    <Icon icon="mingcute:flight-takeoff-line" width={24} className="mr-2 text-gray-500" />
+    <Icon
+      icon="mingcute:flight-takeoff-line"
+      width={24}
+      className="mr-2 text-gray-500"
+    />
     {children}
   </components.Control>
 );
-const CustomControl1: React.FC<ControlProps<Option, boolean, GroupBase<Option>>> = ({
-  children,
-  ...props
-}) => (
+const CustomControl1: React.FC<
+  ControlProps<Option, boolean, GroupBase<Option>>
+> = ({ children, ...props }) => (
   <components.Control {...props}>
-    <Icon icon="mingcute:flight-land-line" width={24} className="mr-2 text-gray-500" />
+    <Icon
+      icon="mingcute:flight-land-line"
+      width={24}
+      className="mr-2 text-gray-500"
+    />
     {children}
   </components.Control>
 );
 
-const CustomControl2: React.FC<ControlProps<Option, boolean, GroupBase<Option>>> = ({
-  children,
-  ...props
-}) => (
+const CustomControl2: React.FC<
+  ControlProps<Option, boolean, GroupBase<Option>>
+> = ({ children, ...props }) => (
   <components.Control {...props}>
-    <Icon icon="ph:office-chair-bold" width={24} className="ml-[.7rem] mr-1 text-gray-600/80" />
+    <Icon
+      icon="ph:office-chair-bold"
+      width={24}
+      className="ml-[.7rem] mr-1 text-gray-600/80"
+    />
     {children}
   </components.Control>
 );
 
 const SearchBox: React.FC = () => {
   // const [isFocused, setIsFocused] = useState(false);
-  const [selectedFlightClass, setSelectedFlightClass] = useState<number | string>(0);
-  const [selectedDeparture, setSelectedDeparture] = useState<number | string>("");
+  const [selectedFlightClass, setSelectedFlightClass] = useState<
+    number | string
+  >(0);
+  const [selectedDeparture, setSelectedDeparture] = useState<number | string>(
+    ""
+  );
   const [selectedArrival, setSelectedArrival] = useState<number | string>("");
-  const [selectedDepartureDate, setSelectedDepartureDate] = useState<string>("");
+  const [selectedDepartureDate, setSelectedDepartureDate] =
+    useState<string>("");
   const [selectedArrivalDate, setSelectedArrivalDate] = useState<string>("");
-  const optionFlightClass = useSelector((state: RootState) => state.flightClassReducer);
+  const optionFlightClass = useSelector(
+    (state: RootState) => state.flightClassReducer
+  );
   const [isLoadings, setIsLoadings] = useState<boolean>(false);
   const optionAirport = useSelector((state: RootState) => state.airportReducer);
   const [optionPersonAge, setOptionPersonAge] = useState<OptionPersonAgeType>({
     bayi: 0,
     anak: 0,
-    dewasa: 0,
+    dewasa: 1,
   });
   const dispatch = useDispatch<AppDispatch>();
   const navigate: NavigateFunction = useNavigate();
   const [alert, setAlert] = useState<IAlert | null>(null);
 
-  const handleOptionPersonAge = (type: keyof OptionPersonAgeType, action: "i" | "d") => {
+  const handleOptionPersonAge = (
+    type: keyof OptionPersonAgeType,
+    action: "i" | "d"
+  ) => {
     setOptionPersonAge((prevOptions) => ({
       ...prevOptions,
-      [type]: action === "i" ? prevOptions[type] + 1 : Math.max(prevOptions[type] - 1, 0),
+      [type]:
+        action === "i"
+          ? prevOptions[type] + 1
+          : Math.max(prevOptions[type] - 1, 1),
     }));
   };
 
@@ -286,10 +308,12 @@ const SearchBox: React.FC = () => {
                   className="bg-white border border-gray-400 text-gray-800 text-[1rem] focus:ring-blue-500 focus:border-blue-500 focus:outline-none focus:border-2 block w-full p-2.5 !h-[55px] pl-[3.7rem] rounded-[10px] placeholder-gray-500/90"
                   type="text"
                   onFocus={(e) => (
-                    (e.target.type = "date"), (e.target.name = "departure-date-start")
+                    (e.target.type = "date"),
+                    (e.target.name = "departure-date-start")
                   )}
                   onBlur={(e) => (
-                    (e.target.type = "text"), (e.target.name = "departure-date-start")
+                    (e.target.type = "text"),
+                    (e.target.name = "departure-date-start")
                   )}
                   id="departure-date-start"
                   name="departure-date-start"
@@ -317,9 +341,13 @@ const SearchBox: React.FC = () => {
                   className="bg-white border border-gray-400 text-gray-800 text-[1rem] focus:ring-blue-500 focus:border-blue-500 focus:outline-none focus:border-2 block w-full p-2.5 !h-[55px] pl-[3.7rem] rounded-[10px] placeholder-gray-500/90"
                   type="text"
                   onFocus={(e) => (
-                    (e.target.type = "date"), (e.target.name = "departure-date-end")
+                    (e.target.type = "date"),
+                    (e.target.name = "departure-date-end")
                   )}
-                  onBlur={(e) => ((e.target.type = "text"), (e.target.name = "departure-date-end"))}
+                  onBlur={(e) => (
+                    (e.target.type = "text"),
+                    (e.target.name = "departure-date-end")
+                  )}
                   id="departure-date-end"
                   name="departure-date-end"
                   onChange={handleDateChange}

@@ -1,16 +1,12 @@
 import "react-swipeable-list/dist/styles.css";
 import OrderList from "./detailTransaction";
-import { useTransaction } from "./dashboard.hooks";
+import { useFilterByOrderId } from "./dashboard.hooks";
 import "react-loading-skeleton/dist/skeleton.css";
 import BodyOfCard from "./card";
 import PopularAirline from "./popularairline";
 
 export default function Dashboard() {
-  const {
-    detailTransactionToday,
-    detailTransactionYesterday,
-    isLoadingDetailTransaction,
-  } = useTransaction();
+  const { detailOrderToday, detailOrderYesterday, isLoadingOrder } = useFilterByOrderId();
   return (
     <>
       <div className="px-8 flex-1 pb-10">
@@ -30,14 +26,14 @@ export default function Dashboard() {
       <section className="w-96 md:hidden xl:block  hidden rounded-tl-[3rem] overflow-hidden px-8 mt-0">
         <div className="flex justify-end space-x-9 items-center"></div>
         <OrderList
-          detailTransaction={detailTransactionToday}
+          detailTransaction={detailOrderToday}
           day="Hari ini"
-          isLoading={isLoadingDetailTransaction}
+          isLoading={isLoadingOrder}
         />
         <OrderList
-          detailTransaction={detailTransactionYesterday}
+          detailTransaction={detailOrderYesterday}
           day="Kemarin"
-          isLoading={isLoadingDetailTransaction}
+          isLoading={isLoadingOrder}
         />
       </section>
     </>

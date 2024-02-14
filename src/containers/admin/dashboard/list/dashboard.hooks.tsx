@@ -2,7 +2,7 @@ import { SwipeAction, TrailingActions } from "react-swipeable-list";
 import { fetchInstance } from "../../../../lib/services/core";
 import { useUserToken } from "../../../../lib/services/userToken";
 import {
-  DetailTransaction,
+  DetailOrder,
   Order,
   PopularAirlineType,
   Transaction,
@@ -127,15 +127,7 @@ export const useTransaction = () => {
   const [totalTransaction, setTotalTransaction] = useState<string>("");
   const [isLoadingTotalTrasaction, setIsLoadingTotalTrasaction] =
     useState<boolean>(false);
-  const [isLoadingDetailTransaction, setIsLoadingDetailTransaction] =
-    useState<boolean>(false);
   const [doneTotalFlight, setDoneTotalFlight] = useState<string>("");
-  const [detailTransactionToday, setDetailTransactionToday] = useState<
-    DetailTransaction[]
-  >([]);
-  const [detailTransactionYesterday, setDetailTransactionYesterday] = useState<
-    DetailTransaction[]
-  >([]);
   const dataPerPage: number = 10;
 
   useEffect(() => {
@@ -168,33 +160,8 @@ export const useTransaction = () => {
         setIsLoadingTotalTrasaction(false);
       }
     };
-    const getDetailTransaction = async () => {
-      try {
-        setIsLoadingDetailTransaction(true);
-        const result: Transaction = await fetchInstance({
-          endpoint: `/api/admin/transactions?dataPerPage=${dataPerPage}&page=1`,
-          method: "GET",
-          authToken: useUserToken(),
-        });
-        const todayTransaction = result.data.transactions.filter((data) => {
-          return data.transactionDate.includes(getCurrentDate());
-        });
-        const yesterdayTransaction = result.data.transactions.filter((data) => {
-          return data.transactionDate.includes(getYestedayDate());
-        });
-        setDetailTransactionToday(todayTransaction);
-        setDetailTransactionYesterday(yesterdayTransaction);
-      } catch (error) {
-        if (error instanceof Error) {
-          console.log(error.message);
-        }
-      } finally {
-        setIsLoadingDetailTransaction(false);
-      }
-    };
     if (useUserToken() && useUserRole() === "ROLE_ADMIN") {
       getTotalTransaction();
-      getDetailTransaction();
     }
   }, []);
 
@@ -202,9 +169,78 @@ export const useTransaction = () => {
     totalTransaction,
     doneTotalFlight,
     isLoadingTotalTrasaction,
-    isLoadingDetailTransaction,
-    detailTransactionToday,
-    detailTransactionYesterday,
+  };
+};
+
+export const useFilterByOrderId = () => {
+  const [detailOrderToday, setDetailOrderToday] = useState<DetailOrder[]>([]);
+  const [detailOrderYesterday, setDetailOrderYesterday] = useState<
+    DetailOrder[]
+  >([]);
+  const [isLoadingOrder, setIsLoadingOrder] = useState<boolean>(false);
+  const dataPerPage: number = 10;
+
+  useEffect(() => {
+    const getOrder = async () => {
+      try {
+        setIsLoadingOrder(true);
+        const resultOrder: Order = await fetchInstance({
+          endpoint: `/api/admin/orders?dataPerPage=${dataPerPage}&page=1`,
+          method: "GET",
+          authToken: useUserToken(),
+        });
+        const resultTransaction: Transaction = await fetchInstance({
+          endpoint: `/api/admin/transactions?dataPerPage=${dataPerPage}&page=1`,
+          method: "GET",
+          authToken: useUserToken(),
+        });
+        const result = resultOrder.data.orders
+          .map((dataOrder) => {
+            const transaction = resultTransaction.data.transactions.find(
+              (dataTransaction) => dataOrder.orderId === dataTransaction.orderId
+            );
+            if (transaction) {
+              return {
+                ...dataOrder,
+                transactionDate: transaction.transactionDate,
+              };
+            }
+            return null;
+          })
+          .filter((dataOrder) => dataOrder !== null);
+        const todayOrder = result
+          .filter((todayOrader) =>
+            todayOrader?.transactionDate.includes(getCurrentDate())
+          )
+          .map((todayOrder) => todayOrder);
+        const YesterdayOrder = result
+          .filter((yesterdarOrder) =>
+            yesterdarOrder?.transactionDate.includes(getYestedayDate())
+          )
+          .map((yesterdayOrder) => yesterdayOrder);
+        setDetailOrderToday(
+          todayOrder.filter((item) => item !== null) as DetailOrder[]
+        );
+        setDetailOrderYesterday(
+          YesterdayOrder.filter((item) => item !== null) as DetailOrder[]
+        );
+      } catch (error) {
+        if (error instanceof Error) {
+          console.log(error.message);
+        }
+      } finally {
+        setIsLoadingOrder(false);
+      }
+    };
+    if (useUserToken() && useUserRole() === "ROLE_ADMIN") {
+      getOrder();
+    }
+  }, []);
+
+  return {
+    detailOrderToday,
+    detailOrderYesterday,
+    isLoadingOrder,
   };
 };
 
