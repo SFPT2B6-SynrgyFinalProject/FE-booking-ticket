@@ -94,8 +94,7 @@ export default function Navbar() {
     setNavigation((prev) => !prev);
   };
 
-  const linkDownloadApp =
-    "https://drive.google.com/file/d/1m7A_6JVa39SepqkMm1BH99dzOcK4XjHW/view?usp=drive_link";
+  const linkDownloadApp = "https://storage.googleapis.com/wings-on-bucket/WingsOn.apk";
 
   return (
     <div className="w-full hide-on-print">

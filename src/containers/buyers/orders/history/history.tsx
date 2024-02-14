@@ -1,298 +1,252 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { ContainerPage } from "../../../../components/common-page/ContainerPage";
 import { Card } from "../../../../components/Card";
-import Button from "../../../../components/Button";
-import { fetchInstance } from "../../../../lib/services/core";
-import { useParams, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { DataHistory } from "../orders.types";
-import Alert from "../../../../components/Alert";
+// import Button from "../../../../components/Button";
+import { Link } from "react-router-dom";
 import DownloadTicket from "../../../../components/DownloadTicket";
-
-function calculateFlightTime(
-  departureDateTime: string,
-  arrivalDateTime: string
-) {
-  const departureTime: any = new Date(departureDateTime);
-  const arrivalTime: any = new Date(arrivalDateTime);
-
-  // Menghitung selisih waktu antara kedatangan dan keberangkatan dalam milidetik
-  const timeDifference: number = arrivalTime - departureTime;
-
-  // Mengonversi waktu selisih dari milidetik ke jam, menit, dan detik
-  const hours = Math.floor(timeDifference / (1000 * 60 * 60));
-  const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-
-  return { hours, minutes, seconds };
-}
+import { formatTimeHoursMinute, rupiahFormatter } from "../../../../lib";
+import useAction from "./history.hooks";
+import Skeleton from "react-loading-skeleton";
 
 export default function History() {
-  const { orderId } = useParams();
-  console.log(orderId);
+  const { orderHistory, calculateTimeRange, getLoading, loading, ticket, timeFormatterForDetail } =
+    useAction();
 
-  const [riwayat, setRiwayat] = useState<DataHistory>({
-    orderId: "",
-    orderer: {
-      fullName: "",
-      phoneNumber: "",
-      email: "",
-    },
-    flightDetails: {
-      departure: {
-        airportId: 0,
-        airportName: "",
-        dateTime: "",
-        city: "",
-        code: "",
-      },
-      arrival: {
-        airportId: 0,
-        airportName: "",
-        dateTime: "",
-        city: "",
-        code: "",
-      },
-      airline: {
-        name: "",
-        iconUrl: "",
-        airlineId: 0,
-      },
-      flightCode: "",
-    },
-    passengerDetails: {
-      adult: [],
-      child: [],
-      infant: [],
-      passengerTotal: 0,
-    },
-    priceDetails: {
-      basePriceBreakdown: {
-        adult: { passengerCount: 0, price: 0 },
-        child: { passengerCount: 0, price: 0 },
-        infant: { passengerCount: 0, price: 0 },
-      },
-      totalDicount: 0,
-      tax: 0,
-      total: 0,
-    },
-    paymentStatus: "",
-    facility: [],
-    luggage: 0,
-    paymentTime: "",
-    flightClass: "",
-  });
-  const [ticket, setTicket] = useState<{
-    data: DataHistory;
-    message: string;
-    status: string;
-  }>({
-    data: {
-      orderId: "",
-      orderer: {
-        fullName: "",
-        phoneNumber: "",
-        email: "",
-      },
-      flightDetails: {
-        departure: {
-          airportId: 0,
-          airportName: "",
-          dateTime: "",
-          city: "",
-          code: "",
-        },
-        arrival: {
-          airportId: 0,
-          airportName: "",
-          dateTime: "",
-          city: "",
-          code: "",
-        },
-        airline: {
-          name: "",
-          iconUrl: "",
-          airlineId: 0,
-        },
-        flightCode: "",
-      },
-      passengerDetails: {
-        adult: [],
-        child: [],
-        infant: [],
-        passengerTotal: 0,
-      },
-      priceDetails: {
-        basePriceBreakdown: {
-          adult: { passengerCount: 0, price: 0 },
-          child: { passengerCount: 0, price: 0 },
-          infant: { passengerCount: 0, price: 0 },
-        },
-        totalDicount: 0,
-        tax: 0,
-        total: 0,
-      },
-      paymentStatus: "",
-      facility: [],
-      luggage: 0,
-      paymentTime: "",
-      flightClass: "",
-    },
-    message: "",
-    status: "",
-  });
-  const [isLoading, setLoading] = useState<boolean>(true);
-  const [hours, setHours] = useState<number>(0);
-  const [minutes, setMinutes] = useState<number>(0);
+  const {
+    orderId,
+    flightDetails: { departure, arrival },
+    priceDetails: { basePriceBreakdown, totalDicount, total },
+    passengerDetails,
+  } = orderHistory || {};
 
-  async function get() {
-    setLoading(true);
-    const response = await fetchInstance({
-      method: "GET",
-      endpoint: `/api/orders/details?orderId=${orderId}`,
-      authToken: localStorage.getItem("user_access_token") ?? "",
-    });
-    console.log(response.data);
-
-    const { hours, minutes } = calculateFlightTime(
-      response.data.flightDetails.departure.dateTime,
-      response.data.flightDetails.arrival.dateTime
-    );
-    console.log(hours, minutes);
-    setHours(hours);
-    setMinutes(minutes);
-    setTicket(response);
-    setRiwayat(response.data);
-    setLoading(false);
-  }
-
-  useEffect(() => {
-    get();
-  }, [orderId]);
+  const departureDateTime = departure?.dateTime;
+  const arrivalDateTime = arrival?.dateTime;
 
   return (
     <>
       <ContainerPage>
-        {isLoading ? (
-          <>
-            <Alert message="Memuat data" type="process" />
-          </>
-        ) : (
-          <Card customStyle="sm:px-0">
-            <div className="border-b-2 w-full border-gray-500/70 pb-8 mt-2 mb-10">
-              <div className="flex flex-col lg:flex-row items-center">
-                <Link to="/pesanan">
-                  <h3 className="pl-2 font-bold text-2xl">
-                    <Icon
-                      icon="material-symbols-light:chevron-left"
-                      width={30}
-                    />
+        <Card customStyle="sm:px-0 hide-on-print">
+          <div className="w-full pb-8 mt-2 mb-10 border-b-2 border-gray-500/70">
+            <div className="flex flex-col items-center lg:flex-row">
+              <Link to="/pesanan">
+                <div className="flex items-center justify-start">
+                  <h3 className="pl-2 text-2xl font-bold">
+                    <Icon icon="ic:outline-keyboard-arrow-left" width={30} />
                   </h3>
-                </Link>
-                <h3 className="p-3 font-bold text-2xl">Detail Pesanan Anda</h3>
-              </div>
+                  <h3 className="px-3 text-2xl font-bold">Detail Pesanan Anda</h3>
+                </div>
+              </Link>
             </div>
-            <div className="flex flex-col lg:flex-row items-center justify-center">
-              <div className="ml-12 lg:w-1/2">
-                <h4 className="mb-5 pb-5 font-bold text-xl">
-                  Keberangkatan & Penumpang
-                </h4>
-                <div className="">
-                  <p className="font-bold text-sm py-4">
-                    Order id: {riwayat?.orderId ?? "Kosong"}
-                  </p>
-                  <div className="flex">
-                    <div className="flex my-auto">
-                      <p className="font-semibold text-sm">
-                        {hours}j {minutes}m
-                      </p>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="flex  flex-col items-center p-2">
-                        <div className="border border-dashed border-gray-800 h-40"></div>
-                        <div className="w-2 h-2 bg-gray-800 rounded-full"></div>
-                      </div>
-                    </div>
-                    <div className="flex flex-col">
-                      <div className="flex flex-col">
-                        <p className="font-semibold text-lg">
-                          {new Date(
-                            riwayat?.flightDetails?.departure?.dateTime
-                          ).toDateString()}
-                        </p>
-                        <p className="text-sm">
-                          {riwayat?.flightDetails?.departure?.airportName ??
-                            "Kosong"}
+          </div>
+
+          {loading || getLoading.isLoading ? (
+            <div className="grid grid-cols-2 gap-x-10 gap-y-7">
+              <Skeleton className="w-full mx-auto h-36 rounded-2xl" />
+              <Skeleton className="w-full mx-auto h-36 rounded-2xl" />
+              <Skeleton className="w-full mx-auto h-36 rounded-2xl" />
+              <Skeleton className="w-full mx-auto h-36 rounded-2xl" />
+            </div>
+          ) : (
+            <>
+              <div className="flex flex-col items-start justify-center lg:flex-row">
+                <div className="ml-5 sm:ml-12 lg:w-1/2">
+                  <h4 className="mb-3 text-xl font-bold">Keberangkatan & Penumpang</h4>
+                  <div className="">
+                    <p className="py-4 text-sm font-semibold">Order id: {orderId}</p>
+                    <div className="flex">
+                      <div className="flex my-auto">
+                        <p className="text-sm font-semibold">
+                          {calculateTimeRange(departureDateTime, arrivalDateTime)}
                         </p>
                       </div>
                       <div className="flex items-center">
-                        <p className="text-sm py-8">
-                          {hours}j {minutes}m
-                        </p>
+                        <div className="flex flex-col items-center p-2">
+                          <div className="h-40 border border-gray-800 border-dashed"></div>
+                          <div className="w-2 h-2 bg-gray-800 rounded-full"></div>
+                        </div>
                       </div>
                       <div className="flex flex-col">
-                        <p className="font-semibold text-lg">
-                          {new Date(
-                            riwayat?.flightDetails?.arrival?.dateTime
-                          ).toDateString()}
-                        </p>
-                        <p className="text-sm">
-                          {riwayat?.flightDetails?.arrival?.airportName ??
-                            "Kosong"}
-                        </p>
+                        <div className="flex flex-col">
+                          <p className="text-base font-semibold">
+                            {`${timeFormatterForDetail(departureDateTime)} ${formatTimeHoursMinute(
+                              departureDateTime
+                            )}`}
+                          </p>
+                          <p className="text-sm">{departure.city}</p>
+                        </div>
+                        <div className="flex items-center">
+                          <p className="py-8 text-sm">
+                            {calculateTimeRange(departureDateTime, arrivalDateTime)} Langsung
+                          </p>
+                        </div>
+                        <div className="flex flex-col">
+                          <p className="text-base font-semibold">
+                            {`${timeFormatterForDetail(arrivalDateTime)} ${formatTimeHoursMinute(
+                              arrivalDateTime
+                            )}`}
+                          </p>
+                          <p className="text-sm">{arrival.city}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                {[
-                  ...riwayat.passengerDetails.adult,
-                  ...riwayat.passengerDetails.child,
-                  ...riwayat.passengerDetails.infant,
-                ].map((name, index) => (
-                  <p className="font-bold text-sm mt-4 pt-4">
-                    {index + 1}. {name}
-                  </p>
-                ))}
-                {/* <p className="font-bold text-sm mt-4 pt-4">1.</p> */}
-              </div>
-              <div className="ml-12 lg:w-1/2">
-                <h3 className="mb-5 pb-5 font-bold text-xl">
-                  Detail Pembayaran
-                </h3>
-                <div className="grid grid-cols-2 gap-x-20 mr-5">
-                  <div className="grid grid-flow-row gap-y-3 sm:gap-y-8">
-                    <span className="font-semibold text-sm">
-                      Harga Dewasa ({riwayat.passengerDetails.adult.length}x)
-                    </span>
-                    <span className="font-semibold text-sm">Diskon</span>
-                    <span className="font-semibold text-sm">Pajak</span>
-                    <span className="font-semibold text-sm">Total</span>
+
+                  <div className="mt-8 lg:mt-3">
+                    <div className="pt-2 sm:pt-4">
+                      <table className="text-sm font-semibold text-gray-700">
+                        <tbody>
+                          {Array.isArray(passengerDetails.adult) &&
+                            passengerDetails.adult?.length > 0 && (
+                              <>
+                                {passengerDetails.adult.map((passenger, index) => (
+                                  <tr key={index}>
+                                    <td className="py-1 sm:pr-3">{index + 1}.</td>
+                                    <td>{passenger}</td>
+                                    <td className="pl-2 font-medium text-center sm:pl-5">
+                                      (Dewasa)
+                                    </td>
+                                  </tr>
+                                ))}
+                              </>
+                            )}
+
+                          {Array.isArray(passengerDetails.child) &&
+                            passengerDetails.child?.length > 0 && (
+                              <>
+                                {passengerDetails.child.map((passenger, index) => (
+                                  <tr key={index}>
+                                    <td className="py-1 sm:pr-3">
+                                      {(passengerDetails.adult?.length || 0) + index + 1}.
+                                    </td>
+                                    <td>{passenger}</td>
+                                    <td className="pl-2 font-medium text-center sm:pl-5">(Anak)</td>
+                                  </tr>
+                                ))}
+                              </>
+                            )}
+
+                          {Array.isArray(passengerDetails.infant) &&
+                            passengerDetails.infant?.length > 0 && (
+                              <>
+                                {passengerDetails.infant.map((passenger, index) => (
+                                  <tr key={index}>
+                                    <td className="py-1 sm:pr-3">
+                                      {(passengerDetails.adult?.length || 0) +
+                                        (passengerDetails.child?.length || 0) +
+                                        index +
+                                        1}
+                                      .
+                                    </td>
+                                    <td>{passenger}</td>
+                                    <td className="pl-2 font-medium text-center sm:pl-5">(Bayi)</td>
+                                  </tr>
+                                ))}
+                              </>
+                            )}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                  <div className="flex flex-col items-end justify-between">
-                    <span className="font-semibold text-sm">
-                      Rp. {riwayat.priceDetails.basePriceBreakdown.adult.price}{" "}
-                    </span>
-                    <span className="font-semibold text-sm">
-                      -Rp. {riwayat.priceDetails.totalDicount}{" "}
-                    </span>
-                    <span className="font-semibold text-sm">Termasuk</span>
-                    <span className="font-semibold text-sm">
-                      Rp. {riwayat.priceDetails.total}{" "}
-                    </span>
-                  </div>
                 </div>
-                <Button
-                  id="unduh-bukti-pembayaran"
-                  className="mx-auto my-4 bg-primary-bright"
-                >
-                  Unduh Bukti Pembayaran
-                </Button>
-                <div className="flex flex-col gap-3">
-                  {<DownloadTicket dataFlightOrder={ticket} />}
+
+                <div className="mt-8 ml-5 sm:ml-12 lg:mt-0 lg:w-1/2">
+                  <h3 className="mb-5 text-[1.35rem] font-bold">Fasilitas</h3>
+                  <div className="flex flex-col pb-10">
+                    <div className="font-semibold text-blue-700">
+                      {orderHistory.facility.map((facilityItem, index) => (
+                        <div key={index} className="flex items-center py-1">
+                          <Icon
+                            icon={"ri:luggage-cart-line"}
+                            width={20}
+                            className="mr-3 text-gray-700"
+                          />{" "}
+                          <p className="text-sm">{facilityItem.name}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <h3 className="mb-5 text-xl font-bold">Detail Pembayaran</h3>
+                  <div className="grid grid-cols-2 mr-5 gap-x-20">
+                    <div className="grid grid-flow-row text-sm font-semibold text-gray-800 sm:text-base gap-y-3 sm:gap-y-6">
+                      <span>
+                        Harga Dewasa (x
+                        {basePriceBreakdown.adult.passengerCount})
+                      </span>
+
+                      {basePriceBreakdown.child.passengerCount === 0 ? (
+                        ""
+                      ) : (
+                        <span>
+                          Harga Anak (x
+                          {basePriceBreakdown.child.passengerCount})
+                        </span>
+                      )}
+
+                      {basePriceBreakdown.infant.passengerCount === 0 ? (
+                        ""
+                      ) : (
+                        <span>
+                          Harga Bayi (x
+                          {basePriceBreakdown.infant.passengerCount})
+                        </span>
+                      )}
+                      <span>Diskon</span>
+                      <span>Pajak</span>
+                      <span>Total</span>
+                    </div>
+                    <div className="flex flex-col items-end justify-between text-sm font-semibold text-gray-800 sm:text-base">
+                      <span>{rupiahFormatter(basePriceBreakdown.adult.price)}</span>
+
+                      {basePriceBreakdown.child.price === 0 ? (
+                        ""
+                      ) : (
+                        <span>{rupiahFormatter(basePriceBreakdown.child.price)}</span>
+                      )}
+
+                      {basePriceBreakdown.infant.price === 0 ? (
+                        ""
+                      ) : (
+                        <span>{rupiahFormatter(basePriceBreakdown.infant.price)}</span>
+                      )}
+                      <span>-{rupiahFormatter(totalDicount)}</span>
+                      <span>Termasuk</span>
+
+                      <span className="text-blue-700">{rupiahFormatter(total)}</span>
+                    </div>
+                  </div>
+                  {/* <div className="flex flex-col items-center justify-center mx-auto mt-10 w-80">
+                    <Button
+                      id="unduh-bukti-pembayaran"
+                      type="primary-dark"
+                      color="primary-dark"
+                      className="mb-4"
+                      width="full"
+                    >
+                      Unduh Bukti Pembayaran
+                    </Button>
+
+                    <Button
+                      id="unduh-e-tiket"
+                      type="primary-dark"
+                      color="primary-dark"
+                      width="full"
+                    >
+                      Unduh E-tiket
+                    </Button>
+                  </div> */}
                 </div>
               </div>
-            </div>
-          </Card>
+            </>
+          )}
+        </Card>
+
+        {loading || getLoading.isLoading ? (
+          <div className="mt-28">
+            <Skeleton className="flex mx-auto h-14 w-72 rounded-3xl" />
+          </div>
+        ) : (
+          <DownloadTicket dataFlightOrder={ticket} />
         )}
       </ContainerPage>
     </>

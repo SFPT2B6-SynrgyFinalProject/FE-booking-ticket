@@ -100,7 +100,8 @@ export default function useList() {
 
     try {
       const payload: IAirLines = { ...formValues };
-
+      
+      setOpen(false);
       const response = await fetchInstance({
         endpoint: "/api/admin/airlines",
         method: "POST",
@@ -136,6 +137,7 @@ export default function useList() {
     try {
       const payload: IAirLines = { ...formValues };
 
+      setOpen(false);
       const response = await fetchInstance({
         endpoint: "/api/admin/airlines",
         method: "PUT",

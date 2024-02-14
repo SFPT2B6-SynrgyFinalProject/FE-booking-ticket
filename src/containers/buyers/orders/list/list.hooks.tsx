@@ -1,38 +1,32 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
-import { IOrders } from "../orders.types";
+import { IOrdersData } from "../orders.types";
 import { fetchInstance } from "../../../../lib/services/core";
+import { useUserToken } from "../../../../lib/services/userToken";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "./../../../../config/redux/store";
+import { setIsLoading } from "./../../../../config/redux/action";
 
 export default function useList(status: "COMPLETED" | "ONGOING") {
-  const [orders, setOrders] = useState<IOrders[]>([]);
-
-  // misal data from api
-  // const data = [
-  //   {
-  //     orderId: "1214325",
-  //     kotaAsal: "Jakarta",
-  //     kotaTujuan: "Denpasar",
-  //     status: "E-ticket sudah terbit",
-  //   },
-  //   {
-  //     orderId: "23452353",
-  //     kotaAsal: "Solo",
-  //     kotaTujuan: "Denpasar",
-  //     status: "E-ticket sudah terbit",
-  //   },
-  // ];
+  const [orders, setOrders] = useState<IOrdersData[]>([]);
+  const getLoading = useSelector((state: RootState) => state.isLoadingReducer);
+  const dispatch = useDispatch<AppDispatch>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   const fetchOrders = async () => {
     try {
+      dispatch(setIsLoading(true));
       const response = await fetchInstance({
         method: "GET",
         endpoint: `/api/orders?status=${status}`,
-        authToken: localStorage.getItem("user_access_token") ?? "",
+        authToken: useUserToken(),
       });
-      console.log(response);
+
       setOrders(response.data.orders);
     } catch (error) {
       console.log("error");
+    } finally {
+      setLoading(false);
+      dispatch(setIsLoading(false));
     }
   };
 
@@ -42,5 +36,7 @@ export default function useList(status: "COMPLETED" | "ONGOING") {
 
   return {
     orders,
+    getLoading,
+    loading,
   };
 }
