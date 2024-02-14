@@ -6,7 +6,7 @@ import useAction from "./list.hooks";
 import Skeleton from "react-loading-skeleton";
 
 export default function Order() {
-  const { orders, getLoading, loading } = useAction("COMPLETED" || "ONGOING");
+  const { orders, getLoading, loading } = useAction();
   const reversedOrders = [...orders].reverse();
 
   return (
