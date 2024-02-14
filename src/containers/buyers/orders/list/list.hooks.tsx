@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "./../../../../config/redux/store";
 import { setIsLoading } from "./../../../../config/redux/action";
 
-export default function useList(status: "COMPLETED" | "ONGOING") {
+export default function useList() {
   const [orders, setOrders] = useState<IOrdersData[]>([]);
   const getLoading = useSelector((state: RootState) => state.isLoadingReducer);
   const dispatch = useDispatch<AppDispatch>();
@@ -17,7 +17,7 @@ export default function useList(status: "COMPLETED" | "ONGOING") {
       dispatch(setIsLoading(true));
       const response = await fetchInstance({
         method: "GET",
-        endpoint: `/api/orders?status=${status}`,
+        endpoint: `/api/orders?status=ONGOING`,
         authToken: useUserToken(),
       });
 
