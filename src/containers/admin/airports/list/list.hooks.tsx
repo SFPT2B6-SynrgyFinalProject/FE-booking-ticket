@@ -21,6 +21,7 @@ export default function useList() {
     const id = records.length++;
     const data : IAirports={id,cityName,airportName,code};
     try {
+      setOpen(false);
       const fetch = await addAirport(data);
       if (fetch.status == "fail") {
   
@@ -53,6 +54,8 @@ export default function useList() {
     setIsLoading(true);
     const data : IAirports={id,cityName,airportName,code};
     try {
+
+      setOpen(false);
       const fetch = await editAirport(data);
       if (fetch.status == "fail") {
         setAlert({

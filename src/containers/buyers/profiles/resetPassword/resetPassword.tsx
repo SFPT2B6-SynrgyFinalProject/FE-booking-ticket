@@ -17,9 +17,17 @@ const ProfileResetPassword = () => {
     handleChange,
     handleSubmit,
     status,
+    alert
   } = useAction();
   return (
     <div className="px-3">
+      {alert && (
+        <div>
+          {alert.type === "process" && (
+            <Alert message={alert.message} type="process" />
+          )}
+        </div>
+      )}
       {status !== "" ? (
         status === "Password lama tidak sama atau password baru kurang dari 8 digit" ? (
           <Alert type="fail" message={status} />

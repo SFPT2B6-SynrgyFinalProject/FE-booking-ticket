@@ -2,129 +2,68 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { ContainerPage } from "../../../../components/common-page/ContainerPage";
 import { Link } from "react-router-dom";
 import { Card } from "../../../../components/Card";
-import { fetchInstance } from "../../../../lib/services/core";
-import { useState, useEffect } from "react";
-import { IOrders } from "../orders.types";
-import Alert from "../../../../components/Alert";
-
-function filterOrdersByDateType(
-  data: IOrders[],
-  type: "ONGOING" | "COMPLETED"
-) {
-  const currentDate = new Date();
-
-  // Memeriksa apakah pesanan berada dalam rentang waktu yang sesuai dengan jenis yang diberikan
-  const filteredOrders = data.filter((order) => {
-    const departureTime = new Date(order.departure.dateTime);
-    console.log(departureTime, currentDate);
-    if (type === "ONGOING") {
-      // Memeriksa pesanan yang waktu keberangkatannya setelah tanggal saat ini
-      return departureTime > currentDate;
-    } else if (type === "COMPLETED") {
-      // Memeriksa pesanan yang waktu keberangkatannya sebelum atau sama dengan tanggal saat ini
-      return departureTime <= currentDate;
-    }
-    return false; // Mengembalikan false jika jenis yang diberikan tidak valid
-  });
-
-  return filteredOrders;
-}
+import useAction from "./list.hooks";
+import Skeleton from "react-loading-skeleton";
 
 export default function Order() {
-  const [status, setStatus] = useState<"COMPLETED" | "ONGOING">("ONGOING");
-  const [data, setData] = useState<IOrders[]>([]);
-  const [isLoading, setLoading] = useState<boolean>(true);
-  async function get() {
-    setLoading(true);
-    setStatus(status);
-    const response = await fetchInstance({
-      method: "GET",
-      endpoint: `/api/orders?status=COMPLETED`,
-      authToken: localStorage.getItem("user_access_token") ?? "",
-    });
-    console.log(response);
-    const showData = filterOrdersByDateType(response.data.orders, status);
-    console.log(showData);
-    setData(showData);
-    setLoading(false);
-  }
-
-  useEffect(() => {
-    get();
-  }, [status]);
+  const { orders, getLoading, loading } = useAction("COMPLETED" || "ONGOING");
+  const reversedOrders = [...orders].reverse();
 
   return (
     <>
       <ContainerPage>
         <Card customStyle="sm:px-0">
-          <div className="border-b-2 w-full border-gray-500/70 pb-8 mt-2 mb-10">
-            <div className="flex flex-col lg:flex-row items-center justify-between">
-              {status === "ONGOING" && (
-                <h3
-                  className="pl-10 font-bold text-2xl"
-                  onClick={() => setStatus("ONGOING")}
-                >
-                  Pesanan Anda
-                </h3>
-              )}
-              <div className="flex flex-row">
-                {status === "COMPLETED" ? (
-                  <h3
-                    className="pl-10 font-bold text-2xl"
-                    onClick={() => setStatus("ONGOING")}
-                  >
-                    <Icon
-                      icon="material-symbols-light:chevron-left"
-                      width={30}
-                    />
-                  </h3>
-                ) : null}
-                <h3
-                  className="pl-10 font-bold text-2xl text-primary-bright"
-                  onClick={() => setStatus("COMPLETED")}
-                >
-                  Riwayat Pesanan
-                </h3>
-              </div>
+          <div className="w-full pb-8 mt-2 mb-10 border-b-2 border-gray-500/70">
+            <div className="flex items-center">
+              <h3 className="pl-10 text-2xl font-bold">Pesanan Anda</h3>
+              {/* <div className="flex flex-row">
+                <h3 className="pl-10 text-2xl font-bold text-primary-bright">Riwayat Pesanan</h3>
+              </div> */}
             </div>
           </div>
-          {isLoading ? (
+          {loading || getLoading.isLoading ? (
             <>
-              <Alert message="Memuat data" type="process" />
+              <Skeleton className="flex items-center w-4/5 mx-auto mb-3 h-44 rounded-2xl" />
+              <Skeleton className="flex items-center w-4/5 mx-auto h-44 rounded-2xl" />
             </>
-          ) : data.length < 1 ? (
-            <>No Data</>
           ) : (
-            data.map((riwayat) => {
-              return (
-                <div className="bg-[#F5F5F5] flex flex-col lg:flex-row items-center border rounded-3xl shadow-xl p-5 mb-5 w-4/5 mx-auto gap-6 lg:gap-14">
-                  <figure className="ml-5 mb-14">
-                    <Icon icon="tabler:plane" width={24} color="#3355cc" />
-                  </figure>
-                  <section className="font-semibold text-sm flex flex-col gap-6 lg:gap-6 grow">
-                    <p>Order id : {riwayat?.orderId ?? "Kosong"}</p>
-                    <div className="flex flex-col lg:flex-row">
-                      <p>{riwayat?.departure?.city ?? "Kosong"}</p>
+            <>
+              {reversedOrders.map((flight, index) => (
+                <div
+                  key={index}
+                  className="bg-[#F5F5F5] flex flex-col lg:flex-row items-center border rounded-3xl shadow-xl py-6 px-8 mb-10 w-4/5 mx-auto gap-6 lg:gap-14"
+                >
+                  <div className="ml-0 sm:ml-3">
+                    <Icon icon="tabler:plane" width={34} color="#3355cc" />
+                  </div>
+
+                  <section className="flex flex-col items-center gap-6 font-semibold lg:items-stretch lg:gap-6 grow">
+                    <p className="uppercase">{flight.orderId}</p>
+                    <div className="flex flex-col items-center gap-y-2 lg:gap-y-0 lg:flex-row">
+                      <p>{flight.departure.city}</p>
                       <p className="mx-5">
                         <Icon icon="icons8:arrows-long-right" width={20} />
                       </p>
-                      <p>{riwayat?.arrival?.city ?? "Kosong"}</p>
+                      <p>{flight.arrival.city}</p>
                     </div>
-                    <div className="flex flex-col lg:flex-row justify-between">
-                      <p className="p-1 rounded-xl bg-primary-light cursor-pointer w-fit self-end lg:self-start text-gray-500">
-                        {riwayat?.paymentStatus ?? "Kosong"}
+                    <div className="flex flex-col items-center justify-between lg:flex-row">
+                      <p className="self-end px-3 py-1 mb-3 text-sm text-gray-600 rounded-xl bg-primary-light w-fit lg:self-start lg:mb-0">
+                        {flight.paymentStatus === "paid"
+                          ? "E-tiket sudah terbit"
+                          : "Tiket belum bayar"}
                       </p>
                       <Link
-                        to={`/pesanan/riwayat/${riwayat?.orderId ?? "ae9f18d"}`}
+                        id={flight.orderId}
+                        to={`/pesanan/riwayat/${flight.orderId}`}
                         className="text-primary-bright"
                       >
-                        Lihat Disini
+                        Lihat Detail
                       </Link>
                     </div>
                   </section>
                 </div>
-              );
-            })
+              ))}
+            </>
           )}
         </Card>
       </ContainerPage>

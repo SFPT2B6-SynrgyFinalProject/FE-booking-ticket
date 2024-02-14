@@ -56,7 +56,7 @@ const DownloadTicket: React.FC<DownloadTicketProps> = ({ dataFlightOrder }) => {
       {/* <div> */}
       <div className={`${isPrint ? "print-ticket" : ""} hidden`}>
         <div className="fixed top-0 left-14 right-14 pt-9">
-          <div className="flex justify-between items-start">
+          <div className="flex items-start justify-between">
             <div>
               <img src={Logo} alt="logo-image" width={230} />
             </div>
@@ -71,74 +71,74 @@ const DownloadTicket: React.FC<DownloadTicketProps> = ({ dataFlightOrder }) => {
         </div>
 
         <div className="border-2 border-gray-400/90 mt-36">
-          <div className="grid grid-cols-3 text-black text-xs p-1 gap-x-2">
+          <div className="grid grid-cols-3 p-1 text-xs text-black gap-x-2">
             <div className="flex items-center">
               <Icon
                 icon={"fluent-emoji-high-contrast:ticket"}
                 width={40}
-                className="text-black -rotate-90 mr-1"
+                className="mr-1 text-black -rotate-90"
               />
               <p>Perlihatkan e-tiket dan identitas diri saat check-in</p>
             </div>
 
             <div className="flex items-center pl-5">
-              <Icon icon={"lucide:clock"} width={40} className="text-black mr-2" />
+              <Icon icon={"lucide:clock"} width={40} className="mr-2 text-black" />
               <p>Check-in paling lambat 90 menit sebelum keberangkatan</p>
             </div>
 
             <div className="flex items-center pl-10 mr-2">
-              <Icon icon={"octicon:info-16"} width={35} className="text-black mr-2" />
+              <Icon icon={"octicon:info-16"} width={35} className="mr-2 text-black" />
               <p>Waktu tertera adalah waktu bandara setempat</p>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-9 mt-9 gap-x-5 text-xs">
-          <div className="col-span-2 flex items-center">
+        <div className="grid grid-cols-9 text-xs mt-9 gap-x-5">
+          <div className="flex items-center col-span-2">
             <img src={`${API_URL}${iconUrl}`} className="w-40" alt="Airline Icon" />
           </div>
 
-          <div className="col-span-2 flex flex-col justify-between border-r-2 border-gray-500 border-dotted relative pl-3 pr-4">
+          <div className="relative flex flex-col justify-between col-span-2 pl-3 pr-4 border-r-2 border-gray-500 border-dotted">
             <div className="absolute -right-[26px] -top-6">
               <Icon icon={"mdi:dot"} width={50} className="text-gray-500" />
             </div>
             <div className="absolute -right-[26px] -bottom-6">
               <Icon icon={"mdi:dot"} width={50} className="text-gray-500" />
             </div>
-            <div className="text-black font-semibold mb-3">
+            <div className="mb-3 font-semibold text-black">
               <h6>{airlineName}</h6>
               <h6>{flightCode}</h6>
             </div>
             <div>
-              <p className=" font-medium text-gray-500">{className}</p>
+              <p className="font-medium text-gray-500 ">{className}</p>
             </div>
           </div>
 
-          <div className="col-span-2 flex flex-col justify-between pl-6">
+          <div className="flex flex-col justify-between col-span-2 pl-6">
             {/* <div className="absolute w-[9px] aspect-square rounded-full bg-gray-500 -left-[5px] -top-1"></div>
             <div className="absolute w-[9px] aspect-square rounded-full bg-gray-500 -left-[5px] -bottom-1"></div> */}
 
             <div>
-              <h6 className="text-black font-semibold">{formatTimeHoursMinute(departureDate)}</h6>
+              <h6 className="font-semibold text-black">{formatTimeHoursMinute(departureDate)}</h6>
               <p className="font-medium text-gray-500">{formattedDepartureDate}</p>
             </div>
 
             <div>
-              <h6 className="text-black font-semibold">{formatTimeHoursMinute(arrivalDate)}</h6>
+              <h6 className="font-semibold text-black">{formatTimeHoursMinute(arrivalDate)}</h6>
               <p className="font-medium text-gray-500">{formattedArrivalDate}</p>
             </div>
           </div>
 
-          <div className="col-span-3 flex flex-col justify-between space-y-5">
+          <div className="flex flex-col justify-between col-span-3 space-y-5">
             <div>
-              <h6 className="text-black font-semibold">
+              <h6 className="font-semibold text-black">
                 {departureCity} ({departureCode})
               </h6>
               <p className="font-medium text-gray-500">{departureAirport}</p>
             </div>
 
             <div>
-              <h6 className="text-black font-semibold">
+              <h6 className="font-semibold text-black">
                 {arrivalCity} ({arrivalCode})
               </h6>
               <p className="font-medium text-gray-500">{arrivalAirport}</p>
@@ -148,12 +148,12 @@ const DownloadTicket: React.FC<DownloadTicketProps> = ({ dataFlightOrder }) => {
 
         <div className="mt-10">
           <table className="rounded-2xl bg-[#3598F3]/10 w-full text-left rtl:text-right text-gray-600 font-medium text-xs">
-            <thead className="text-gray-700 text-center">
+            <thead className="text-center text-gray-700">
               <tr>
-                <th scope="col" className="px-6 py-4 w-5">
+                <th scope="col" className="w-5 px-6 py-4">
                   No
                 </th>
-                <th scope="col" className="px-6 py-4 w-64 text-left">
+                <th scope="col" className="w-64 px-6 py-4 text-left">
                   Penumpang
                 </th>
                 <th scope="col" className="px-6 py-4 w-36">
@@ -164,7 +164,7 @@ const DownloadTicket: React.FC<DownloadTicketProps> = ({ dataFlightOrder }) => {
                 </th>
               </tr>
             </thead>
-            <tbody className="text-center text-xs">
+            <tbody className="text-xs text-center">
               {Array.isArray(adult) && adult?.length > 0 && (
                 <>
                   {adult.map((passenger, index) => (
@@ -173,7 +173,7 @@ const DownloadTicket: React.FC<DownloadTicketProps> = ({ dataFlightOrder }) => {
                       <td className="px-6 py-4 text-left">{passenger} (Dewasa)</td>
                       <td className="px-6 py-4">{`${departureCode} - ${arrivalCode}`}</td>
                       <td className="px-6 py-4">
-                        <div className="flex justify-center items-center">
+                        <div className="flex items-center justify-center">
                           <Icon icon={"ri:luggage-cart-line"} width={20} className="mr-5" />
                           {facility1}
                         </div>
@@ -191,7 +191,7 @@ const DownloadTicket: React.FC<DownloadTicketProps> = ({ dataFlightOrder }) => {
                       <td className="px-6 py-4 text-left">{passenger} (Anak)</td>
                       <td className="px-6 py-4">{`${departureCode} - ${arrivalCode}`}</td>
                       <td className="px-6 py-4">
-                        <div className="flex justify-center items-center">
+                        <div className="flex items-center justify-center">
                           <Icon icon={"ri:luggage-cart-line"} width={20} className="mr-5" />
                           {facility1}
                         </div>
@@ -211,7 +211,7 @@ const DownloadTicket: React.FC<DownloadTicketProps> = ({ dataFlightOrder }) => {
                       <td className="px-6 py-4 text-left">{passenger} (Bayi)</td>
                       <td className="px-6 py-4">{`${departureCode} - ${arrivalCode}`}</td>
                       <td className="px-6 py-4">
-                        <div className="flex justify-center items-center">
+                        <div className="flex items-center justify-center">
                           <Icon icon={"ri:luggage-cart-line"} width={20} className="mr-5" />
                           {facility1}
                         </div>
@@ -224,13 +224,13 @@ const DownloadTicket: React.FC<DownloadTicketProps> = ({ dataFlightOrder }) => {
           </table>
         </div>
 
-        <div className="fixed bottom-0 left-14 right-14 text-sm">
-          <div className="flex items-center justify-between text-gray-400 font-medium py-8 border-t border-slate-300">
+        <div className="fixed bottom-0 text-sm left-14 right-14">
+          <div className="flex items-center justify-between py-8 font-medium text-gray-400 border-t border-slate-300">
             <div>
               <h6>www.wingson.com</h6>
             </div>
 
-            <div className="flex gap-x-6 items-center">
+            <div className="flex items-center gap-x-6">
               <h6>+6281234567890</h6>
               <h6>WingsOn@email.com</h6>
             </div>
@@ -238,7 +238,7 @@ const DownloadTicket: React.FC<DownloadTicketProps> = ({ dataFlightOrder }) => {
         </div>
       </div>
 
-      <div className="flex flex-col md:w-3/6 lg:w-3/12 pb-10 mx-auto mt-16 md:mt-28 gap-y-4">
+      <div className="flex flex-col pb-10 mx-auto mt-16 md:w-3/6 lg:w-3/12 md:mt-28 gap-y-4">
         <Button
           id="btnUnduhTiket"
           type="primary-dark"

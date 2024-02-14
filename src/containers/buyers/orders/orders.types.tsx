@@ -1,4 +1,4 @@
-export interface IOrders {
+export interface IOrdersData {
   departure: Departure;
   arrival: Arrival;
   airline: Airline;
@@ -7,15 +7,6 @@ export interface IOrders {
   paymentStatus: string;
   totalPassengers: number;
 }
-// export interface Root {
-//   data: Data;
-//   message: string;
-//   status: string;
-// }
-
-// export interface Data {
-//   orders: Order[];
-// }
 
 export interface Departure {
   airportId: number;

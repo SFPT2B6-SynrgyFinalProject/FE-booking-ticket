@@ -104,7 +104,8 @@ export default function useList() {
 
     try {
       const payload: IUsers = { ...formValues };
-
+      
+      setOpen(false);
       const response = await fetchInstance({
         endpoint: "/api/admin/users",
         method: "PUT",
@@ -139,7 +140,8 @@ export default function useList() {
 
     try {
       const payload: IUsers = { ...formValues };
-
+      
+      setOpen(false);
       const response = await fetchInstance({
         endpoint: `/api/admin/users?id=${payload.id}`,
         method: "DELETE",
