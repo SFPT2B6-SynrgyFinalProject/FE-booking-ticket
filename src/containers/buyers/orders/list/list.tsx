@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import { Card } from "../../../../components/Card";
 import useAction from "./list.hooks";
 import Skeleton from "react-loading-skeleton";
+import noNotificationImg from "../../../../assets/images/undraw_fresh_notification.png";
 
 export default function Order() {
-  const { orders, getLoading, loading } = useAction();
+  const { orders, getLoading, loading, status, setStatus } = useAction();
   const reversedOrders = [...orders].reverse();
 
   return (
@@ -14,18 +15,50 @@ export default function Order() {
       <ContainerPage>
         <Card customStyle="sm:px-0">
           <div className="w-full pb-8 mt-2 mb-10 border-b-2 border-gray-500/70">
-            <div className="flex items-center">
-              <h3 className="pl-10 text-2xl font-bold">Pesanan Anda</h3>
-              {/* <div className="flex flex-row">
-                <h3 className="pl-10 text-2xl font-bold text-primary-bright">Riwayat Pesanan</h3>
-              </div> */}
+            <div className="flex flex-col items-center justify-between lg:flex-row">
+              {status === "ONGOING" && (
+                <h3 className="text-2xl font-bold lg:pl-10" onClick={() => setStatus("ONGOING")}>
+                  Pesanan Anda
+                </h3>
+              )}
+
+              <div className="flex flex-row">
+                {status === "COMPLETED" ? (
+                  <h3
+                    id="backToOrder"
+                    className="mr-3 font-bold cursor-pointer lg:pl-10"
+                    onClick={() => setStatus("ONGOING")}
+                  >
+                    <Icon
+                      icon="ic:outline-keyboard-arrow-left"
+                      className="text-blue-700"
+                      width={31}
+                    />
+                  </h3>
+                ) : null}
+
+                <h3
+                  id="historyOrder"
+                  className={`lg:pr-10 mt-[2px] lg:mt-0 text-xl lg:text-2xl font-bold text-primary-bright ${
+                    status === "ONGOING" ? "cursor-pointer" : ""
+                  }`}
+                  onClick={() => setStatus("COMPLETED")}
+                >
+                  Riwayat Pesanan
+                </h3>
+              </div>
             </div>
           </div>
           {loading || getLoading.isLoading ? (
             <>
               <Skeleton className="flex items-center w-4/5 mx-auto mb-3 h-44 rounded-2xl" />
-              <Skeleton className="flex items-center w-4/5 mx-auto h-44 rounded-2xl" />
             </>
+          ) : reversedOrders.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-96">
+              <img src={noNotificationImg} alt="Empty Notif" className="mb-20" />
+              <p className="text-2xl font-bold">Tidak ada pesanan</p>
+              <p className="mt-3 font-bold">Pesanan Anda Akan Ditampilkan Disini</p>
+            </div>
           ) : (
             <>
               {reversedOrders.map((flight, index) => (
@@ -56,6 +89,7 @@ export default function Order() {
                         id={flight.orderId}
                         to={`/pesanan/riwayat/${flight.orderId}`}
                         className="text-primary-bright"
+                        onClick={() => setStatus("ONGOING")}
                       >
                         Lihat Detail
                       </Link>
