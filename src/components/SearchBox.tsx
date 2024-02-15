@@ -194,20 +194,30 @@ const SearchBox: React.FC = () => {
     fetchData();
   }, [dispatch]);
 
+  useEffect(() => {
+    const dtToday = new Date();
+    const month = (dtToday.getMonth() + 1).toString().padStart(2, '0');
+    const day = dtToday.getDate().toString().padStart(2, '0');
+    const year = dtToday.getFullYear();
+    const maxDate = `${year}-${month}-${day}`;
+
+    const inputDateStart = document.getElementById('departure-date-start') as HTMLInputElement;
+    const inputDateEnd = document.getElementById('departure-date-end') as HTMLInputElement;
+
+    if (inputDateStart) {
+      inputDateStart.min = maxDate;
+    }
+
+    if (inputDateEnd) {
+      inputDateEnd.min = maxDate;
+    }
+  }, []);
+
   return (
     <>
       <div className="container relative select-none">
         {isLoadings ? (
           <>
-            {/* <section className="absolute rounded-[30px] z-[1] bg-black w-[27.9rem] lg:w-full h-full opacity-10"></section>
-            <div
-              role="status"
-              className="absolute z-[2] text-white mt-56 lg:mt-28 text-center left-[47%]"
-            >
-              <div className="animate-spin rounded-full w-10 h-10 bg-gradient-to-tr from-blue-600 to-blue-300">
-                <div className="h-6 w-6 rounded-full bg-gray-100"></div>
-              </div>
-            </div> */}
             {alert && (
               <div>
                 {alert.type === "process" && (
@@ -221,7 +231,7 @@ const SearchBox: React.FC = () => {
           className="searchbox-container bg-white font-outfit rounded-[30px] py-6 md:py-7 lg:pt-[27px] lg:pb-[33px] px-[22px]"
           onSubmit={handleSubmit}
         >
-          <div className="search-controller flex flex-col md:flex-row justify-end">
+          <div className="flex flex-col justify-end search-controller md:flex-row">
             <button
               id="btnSearchTicket"
               type="submit"
@@ -245,10 +255,10 @@ const SearchBox: React.FC = () => {
               }
             >
               {isLoadings ? "Tunggu ..." : "Cari tiket"}
-              <Icon icon="mdi:magnify" className="text-white w-6 h-6" />
+              <Icon icon="mdi:magnify" className="w-6 h-6 text-white" />
             </button>
           </div>
-          <div className="search-items grid grid-cols-1 lg:grid-cols-11 md:grid-cols-2 lg:gap-x-5 lg:gap-y-6 md:gap-6 gap-6 mt-0 lg:mt-6">
+          <div className="grid grid-cols-1 gap-6 mt-0 search-items lg:grid-cols-11 md:grid-cols-2 lg:gap-x-5 lg:gap-y-6 md:gap-6 lg:mt-6">
             <div className="form-group lg:col-span-4">
               <Select
                 placeholder="Pilih bandara"
@@ -371,7 +381,7 @@ const SearchBox: React.FC = () => {
               />
             </div>
           </div>
-          <div className="form-group lg:hidden mt-10">
+          <div className="mt-10 form-group lg:hidden">
             <button
               id="btnSearchTicket"
               type="submit"
@@ -395,7 +405,7 @@ const SearchBox: React.FC = () => {
               }
             >
               {isLoadings ? "Tunggu ..." : "Search"}
-              <Icon icon="mdi:magnify" className="text-white w-6 h-6" />
+              <Icon icon="mdi:magnify" className="w-6 h-6 text-white" />
             </button>
           </div>
         </form>
