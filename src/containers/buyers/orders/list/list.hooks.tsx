@@ -7,17 +7,19 @@ import { AppDispatch, RootState } from "./../../../../config/redux/store";
 import { setIsLoading } from "./../../../../config/redux/action";
 
 export default function useList() {
-  const [orders, setOrders] = useState<IOrdersData[]>([]);
   const getLoading = useSelector((state: RootState) => state.isLoadingReducer);
   const dispatch = useDispatch<AppDispatch>();
+
+  const [orders, setOrders] = useState<IOrdersData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [status, setStatus] = useState<"COMPLETED" | "ONGOING">("ONGOING");
 
   const fetchOrders = async () => {
     try {
       dispatch(setIsLoading(true));
       const response = await fetchInstance({
         method: "GET",
-        endpoint: `/api/orders?status=ONGOING`,
+        endpoint: `/api/orders?status=${status}`,
         authToken: useUserToken(),
       });
 
@@ -32,11 +34,13 @@ export default function useList() {
 
   useEffect(() => {
     fetchOrders();
-  }, []);
+  }, [status]);
 
   return {
     orders,
     getLoading,
     loading,
+    status,
+    setStatus,
   };
 }
